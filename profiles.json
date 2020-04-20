@@ -1,0 +1,167 @@
+
+// To view the default settings, hold "alt" while clicking on the "Settings" button.
+// For documentation on these settings, see: https://aka.ms/terminal-documentation
+
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+
+    "profiles":
+    {
+        "defaults":
+        {
+            // Put settings here that you want to apply to all profiles
+        },
+        "list":
+        [
+            {
+                // Make changes here to the powershell.exe profile
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "commandline": "powershell.exe",
+                "fontSize": 14,
+                "hidden": false
+            },
+            {
+                "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
+                "hidden": false,
+                "name": "Ubuntu-20.04",
+                "icon": "C:\\Users\\weish\\OneDrive\\Works\\02.Design\\Icons\\Ubuntu-256.png",
+                "colorScheme": "Calamity",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                // Make changes here to the cmd.exe profile
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "cmd",
+                "fontSize": 14,
+                "commandline": "cmd.exe",
+                "hidden": false
+            },
+            {
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "fontSize": 14,
+                "colorScheme": "Ubuntu",
+                "icon": "C:\\Users\\weish\\OneDrive\\Works\\02.Design\\Icons\\Ubuntu-256.png",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{46ca431a-3a87-5fb3-83cd-11ececc031d2}",
+                "hidden": false,
+                "name": "kali-linux",
+                "colorScheme": "Kolorit",
+                "icon": "C:\\Users\\weish\\OneDrive\\Works\\02.Design\\Icons\\Kali-120.png",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "fontSize": 14,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "colorScheme": "Pandora",
+                "source": "Windows.Terminal.PowershellCore"
+            }
+        ]
+    },
+
+    // Add custom color schemes to this array
+    "schemes": [
+        {
+            "name": "Ubuntu",
+            "black": "#2e3436",
+            "red": "#cc0000",
+            "green": "#4e9a06",
+            "yellow": "#c4a000",
+            "blue": "#3465a4",
+            "purple": "#75507b",
+            "cyan": "#06989a",
+            "white": "#d3d7cf",
+            "brightBlack": "#555753",
+            "brightRed": "#ef2929",
+            "brightGreen": "#8ae234",
+            "brightYellow": "#fce94f",
+            "brightBlue": "#729fcf",
+            "brightPurple": "#ad7fa8",
+            "brightCyan": "#34e2e2",
+            "brightWhite": "#eeeeec",
+            "background": "#300a24",
+            "foreground": "#eeeeec"
+        },
+        {
+            "name": "Pandora",
+            "black": "#000000",
+            "red": "#ff4242",
+            "green": "#74af68",
+            "yellow": "#ffad29",
+            "blue": "#338f86",
+            "purple": "#9414e6",
+            "cyan": "#23d7d7",
+            "white": "#e2e2e2",
+            "brightBlack": "#3f5648",
+            "brightRed": "#ff3242",
+            "brightGreen": "#74cd68",
+            "brightYellow": "#ffb929",
+            "brightBlue": "#23d7d7",
+            "brightPurple": "#ff37ff",
+            "brightCyan": "#00ede1",
+            "brightWhite": "#ffffff",
+            "background": "#141e43",
+            "foreground": "#e1e1e1"
+          },
+          {
+            "name": "Calamity",
+            "black": "#2f2833",
+            "red": "#fc644d",
+            "green": "#a5f69c",
+            "yellow": "#e9d7a5",
+            "blue": "#3b79c7",
+            "purple": "#f92672",
+            "cyan": "#74d3de",
+            "white": "#d5ced9",
+            "brightBlack": "#7e6c88",
+            "brightRed": "#fc644d",
+            "brightGreen": "#a5f69c",
+            "brightYellow": "#e9d7a5",
+            "brightBlue": "#3b79c7",
+            "brightPurple": "#f92672",
+            "brightCyan": "#74d3de",
+            "brightWhite": "#ffffff",
+            "background": "#2f2833",
+            "foreground": "#d5ced9"
+          },
+          {
+            "name": "Kolorit",
+            "black": "#1d1a1e",
+            "red": "#ff5b82",
+            "green": "#47d7a1",
+            "yellow": "#e8e562",
+            "blue": "#5db4ee",
+            "purple": "#da6cda",
+            "cyan": "#57e9eb",
+            "white": "#ededed",
+            "brightBlack": "#1d1a1e",
+            "brightRed": "#ff5b82",
+            "brightGreen": "#47d7a1",
+            "brightYellow": "#e8e562",
+            "brightBlue": "#5db4ee",
+            "brightPurple": "#da6cda",
+            "brightCyan": "#57e9eb",
+            "brightWhite": "#ededed",
+            "background": "#1d1a1e",
+            "foreground": "#efecec"
+          }
+    ],
+
+    // Add any keybinding overrides to this array.
+    // To unbind a default keybinding, set the command to "unbound"
+    "keybindings": []
+}
