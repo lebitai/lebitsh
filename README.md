@@ -1,6 +1,6 @@
 # 全局说明
-开发工具集合的默认配置汇总,包括:
--- Visual Studio Code
+开发工具集合的默认配置汇总,包括:  
+-- Visual Studio Code  
 -- Windows Terminal Preview   
 
 ## Windows Ternimal Preview  
