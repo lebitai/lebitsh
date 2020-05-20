@@ -20,6 +20,14 @@
     "profiles": {
         "defaults": {
             // Put settings here that you want to apply to all profiles.
+            "fontFace": "Cascadia Code PL",
+            "acrylicOpacity": 0.9,
+            "closeOnExit": true,
+            "hidden": false,
+            "padding": "0, 0, 0, 0",
+            "snapOnInput": true,
+            "startingDirectory": "%USERPROFILE%",
+            "useAcrylic": true
         },
         "list": [
             {
