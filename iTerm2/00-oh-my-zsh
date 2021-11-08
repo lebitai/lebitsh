@@ -1,0 +1,7 @@
+# How to setup the Themes?
+-- git clone https://github.com/zsh-users/zsh-autosuggestions
+-- git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+
+# How to split tab of iTerm2
+-- Install "osx" plugin section of ~/.zshrc;
+-- Used 'split_tab' command in the iTerm2;
