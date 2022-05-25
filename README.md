@@ -1,5 +1,5 @@
-# 全局说明
-开发工具集合的默认配置汇总,包括:  
+# Introduction
+A summary of the default configuration of the development tools collection, including:  
 -- Visual Studio Code  
 -- Windows Terminal Preview   
 
