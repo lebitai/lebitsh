@@ -15,9 +15,10 @@ wait $!
 
 echo "$leftChar Starting to download Rust packages from official website at $(date) $rightChar "
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source "$HOME"/.bashrc
+
+source "$HOME/.cargo/env"
 
 echo " $leftChar Checking whether all the packages installed? $rightChar "
 go version
 cargo version
-rustc version
+rustc --version
