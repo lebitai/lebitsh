@@ -17,8 +17,13 @@ echo "$leftChar Starting to download Rust packages from official website at $(da
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 source "$HOME/.cargo/env"
+echo " $leftChar Starting to download Nodejs package and install it at $(date) $rightChar"
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev wget -y
 
 echo " $leftChar Checking whether all the packages installed? $rightChar "
 go version
 cargo version
 rustc --version
+node --version
