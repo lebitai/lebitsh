@@ -33,7 +33,7 @@ uninstall_existing_golang() {
 install_golang() {
     # 获取最新的 Golang 稳定版本
     echo -e "${GREEN}正在获取最新的 Golang 版本...${NC}"
-    GO_VERSION=$(curl -sSL https://go.dev/VERSION?m=text)
+    GO_VERSION=$(curl -sSL https://go.dev/VERSION?m=text | grep -o 'go[0-9.]*')
     [[ -z "$GO_VERSION" ]] && error_exit "无法获取 Golang 最新版本"
     echo -e "${GREEN}检测到最新的 Golang 版本: $GO_VERSION${NC}"
 
