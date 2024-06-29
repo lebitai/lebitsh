@@ -53,13 +53,13 @@ install_golang() {
     echo -e "${GREEN}正在检测包管理器...${NC}"
     if command -v apt-get &> /dev/null; then
         PKG_MANAGER="apt-get"
-        INSTALL_CMD="sudo apt-get update && sudo apt-get install -y"
+        INSTALL_CMD="sudo apt-get update && sudo apt-get install -y curl tar"
     elif command -v yum &> /dev/null; then
         PKG_MANAGER="yum"
-        INSTALL_CMD="sudo yum install -y"
+        INSTALL_CMD="sudo yum install -y curl tar"
     elif command -v dnf &> /dev/null; then
         PKG_MANAGER="dnf"
-        INSTALL_CMD="sudo dnf install -y"
+        INSTALL_CMD="sudo dnf install -y curl tar"
     else
         error_exit "未知的包管理器，无法继续安装"
     fi
@@ -68,7 +68,7 @@ install_golang() {
 
     # 安装必要的工具
     echo -e "${GREEN}安装必要的工具...${NC}"
-    $INSTALL_CMD curl tar || error_exit "无法安装必要的工具"
+    $INSTALL_CMD || error_exit "无法安装必要的工具"
 
     # 下载 Golang
     echo -e "${GREEN}下载 Golang...${NC}"
