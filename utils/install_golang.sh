@@ -84,6 +84,7 @@ install_golang() {
     source ~/.bashrc
 
     # 验证安装
+    echo -e "${GREEN}验证 Golang 安装...${NC}"
     if go version &> /dev/null; then
         GO_INSTALLED_VERSION=$(go version | awk '{print \$3}')
         echo -e "${GREEN}Golang 安装成功，版本: $GO_INSTALLED_VERSION${NC}"
