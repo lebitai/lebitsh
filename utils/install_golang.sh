@@ -23,9 +23,13 @@ error_exit() {
 uninstall_existing_golang() {
     if command -v go &> /dev/null; then
         echo -e "${YELLOW}检测到已安装的 Golang，正在卸载...${NC}"
-        sudo rm -rf /usr/local/go
-        sudo rm -f /etc/profile.d/golang.sh
-        echo -e "${YELLOW}已卸载旧版 Golang${NC}"
+        if sudo -v &> /dev/null; then
+            sudo rm -rf /usr/local/go
+            sudo rm -f /etc/profile.d/golang.sh
+            echo -e "${YELLOW}已卸载旧版 Golang${NC}"
+        else
+            error_exit "当前用户没有 sudo 权限，无法卸载已存在的 Golang"
+        fi
     fi
 }
 
@@ -33,6 +37,12 @@ uninstall_existing_golang() {
 install_golang() {
     # 获取最新的 Golang 稳定版本
     echo -e "${GREEN}正在获取最新的 Golang 版本...${NC}"
+    if ! command -v curl &> /dev/null; then
+        error_exit "curl 命令不存在，无法获取 Golang 最新版本"
+    fi
+    if ! command -v grep &> /dev/null; then
+        error_exit "grep 命令不存在，无法获取 Golang 最新版本"
+    fi
     GO_VERSION=$(curl -sSL https://go.dev/VERSION?m=text | grep -o 'go[0-9.]*')
     [[ -z "$GO_VERSION" ]] && error_exit "无法获取 Golang 最新版本"
     echo -e "${GREEN}检测到最新的 Golang 版本: $GO_VERSION${NC}"
@@ -44,6 +54,7 @@ install_golang() {
         x86_64) ARCH="amd64" ;;
         aarch64) ARCH="arm64" ;;
         armv*) ARCH="armv6l" ;;
+        *) error_exit "不支持的架构: $ARCH" ;;
     esac
 
     # 下载 URL
@@ -74,14 +85,22 @@ install_golang() {
 
     # 解压并安装 Golang
     echo -e "${GREEN}安装 Golang...${NC}"
-    sudo rm -rf /usr/local/go
-    sudo tar -C /usr/local -xzf "${GO_VERSION}.${OS}-${ARCH}.tar.gz" || error_exit "解压 Golang 失败"
-    rm "${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+    if sudo -v &> /dev/null; then
+        sudo rm -rf /usr/local/go
+        sudo tar -C /usr/local -xzf "${GO_VERSION}.${OS}-${ARCH}.tar.gz" || error_exit "解压 Golang 失败"
+        rm "${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+    else
+        error_exit "当前用户没有 sudo 权限，无法安装 Golang"
+    fi
 
     # 设置环境变量
     echo -e "${GREEN}设置环境变量...${NC}"
-    export PATH=$PATH:/usr/local/go/bin >> ~/.bashrc
-    source ~/.bashrc
+    if [ -w ~/.bashrc ]; then
+        echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+        source ~/.bashrc
+    else
+        error_exit "当前用户没有写入 ~/.bashrc 文件的权限，无法设置环境变量"
+    fi
 
     # 验证安装
     echo -e "${GREEN}验证 Golang 安装...${NC}"
