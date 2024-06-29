@@ -48,6 +48,7 @@ install_golang() {
 
     # 下载 URL
     DOWNLOAD_URL="https://golang.org/dl/${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+    echo "Golang URL is : ${DOWNLOAD_URL}"
 
     # 检测包管理器
     echo -e "${GREEN}正在检测包管理器...${NC}"
