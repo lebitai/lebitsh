@@ -80,8 +80,8 @@ install_golang() {
 
     # 设置环境变量
     echo -e "${GREEN}设置环境变量...${NC}"
-    export PATH=$PATH:/usr/local/go/bin
-    source $HOME/.profile
+    export PATH=$PATH:/usr/local/go/bin >> ~/.bashrc
+    source ~/.bashrc
 
     # 验证安装
     if go version &> /dev/null; then
