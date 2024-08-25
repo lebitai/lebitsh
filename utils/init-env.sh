@@ -2,14 +2,18 @@
 
 function init_env()
 {
+    #!/bin/bash
+
     echo "Init env of Linux"
-    if [grep "alias apt-up='apt update && apt upgrade -y'" ~/.bashrc]; then 
+
+    if grep -q "alias apt-up='apt update && apt upgrade -y'" ~/.bashrc; then 
         echo "alias apt-up='apt update && apt upgrade -y' already exists"
     else
         echo "alias apt-up='apt update && apt upgrade -y'" >> ~/.bashrc
         source ~/.bashrc
     fi
-    fi  
+
+
 }
 
 
