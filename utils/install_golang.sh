@@ -8,14 +8,14 @@ NC='\033[0m' # No Color
 
 # 函数：输出彩色日志
 log() {
-    local color=\$1
-    local message=\$2
+    local color=$1
+    local message=$2
     echo -e "${color}[$(date +'%Y-%m-%d %H:%M:%S')] ${message}${NC}"
 }
 
 # 函数：输出错误日志并退出
 error_exit() {
-    echo -e "${RED}错误: \$1${NC}" >&2
+    echo -e "${RED}错误: $1${NC}" >&2
     exit 1
 }
 
@@ -44,7 +44,7 @@ install_golang() {
         error_exit "grep 命令不存在，无法获取 Golang 最新版本"
     fi
     GO_VERSION=$(curl -sSL https://go.dev/VERSION?m=text | grep -o 'go[0-9.]*')
-    [[ -z "$GO_VERSION" ]] && error_exit "无法获取 Golang 最新版本"
+    [ -z "$GO_VERSION" ] && error_exit "无法获取 Golang 最新版本"
     echo -e "${GREEN}检测到最新的 Golang 版本: $GO_VERSION${NC}"
 
     # 确定操作系统和架构
@@ -96,29 +96,32 @@ install_golang() {
     # 设置环境变量
     echo -e "${GREEN}设置环境变量...${NC}"
     if [ -w ~/.bashrc ]; then
-        echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
-        source ~/.bashrc
+        if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" ~/.bashrc; then
+            echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
+        fi
+        export PATH=$PATH:/usr/local/go/bin
     else
         error_exit "当前用户没有写入 ~/.bashrc 文件的权限，无法设置环境变量"
     fi
 
     # 验证安装
     echo -e "${GREEN}验证 Golang 安装...${NC}"
-    if go version &> /dev/null; then
-        GO_INSTALLED_VERSION=$(go version | awk '{print \$3}')
+    if /usr/local/go/bin/go version &> /dev/null; then
+        GO_INSTALLED_VERSION=$(/usr/local/go/bin/go version | awk '{print $3}')
         echo -e "${GREEN}Golang 安装成功，版本: $GO_INSTALLED_VERSION${NC}"
     else
         error_exit "Golang 安装失败或环境变量设置不正确"
     fi
 
     echo -e "${GREEN}Golang 安装完成${NC}"
+    echo -e "${YELLOW}请运行 'source ~/.bashrc' 或重新登录以确保环境变量在所有 shell 会话中生效${NC}"
 }
 
 # 主函数
 main() {
     # 询问用户是否继续安装
     read -p "是否要在本机安装/更新 Golang? (yes/no): " answer
-    if [[ ! $answer =~ ^[Yy][Ee][Ss]$ ]]; then
+    if ! echo "$answer" | grep -iq "^y"; then
         echo -e "${YELLOW}用户取消安装，退出脚本。${NC}"
         exit 0
     fi
