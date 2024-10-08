@@ -5,12 +5,13 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
+WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # 函数：显示品牌
 show_brand() {
     clear
-    echo -e "${BLUE}"
+    echo -e "${WHITE}"
     echo "
  _      _____ ____ ___ _____   ____  _   _ 
 | |    | ____| __ )_ _|_   _| / ___|| | | |
