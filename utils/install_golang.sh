@@ -4,7 +4,24 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# 函数：显示品牌
+show_brand() {
+    clear
+    echo -e "${BLUE}"
+    echo "
+ _      _____ ____ ___ _____   ____  _   _ 
+| |    | ____| __ )_ _|_   _| / ___|| | | |
+| |    |  _| |  _ \| |  | |   \___ \| |_| |
+| |___ | |___| |_) | |  | |    ___) |  _  |
+|_____|_____|____/___| |_|   |____/|_| |_|
+                                           
+            https://lebit.sh
+"
+    echo -e "${NC}"
+}
 
 # 函数：输出彩色日志
 log() {
@@ -119,6 +136,8 @@ install_golang() {
 
 # 主函数
 main() {
+    show_brand
+
     # 询问用户是否继续安装
     read -p "是否要在本机安装/更新 Golang? (yes/no): " answer
     if ! echo "$answer" | grep -iq "^y"; then
