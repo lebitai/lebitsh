@@ -1,64 +1,139 @@
 #!/bin/bash
 
-# 检查是否以 root 权限运行
-if [ "$(id -u)" != "0" ]; then
-   echo "此脚本必须以 root 权限运行" 1>&2
-   exit 1
-fi
+# Color definitions
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+WHITE='\033[1;37m'
+NC='\033[0m' # No Color
 
-echo "开始深度清理 Ubuntu 24.04 系统..."
+# Function: Display brand
+show_brand() {
+    clear
+    echo -e "${WHITE}"
+    echo "
+.-------------------------------------.
+| _         _     _ _     ____  _   _ |
+|| |    ___| |__ (_) |_  / ___|| | | ||
+|| |   / _ \ '_ \| | __| \___ \| |_| ||
+|| |__|  __/ |_) | | |_ _ ___) |  _  ||
+||_____\___|_.__/|_|\__(_)____/|_| |_||
+'-------------------------------------'      
+            https://lebit.sh
+"
+    echo -e "${NC}"
+}
 
-# 更新软件包列表
-apt update
+# Function: Output error message and exit
+error_exit() {
+    echo -e "${RED}Error: $1${NC}" >&2
+    exit 1
+}
 
-# 升级所有已安装的软件包
-apt upgrade -y
+# Function: Output success message
+success_msg() {
+    echo -e "${GREEN}$1${NC}"
+}
 
-# 删除不再需要的软件包
-apt autoremove -y
+# Function: Check root privileges
+check_root() {
+    if [ "$(id -u)" != "0" ]; then
+        error_exit "This script must be run with root privileges"
+    fi
+}
 
-# 清理 APT 缓存
-apt clean
+# Function: Update and upgrade system
+update_upgrade_system() {
+    echo "Updating package list..."
+    apt update || error_exit "Failed to update package list"
+    
+    echo "Upgrading installed packages..."
+    apt upgrade -y || error_exit "Failed to upgrade packages"
+    
+    echo "Removing unnecessary packages..."
+    apt autoremove -y || error_exit "Failed to remove unnecessary packages"
+    
+    echo "Cleaning APT cache..."
+    apt clean || error_exit "Failed to clean APT cache"
+}
 
-# 清空回收站
-rm -rf /home/*/.local/share/Trash/*/**
-rm -rf /root/.local/share/Trash/*/**
+# Function: Clean user trash
+clean_trash() {
+    echo "Emptying trash for all users..."
+    rm -rf /home/*/.local/share/Trash/*/**
+    rm -rf /root/.local/share/Trash/*/**
+}
 
-# 删除旧的内核
-dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt -y purge
+# Function: Remove old kernels
+remove_old_kernels() {
+    echo "Removing old kernels..."
+    dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs apt -y purge
+}
 
-# 清理日志文件
-journalctl --vacuum-time=3d
+# Function: Clean system logs and temporary files
+clean_logs_and_temp() {
+    echo "Cleaning system logs..."
+    journalctl --vacuum-time=3d
+    
+    echo "Cleaning temporary files..."
+    rm -rf /tmp/*
+    
+    echo "Cleaning thumbnail cache..."
+    rm -rf /home/*/.cache/thumbnails/*
+    rm -rf /root/.cache/thumbnails/*
+    
+    echo "Cleaning old log files..."
+    find /var/log -type f \( -name "*.gz" -o -name "*.1" -o -name "*.old" \) -delete
+}
 
-# 清理临时文件
-rm -rf /tmp/*
+# Function: Clean snap packages
+clean_snap() {
+    if command -v snap &> /dev/null; then
+        echo "Cleaning old snap versions..."
+        snap list --all | awk '/disabled/{print $1, $3}' | while read snapname revision; do
+            snap remove "$snapname" --revision="$revision"
+        done
+    fi
+}
 
-# 清理缩略图缓存
-rm -rf /home/*/.cache/thumbnails/*
-rm -rf /root/.cache/thumbnails/*
+# Function: Clean Docker
+clean_docker() {
+    if command -v docker &> /dev/null; then
+        echo "Cleaning Docker system..."
+        docker system prune -af --volumes
+    fi
+}
 
-# 清理软件包缓存
-apt-get clean
+# Function: Clean user cache
+clean_user_cache() {
+    echo "Cleaning user cache files..."
+    find /home/* -type f \( -name '*.tmp' -o -name '*.temp' -o -name '*.swp' -o -name '*~' \) -delete
+}
 
-# 清理 snap 包的旧版本
-snap list --all | awk '/disabled/{print $1, $3}' | while read snapname revision; do
-    snap remove "$snapname" --revision="$revision"
-done
+# Function: Display disk usage
+show_disk_usage() {
+    echo "Current disk usage:"
+    df -h
+}
 
-# 清理 Docker（如果已安装）
-if command -v docker &> /dev/null; then
-    docker system prune -af --volumes
-fi
+# Main function
+main() {
+    show_brand
+    check_root
+    
+    echo "Starting deep clean of the system..."
+    
+    update_upgrade_system
+    clean_trash
+    remove_old_kernels
+    clean_logs_and_temp
+    clean_snap
+    clean_docker
+    clean_user_cache
+    
+    success_msg "System cleaning completed."
+    show_disk_usage
+}
 
-# 清理用户主目录下的缓存
-find /home/* -type f \( -name '*.tmp' -o -name '*.temp' -o -name '*.swp' -o -name '*~' \) -delete
-
-# 清理系统日志
-find /var/log -type f -name "*.gz" -delete
-find /var/log -type f -name "*.1" -delete
-find /var/log -type f -name "*.old" -delete
-
-echo "系统清理完成。"
-
-# 显示磁盘使用情况
-df -h
+# Call main function
+main

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 颜色定义
+# Color definitions
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -8,7 +8,7 @@ BLUE='\033[0;34m'
 WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
-# 函数：显示品牌
+# Function: Display brand
 show_brand() {
     clear
     echo -e "${WHITE}"
@@ -25,84 +25,84 @@ show_brand() {
     echo -e "${NC}"
 }
 
-# 函数：输出彩色日志
+# Function: Output colored log
 log() {
     local color=$1
     local message=$2
     echo -e "${color}[$(date +'%Y-%m-%d %H:%M:%S')] ${message}${NC}"
 }
 
-# 函数：输出错误日志并退出
+# Function: Output error log and exit
 error_exit() {
-    echo -e "${RED}错误: $1${NC}" >&2
+    echo -e "${RED}Error: $1${NC}" >&2
     exit 1
 }
 
-# 函数：卸载已存在的 Rust
+# Function: Uninstall existing Rust
 uninstall_existing_rust() {
     if command -v rustc &> /dev/null; then
-        echo -e "${YELLOW}检测到已安装的 Rust，正在卸载...${NC}"
+        echo -e "${YELLOW}Detected existing Rust installation, uninstalling...${NC}"
         rustup self uninstall -y
-        echo -e "${YELLOW}已卸载旧版 Rust${NC}"
+        echo -e "${YELLOW}Uninstalled old version of Rust${NC}"
     fi
 }
 
-# 函数：安装 Rust
+# Function: Install Rust
 install_rust() {
-    # 检查必要的工具
-    echo -e "${GREEN}检查必要的工具...${NC}"
+    # Check necessary tools
+    echo -e "${GREEN}Checking necessary tools...${NC}"
     if ! command -v curl &> /dev/null; then
-        error_exit "curl 命令不存在，请先安装 curl"
+        error_exit "curl command not found, please install curl first"
     fi
 
-    # 下载并运行 Rust 安装脚本
-    echo -e "${GREEN}下载并运行 Rust 安装脚本...${NC}"
+    # Download and run Rust installation script
+    echo -e "${GREEN}Downloading and running Rust installation script...${NC}"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-    # 设置环境变量
-    echo -e "${GREEN}设置环境变量...${NC}"
+    # Set environment variables
+    echo -e "${GREEN}Setting environment variables...${NC}"
     if [ -w ~/.bashrc ]; then
         if ! grep -q "source \$HOME/.cargo/env" ~/.bashrc; then
             echo "source \$HOME/.cargo/env" >> ~/.bashrc
         fi
         source $HOME/.cargo/env
     else
-        error_exit "当前用户没有写入 ~/.bashrc 文件的权限，无法设置环境变量"
+        error_exit "Current user doesn't have write permission for ~/.bashrc, cannot set environment variables"
     fi
 
-    # 验证安装
-    echo -e "${GREEN}验证 Rust 安装...${NC}"
+    # Verify installation
+    echo -e "${GREEN}Verifying Rust installation...${NC}"
     if rustc --version &> /dev/null; then
         RUST_VERSION=$(rustc --version | awk '{print $2}')
-        echo -e "${GREEN}Rust 安装成功，版本: $RUST_VERSION${NC}"
+        echo -e "${GREEN}Rust installed successfully, version: $RUST_VERSION${NC}"
     else
-        error_exit "Rust 安装失败或环境变量设置不正确"
+        error_exit "Rust installation failed or environment variables are not set correctly"
     fi
 
-    echo -e "${GREEN}Rust 安装完成${NC}"
-    echo -e "${YELLOW}请运行 'source ~/.bashrc' 或重新登录以确保环境变量在所有 shell 会话中生效${NC}"
+    echo -e "${GREEN}Rust installation complete${NC}"
+    echo -e "${YELLOW}Please run 'source ~/.bashrc' or log out and log back in to ensure environment variables are effective in all shell sessions${NC}"
 }
 
-# 主函数
+# Main function
 main() {
     show_brand
 
-    # 询问用户是否继续安装
-    read -p "是否要在本机安装/更新 Rust? (yes/no): " answer
+    # Ask user whether to continue installation
+    read -p "Do you want to install/update Rust on this machine? (yes/no): " answer
     if ! echo "$answer" | grep -iq "^y"; then
-        echo -e "${YELLOW}用户取消安装，退出脚本。${NC}"
+        echo -e "${YELLOW}User cancelled installation, exiting script.${NC}"
         exit 0
     fi
 
-    # 开始安装
-    echo -e "${GREEN}开始安装 Rust...${NC}"
+    # Start installation
+    echo -e "${GREEN}Starting Rust installation...${NC}"
 
-    # 卸载已存在的 Rust
+    # Uninstall existing Rust
     uninstall_existing_rust
 
-    # 安装 Rust
+    # Install Rust
     install_rust
 }
 
-# 调用主函数
+# Call main function
 main
