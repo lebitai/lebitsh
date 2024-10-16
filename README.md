@@ -6,7 +6,7 @@ A summary of the default configuration of the development tools collection, incl
 ## Windows Ternimal Preview  
 --Profiles.json 
 
-## iTerm2  
+## iTerm2-Color-Schemes  
 - Fonts: MesloLFG* (4 files) on macOS  
 - Config file of Colors : Coolnight  
 
