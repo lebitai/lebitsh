@@ -6,16 +6,8 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Log file path
-LOG_FILE="/var/log/hwinfo_$(date +%Y%m%d_%H%M%S).log"
-
-# Function to initialize log file
-initialize_log_file() {
-    touch "$LOG_FILE"
-    chmod 600 "$LOG_FILE"
-    chown root:root "$LOG_FILE"
-    log_message "INFO" "Log file initialized at $LOG_FILE"
-}
+# Global variables
+LOG_FILE=""
 
 # Function: Display brand
 show_brand() {
@@ -35,6 +27,8 @@ show_brand() {
 
 # Function: Display privacy notice and get user consent
 get_user_consent() {
+    local proposed_log_file="/var/log/hwinfo_$(date +%Y%m%d_%H%M%S).log"
+    
     echo -e "${YELLOW}Privacy Notice${NC}"
     echo "This script will collect hardware information from your system."
     echo "The following types of information will be collected:"
@@ -47,18 +41,27 @@ get_user_consent() {
     echo "  - PCIe device details"
     echo "  - Power supply information"
     echo
-    echo "This information will be saved locally in a log file: $LOG_FILE"
+    echo "This information will be saved locally in a log file: $proposed_log_file"
     echo "No data will be transmitted over the network."
     echo
 
     read -p "Do you consent to collecting this information? (y/n): " consent
 
     if [[ $consent =~ ^[Yy]$ ]]; then
+        LOG_FILE="$proposed_log_file"
         return 0
     else
         echo -e "${RED}User did not provide consent. Exiting.${NC}"
         exit 1
     fi
+}
+
+# Function: Initialize log file
+initialize_log_file() {
+    touch "$LOG_FILE"
+    chmod 600 "$LOG_FILE"
+    chown root:root "$LOG_FILE"
+    log_message "INFO" "Log file initialized at $LOG_FILE"
 }
 
 # Function: Log messages
