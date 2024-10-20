@@ -50,14 +50,15 @@ get_user_consent() {
     echo "This information will be saved locally in a log file: $LOG_FILE"
     echo "No data will be transmitted over the network."
     echo
-    while true; do
-        read -p "Do you consent to collecting this information? (y/n): " consent
-        case $consent in
-            [Yy]* ) return 0;;
-            [Nn]* ) echo -e "${RED}User did not provide consent. Exiting.${NC}"; exit 1;;
-            * ) echo "Please answer yes (y) or no (n).";;
-        esac
-    done
+
+    read -p "Do you consent to collecting this information? (y/n): " consent
+
+    if [[ $consent =~ ^[Yy]$ ]]; then
+        return 0
+    else
+        echo -e "${RED}User did not provide consent. Exiting.${NC}"
+        exit 1
+    fi
 }
 
 # Function: Log messages
