@@ -11,7 +11,11 @@ LOG_FILE=""
 
 # Function: Display brand
 show_brand() {
+    local width=45  # Width of the brand display
+    local stars=$(printf '%*s' "$width" | tr ' ' '*')
+    
     echo -e "${YELLOW}"
+    echo "$stars"
     echo "
 .-------------------------------------.
 | _         _     _ _     ____  _   _ |
@@ -22,7 +26,12 @@ show_brand() {
 '-------------------------------------'      
             https://lebit.sh
 "
+    echo "$stars"
     echo -e "${NC}"
+    echo "Hardware Information Collection Tool"
+    echo "Version: 1.0"
+    echo "Copyright © $(date +%Y) Lebit.SH. All rights reserved."
+    echo
 }
 
 # Function: Display privacy notice and get user consent
