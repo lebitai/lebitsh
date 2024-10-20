@@ -50,14 +50,14 @@ get_user_consent() {
     echo "This information will be saved locally in a log file: $LOG_FILE"
     echo "No data will be transmitted over the network."
     echo
-    read -p "Do you consent to collecting this information? (y/n): " consent
-    
-    if [[ $consent =~ ^[Yy]$ ]]; then
-        return 0
-    else
-        echo -e "${RED}User did not provide consent. Exiting.${NC}"
-        exit 1
-    fi
+    while true; do
+        read -p "Do you consent to collecting this information? (y/n): " consent
+        case $consent in
+            [Yy]* ) return 0;;
+            [Nn]* ) echo -e "${RED}User did not provide consent. Exiting.${NC}"; exit 1;;
+            * ) echo "Please answer yes (y) or no (n).";;
+        esac
+    done
 }
 
 # Function: Log messages
@@ -142,8 +142,8 @@ get_disk_and_smart_info() {
     
     while read -r disk; do
         echo "Disk: $disk"
-        smartctl -i "$disk"
-        smartctl -A "$disk"
+        smartctl -i "$disk" || log_message "ERROR" "smartctl info failed for $disk"
+        smartctl -A "$disk" || log_message "ERROR" "smartctl attributes failed for $disk"
         echo ""
     done < <(lsblk -ndo NAME,TYPE | awk '$2=="disk"{print "/dev/"$1}')
 }
