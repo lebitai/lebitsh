@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>常见问题 - Lebit.sh</title>
+  <meta name="description" content="Lebit.sh工具包的常见问题解答">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .doc-header {
+      padding: 8rem 2rem 2rem;
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+    }
+    
+    .doc-content {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    
+    .doc-content h2 {
+      font-size: 2rem;
+      margin: 2rem 0 1rem;
+      color: var(--dark-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .faq-item {
+      margin-bottom: 2.5rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+    }
+    
+    .faq-question {
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .faq-answer {
+      line-height: 1.8;
+    }
+    
+    .faq-answer code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: var(--primary-color);
+    }
+    
+    .faq-search {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+    
+    .faq-search input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid #eee;
+      border-radius: 50px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-search input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .faq-search button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-search button:hover {
+      background-color: #2980b9;
+    }
+    
+    .faq-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .faq-category {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--primary-color);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-category:hover, .faq-category.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="../index.html">首页</a></li>
+        <li><a href="../index.html#features">特性</a></li>
+        <li><a href="../index.html#modules">模块</a></li>
+        <li><a href="../index.html#installation">安装</a></li>
+        <li><a href="../index.html#documentation">文档</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 文档头部 -->
+  <header class="doc-header">
+    <h1>常见问题</h1>
+    <p>关于Lebit.sh的常见问题解答</p>
+  </header>
+
+  <!-- 文档内容 -->
+  <section class="doc-content">
+    <div class="faq-search">
+      <input type="text" placeholder="搜索常见问题..." id="faqSearch">
+      <button><i class="fas fa-search"></i> 搜索</button>
+    </div>
+    
+    <div class="faq-categories">
+      <div class="faq-category active" data-category="all">全部</div>
+      <div class="faq-category" data-category="installation">安装</div>
+      <div class="faq-category" data-category="usage">使用</div>
+      <div class="faq-category" data-category="modules">模块</div>
+      <div class="faq-category" data-category="configuration">配置</div>
+      <div class="faq-category" data-category="troubleshooting">故障排除</div>
+    </div>
+    
+    <h2>基本问题</h2>
+    
+    <div class="faq-item" data-category="installation">
+      <div class="faq-question">什么是Lebit.sh？</div>
+      <div class="faq-answer">
+        <p>Lebit.sh是一个Linux系统初始化和管理工具包，提供模块化工具来简化系统设置、配置和优化过程。它包含多个功能模块，如系统管理、Docker管理、开发环境设置等，帮助用户快速配置Linux环境。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="installation">
+      <div class="faq-question">Lebit.sh支持哪些Linux发行版？</div>
+      <div class="faq-answer">
+        <p>Lebit.sh支持大多数主流Linux发行版，包括：</p>
+        <ul>
+          <li>Ubuntu 18.04及更新版本</li>
+          <li>Debian 10及更新版本</li>
+          <li>CentOS 7/8</li>
+          <li>Fedora 33及更新版本</li>
+          <li>Arch Linux</li>
+          <li>Linux Mint</li>
+        </ul>
+        <p>在其他发行版上可能也可以运行，但可能需要手动解决一些依赖问题。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="installation">
+      <div class="faq-question">如何安装Lebit.sh？</div>
+      <div class="faq-answer">
+        <p>安装Lebit.sh非常简单，只需一行命令：</p>
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code>
+        <p>或者，如果您更喜欢使用wget：</p>
+        <code>wget -qO- https://lebit.sh | sh</code>
+        <p>安装脚本会自动检测您的系统，安装必要的依赖，并引导您完成初始配置过程。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="installation">
+      <div class="faq-question">安装Lebit.sh需要哪些系统要求？</div>
+      <div class="faq-answer">
+        <p>Lebit.sh的基本系统要求如下：</p>
+        <ul>
+          <li>Linux操作系统（支持的发行版之一）</li>
+          <li>Bash 4.0或更高版本</li>
+          <li>至少512MB内存</li>
+          <li>至少1GB可用磁盘空间</li>
+          <li>互联网连接（用于安装和更新）</li>
+          <li>sudo权限（用于安装系统包）</li>
+        </ul>
+        <p>根据您计划使用的模块，可能需要更多资源。例如，Docker模块需要更多的磁盘空间和内存。</p>
+      </div>
+    </div>
+    
+    <h2>使用问题</h2>
+    
+    <div class="faq-item" data-category="usage">
+      <div class="faq-question">如何启动Lebit.sh？</div>
+      <div class="faq-answer">
+        <p>安装完成后，您可以通过以下方式启动Lebit.sh：</p>
+        <code>lebit</code>
+        <p>这将启动交互式主菜单，您可以从中选择所需的模块。</p>
+        <p>您也可以直接调用特定模块，例如：</p>
+        <code>lebit docker</code>
+        <p>或使用特定命令：</p>
+        <code>lebit system info</code>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="usage">
+      <div class="faq-question">如何更新Lebit.sh？</div>
+      <div class="faq-answer">
+        <p>要更新Lebit.sh到最新版本，您可以运行：</p>
+        <code>lebit update</code>
+        <p>或者在主菜单中选择更新选项。默认情况下，Lebit.sh会定期检查更新，并在有新版本可用时通知您。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="usage">
+      <div class="faq-question">如何卸载Lebit.sh？</div>
+      <div class="faq-answer">
+        <p>如果您想卸载Lebit.sh，可以运行：</p>
+        <code>lebit uninstall</code>
+        <p>这将启动卸载向导，引导您完成卸载过程。您可以选择完全卸载，或保留某些配置文件和数据。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="usage">
+      <div class="faq-question">Lebit.sh是否保留日志？在哪里可以找到这些日志？</div>
+      <div class="faq-answer">
+        <p>是的，Lebit.sh会保留操作日志，以便在出现问题时进行故障排除。日志文件存储在：</p>
+        <code>~/.local/share/lebit/logs/</code>
+        <p>每次会话都会创建一个新的日志文件，文件名包含日期和时间戳。您也可以通过命令查看最近的日志：</p>
+        <code>lebit logs</code>
+      </div>
+    </div>
+    
+    <h2>模块问题</h2>
+    
+    <div class="faq-item" data-category="modules">
+      <div class="faq-question">Lebit.sh提供哪些模块？</div>
+      <div class="faq-answer">
+        <p>Lebit.sh提供多个功能模块，包括：</p>
+        <ul>
+          <li><strong>系统模块</strong>：系统管理和优化工具</li>
+          <li><strong>Docker模块</strong>：Docker和Docker Compose管理</li>
+          <li><strong>开发模块</strong>：开发环境设置工具</li>
+          <li><strong>工具模块</strong>：实用系统工具集合</li>
+          <li><strong>挖矿模块</strong>：加密货币挖矿工具</li>
+        </ul>
+        <p>每个模块都提供特定领域的功能，您可以根据需要选择安装和使用。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="modules">
+      <div class="faq-question">如何安装特定模块？</div>
+      <div class="faq-answer">
+        <p>您可以通过以下方式安装特定模块：</p>
+        <code>lebit install &lt;module_name&gt;</code>
+        <p>例如，要安装Docker模块：</p>
+        <code>lebit install docker</code>
+        <p>也可以在初始安装过程中选择要安装的模块，或通过主菜单中的模块管理选项安装新模块。</p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="modules">
+      <div class="faq-question">是否可以创建自定义模块？</div>
+      <div class="faq-answer">
+        <p>是的，Lebit.sh支持自定义模块，您可以创建自己的模块并集成到Lebit.sh中。自定义模块应放置在：</p>
+        <code>~/.local/share/lebit/modules/</code>
+        <p>每个模块应包含一个main.sh文件和一个config文件。有关创建自定义模块的详细指南，请参阅开发文档。</p>
+      </div>
+    </div>
+    
+    <h2>配置问题</h2>
+    
+    <div class="faq-item" data-category="configuration">
+      <div class="faq-question">如何修改Lebit.sh的配置？</div>
+      <div class="faq-answer">
+        <p>有多种方式可以修改Lebit.sh的配置：</p>
+        <ol>
+          <li>编辑配置文件：<code>~/.config/lebit/config</code></li>
+          <li>使用配置命令：<code>lebit config set &lt;key&gt; &lt;value&gt;</code></li>
+          <li>通过主菜单中的设置选项</li>
+        </ol>
+        <p>模块特定的配置文件位于：<code>~/.config/lebit/modules/&lt;module_name&gt;/config</code></p>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="configuration">
+      <div class="faq-question">如何在多个系统之间共享配置？</div>
+      <div class="faq-answer">
+        <p>要在多个系统之间共享配置，可以使用配置导出和导入功能：</p>
+        <p>导出配置：</p>
+        <code>lebit config export &lt;filename&gt;</code>
+        <p>导入配置：</p>
+        <code>lebit config import &lt;filename&gt;</code>
+        <p>这样可以轻松地在多个系统上复制相同的配置。</p>
+      </div>
+    </div>
+    
+    <h2>故障排除</h2>
+    
+    <div class="faq-item" data-category="troubleshooting">
+      <div class="faq-question">安装过程中出现错误怎么办？</div>
+      <div class="faq-answer">
+        <p>如果在安装过程中遇到问题，可以尝试以下步骤：</p>
+        <ol>
+          <li>检查系统是否满足最低要求</li>
+          <li>确保您有稳定的互联网连接</li>
+          <li>使用<code>--verbose</code>选项重新运行安装命令，以获取更详细的错误信息：<br><code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- --verbose</code></li>
+          <li>检查<code>/tmp/lebit-install.log</code>文件中的错误信息</li>
+          <li>如果问题仍然存在，请在GitHub上提交问题，并附上详细的错误信息</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="troubleshooting">
+      <div class="faq-question">某个模块无法正常工作怎么办？</div>
+      <div class="faq-answer">
+        <p>如果特定模块无法正常工作，可以尝试以下步骤：</p>
+        <ol>
+          <li>检查模块是否需要其他依赖，运行：<code>lebit check &lt;module_name&gt;</code></li>
+          <li>尝试重新安装模块：<code>lebit reinstall &lt;module_name&gt;</code></li>
+          <li>运行模块诊断：<code>lebit diagnose &lt;module_name&gt;</code></li>
+          <li>检查模块日志文件：<code>~/.local/share/lebit/logs/&lt;module_name&gt;/</code></li>
+          <li>如果问题仍然存在，尝试在调试模式下运行模块：<code>LEBIT_DEBUG=true lebit &lt;module_name&gt;</code></li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="faq-item" data-category="troubleshooting">
+      <div class="faq-question">如何报告bug或提出建议？</div>
+      <div class="faq-answer">
+        <p>如果您发现bug或有改进建议，可以通过以下方式报告：</p>
+        <ol>
+          <li>在<a href="https://github.com/lebitai/lebitsh/issues" target="_blank">GitHub Issues</a>页面提交问题</li>
+          <li>发送邮件至support@lebit.sh</li>
+          <li>使用内置的反馈命令：<code>lebit feedback</code></li>
+        </ol>
+        <p>提交问题时，请尽可能提供详细信息，包括：</p>
+        <ul>
+          <li>Lebit.sh版本（<code>lebit --version</code>）</li>
+          <li>操作系统和版本</li>
+          <li>错误信息或问题描述</li>
+          <li>复现步骤</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+    
+    // FAQ筛选功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('faqSearch');
+      const faqItems = document.querySelectorAll('.faq-item');
+      const categoryButtons = document.querySelectorAll('.faq-category');
+      
+      // 搜索功能
+      searchInput.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        faqItems.forEach(item => {
+          const question = item.querySelector('.faq-question').textContent.toLowerCase();
+          const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+          
+          if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+      
+      // 分类筛选
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          
+          // 更新按钮状态
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 筛选项目
+          faqItems.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

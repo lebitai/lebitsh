@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lebit.sh - Linux系统初始化工具包</title>
+  <meta name="description" content="Lebit.sh提供一系列工具，帮助您快速高效地设置和配置Linux环境">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* 首页特有样式 */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1974&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 20%, #121212 150%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #ffffff, #3498db);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .hero .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .hero .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .hero .btn-primary {
+      background: linear-gradient(to right, #3498db, #2980b9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .hero .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .feature-card {
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+    
+    .feature-card.animate {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .feature-card i {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover i {
+      transform: scale(1.1);
+    }
+    
+    .module-card {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(52, 152, 219, 0.1), transparent);
+      transition: all 0.5s ease;
+      z-index: -1;
+    }
+    
+    .module-card:hover::before {
+      top: 0;
+    }
+    
+    .module-card .btn {
+      transition: all 0.3s ease;
+    }
+    
+    .module-card:hover .btn {
+      background-color: #2980b9;
+      box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+    }
+    
+    .counter-section {
+      padding: 5rem 2rem;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      text-align: center;
+    }
+    
+    .counter-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    
+    .counter-item .count {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .counter-item .label {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+    
+    .floating-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    
+    /* 自适应优化 */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="#features">特性</a></li>
+          <li><a href="#modules">模块</a></li>
+          <li><a href="#installation">安装</a></li>
+          <li><a href="#documentation">文档</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">中文 <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="index.html" data-lang="zh">中文</a>
+              <a href="en/index.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区域 -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Linux系统初始化工具包</h1>
+      <p>只需一个命令，快速配置您的Linux环境。Lebit.sh提供模块化工具，简化系统设置、Docker管理、开发环境配置和更多功能。</p>
+      <div class="hero-buttons">
+        <a href="#installation" class="btn btn-primary">立即安装</a>
+        <a href="#features" class="btn btn-secondary">了解更多</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据统计部分 -->
+  <section class="counter-section">
+    <div class="counter-container">
+      <div class="counter-item">
+        <div class="count" data-target="5000">0</div>
+        <div class="label">活跃用户</div>
+      </div>
+      <div class="counter-item">
+        <div class="count" data-target="15">0</div>
+        <div class="label">功能模块</div>
+      </div>
+      <div class="counter-item">
+        <div class="count" data-target="98">0</div>
+        <div class="label">用户满意度 (%)</div>
+      </div>
+      <div class="counter-item">
+        <div class="count" data-target="42000">0</div>
+        <div class="label">成功部署次数</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 特性部分 -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="features-heading">
+        <h2>为什么选择 Lebit.sh?</h2>
+        <p>简单、高效、模块化设计的系统工具</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-bolt floating-icon"></i>
+          <h3>快速安装</h3>
+          <p>只需一行命令即可开始使用，无需复杂的设置过程。</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cubes floating-icon"></i>
+          <h3>模块化设计</h3>
+          <p>独立的功能模块，按需使用，不安装不需要的组件。</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-shield-alt floating-icon"></i>
+          <h3>安全可靠</h3>
+          <p>使用HTTPS和TLS 1.2+，所有代码开源可审查。</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cogs floating-icon"></i>
+          <h3>灵活配置</h3>
+          <p>强大的配置系统允许自定义工具行为，满足不同需求。</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-terminal floating-icon"></i>
+          <h3>交互式界面</h3>
+          <p>彩色输出和格式化，进度指示器和状态显示，提升使用体验。</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-file-alt floating-icon"></i>
+          <h3>全面日志</h3>
+          <p>详细的日志系统支持调试和问题排查。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块部分 -->
+  <section id="modules" class="modules">
+    <div class="container">
+      <div class="modules-heading">
+        <h2>功能模块</h2>
+        <p>按需选择您需要的模块</p>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card">
+          <i class="fas fa-server"></i>
+          <h3>系统管理</h3>
+          <p>系统优化、清理和信息收集工具，包括硬件信息收集、系统清理与深度清理和时间同步工具。</p>
+          <a href="modules.html#system" class="btn btn-primary">了解更多</a>
+        </div>
+        <div class="module-card">
+          <i class="fab fa-docker"></i>
+          <h3>Docker管理</h3>
+          <p>轻松安装和配置Docker环境，包括Docker和Docker Compose安装、升级、配置设置和资源清理。</p>
+          <a href="modules.html#docker" class="btn btn-primary">了解更多</a>
+        </div>
+        <div class="module-card">
+          <i class="fas fa-code"></i>
+          <h3>开发环境</h3>
+          <p>快速设置开发环境，包括Golang、Node.js、Rust、SQLite3安装和快速别名设置。</p>
+          <a href="modules.html#dev" class="btn btn-primary">了解更多</a>
+        </div>
+        <div class="module-card">
+          <i class="fas fa-tools"></i>
+          <h3>系统工具</h3>
+          <p>实用系统工具集合，包括SSL证书更新工具等实用功能。</p>
+          <a href="modules.html#tools" class="btn btn-primary">了解更多</a>
+        </div>
+        <div class="module-card">
+          <i class="fas fa-coins"></i>
+          <h3>挖矿工具</h3>
+          <p>加密货币挖矿操作的工具，包括Ritual挖矿、EthStorage挖矿和TitanNetwork挖矿。</p>
+          <a href="modules.html#mining" class="btn btn-primary">了解更多</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安装部分 -->
+  <section id="installation" class="installation">
+    <div class="container">
+      <div class="installation-heading">
+        <h2>快速开始</h2>
+        <p>只需一行命令即可安装</p>
+      </div>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">已复制!</div>
+      </div>
+      <p class="text-center">上面的命令将下载并运行交互式安装程序，您可以选择需要的模块进行安装。</p>
+      <p class="text-center">也可以直接安装特定模块:</p>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">已复制!</div>
+      </div>
+      <p class="text-center">或者使用替代方式:</p>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">已复制!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文档部分 -->
+  <section id="documentation" class="documentation">
+    <div class="container">
+      <div class="documentation-heading">
+        <h2>文档资源</h2>
+        <p>了解更多使用方法和技巧</p>
+      </div>
+      <div class="docs-grid">
+        <div class="doc-card">
+          <h3>快速指南</h3>
+          <p>快速上手Lebit.sh的基本功能和命令。</p>
+          <a href="docs/quickstart.html" class="btn btn-primary">查看指南</a>
+        </div>
+        <div class="doc-card">
+          <h3>模块文档</h3>
+          <p>详细了解每个模块的功能和使用方法。</p>
+          <a href="modules.html" class="btn btn-primary">浏览模块</a>
+        </div>
+        <div class="doc-card">
+          <h3>配置指南</h3>
+          <p>学习如何自定义Lebit.sh以满足您的需求。</p>
+          <a href="docs/configuration.html" class="btn btn-primary">配置选项</a>
+        </div>
+        <div class="doc-card">
+          <h3>常见问题</h3>
+          <p>查找常见问题的解答和故障排除指南。</p>
+          <a href="docs/faq.html" class="btn btn-primary">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+    
+    // 计数器动画
+    const counters = document.querySelectorAll('.count');
+    const speed = 200;
+    
+    function runCounter() {
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+          
+          const inc = target / speed;
+          
+          if (count < target) {
+            counter.innerText = Math.ceil(count + inc);
+            setTimeout(updateCount, 1);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+        
+        updateCount();
+      });
+    }
+    
+    // 特性卡片出现动画
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    const animateFeatureCards = () => {
+      const triggerBottom = window.innerHeight * 0.8;
+      
+      featureCards.forEach((card, index) => {
+        const cardTop = card.getBoundingClientRect().top;
+        
+        if (cardTop < triggerBottom) {
+          setTimeout(() => {
+            card.classList.add('animate');
+          }, index * 100);
+        }
+      });
+    };
+    
+    // 监听滚动事件
+    let counterAnimated = false;
+    window.addEventListener('scroll', function() {
+      // 进入视口时激活计数器
+      const counterSection = document.querySelector('.counter-section');
+      const counterSectionTop = counterSection.getBoundingClientRect().top;
+      const triggerBottom = window.innerHeight * 0.8;
+      
+      if (counterSectionTop < triggerBottom && !counterAnimated) {
+        runCounter();
+        counterAnimated = true;
+      }
+      
+      // 激活特性卡片动画
+      animateFeatureCards();
+    });
+    
+    // 初始化动画
+    window.addEventListener('load', function() {
+      // 检查首屏元素
+      if (document.querySelector('.counter-section').getBoundingClientRect().top < window.innerHeight) {
+        runCounter();
+        counterAnimated = true;
+      }
+      
+      animateFeatureCards();
+    });
+    
+    // 语言切换功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // 点击其他地方关闭语言选项
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP地址检测和语言自动切换
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查是否已经设置了语言偏好
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // 如果用户已选择语言，尊重用户选择
+        return;
+      }
+      
+      // 使用第三方API检测用户的IP地址和地理位置
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // 基于国家/地区代码设置默认语言
+          const country = data.country_code;
+          let defaultLang = 'zh'; // 默认为中文
+          
+          // 英文为主要语言的国家列表
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // 如果当前不是英文页面且检测到用户来自英语国家，重定向到英文页面
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              window.location.href = '/en/index.html';
+            }
+          }
+          
+          // 保存语言偏好到本地存储
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('无法检测用户位置:', error);
+        });
+    });
+    
+    // 复制按钮功能
+    document.addEventListener('DOMContentLoaded', function() {
+      // 确保所有复制成功提示默认是隐藏的
+      document.querySelectorAll('.copy-success').forEach(el => {
+        el.classList.remove('show');
+      });
+      
+      const copyButtons = document.querySelectorAll('.copy-button');
+      copyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const text = button.getAttribute('data-clipboard-text');
+          navigator.clipboard.writeText(text).then(() => {
+            // 先移除所有其他可能显示的提示
+            document.querySelectorAll('.copy-success').forEach(el => {
+              el.classList.remove('show');
+            });
+            // 显示当前按钮的提示
+            button.nextElementSibling.classList.add('show');
+            setTimeout(() => {
+              button.nextElementSibling.classList.remove('show');
+            }, 2000);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

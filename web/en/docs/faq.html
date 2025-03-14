@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Lebit.sh</title>
+  <meta name="description" content="Frequently Asked Questions about Lebit.sh and answers to common issues">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .docs-header {
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1542726059-83b4d5354231?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      padding: 6rem 0 3rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .docs-content {
+      padding: 3rem 0;
+    }
+    
+    .docs-nav {
+      position: sticky;
+      top: 80px;
+    }
+    
+    .docs-nav ul {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .docs-nav li {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .docs-nav li:last-child {
+      border-bottom: none;
+    }
+    
+    .docs-nav a {
+      display: block;
+      padding: 1rem;
+      color: var(--dark-color);
+      transition: all 0.3s ease;
+    }
+    
+    .docs-nav a:hover, .docs-nav a.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .docs-main {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    
+    .docs-main h2 {
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main h3 {
+      margin: 1.5rem 0 1rem;
+    }
+    
+    .docs-main p, .docs-main ul, .docs-main ol {
+      margin-bottom: 1rem;
+    }
+    
+    .docs-main ul, .docs-main ol {
+      padding-left: 2rem;
+    }
+    
+    .docs-main li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .docs-main code {
+      background-color: var(--light-color);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    
+    .docs-main pre {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main pre code {
+      background-color: transparent;
+      color: white;
+      padding: 0;
+    }
+    
+    .faq-item {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1.5rem;
+    }
+    
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    
+    .faq-question {
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+    
+    .faq-question::before {
+      content: "Q:";
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    
+    .faq-answer {
+      padding-left: 2rem;
+      position: relative;
+    }
+    
+    .faq-answer::before {
+      content: "A:";
+      position: absolute;
+      left: 0;
+      color: var(--success-color);
+      font-weight: 700;
+    }
+    
+    .faq-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .faq-category {
+      padding: 0.5rem 1rem;
+      background-color: var(--light-color);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-category:hover, .faq-category.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .docs-nav {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="../index.html#features">Features</a></li>
+          <li><a href="../index.html#modules">Modules</a></li>
+          <li><a href="../index.html#installation">Installation</a></li>
+          <li><a href="../index.html#documentation">Documentation</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">English <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="../../docs/faq.html" data-lang="zh">中文</a>
+              <a href="../docs/faq.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Documentation header -->
+  <header class="docs-header">
+    <div class="container">
+      <h1>Frequently Asked Questions</h1>
+      <p>Answers to common questions and troubleshooting tips</p>
+    </div>
+  </header>
+
+  <!-- Documentation content -->
+  <section class="docs-content">
+    <div class="container">
+      <div class="docs-grid" style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem;">
+        <div class="docs-nav">
+          <ul>
+            <li><a href="quickstart.html">Quick Start</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="faq.html" class="active">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="docs-main">
+          <h2>Frequently Asked Questions</h2>
+          
+          <div class="faq-categories">
+            <div class="faq-category active" data-category="all">All</div>
+            <div class="faq-category" data-category="installation">Installation</div>
+            <div class="faq-category" data-category="usage">Usage</div>
+            <div class="faq-category" data-category="troubleshooting">Troubleshooting</div>
+            <div class="faq-category" data-category="modules">Modules</div>
+          </div>
+          
+          <div class="faq-list">
+            <!-- Installation FAQs -->
+            <div class="faq-item" data-category="installation">
+              <div class="faq-question">What are the system requirements for Lebit.sh?</div>
+              <div class="faq-answer">
+                <p>Lebit.sh is designed to work on most Linux distributions, including Ubuntu, Debian, CentOS, Fedora, and Arch Linux. The minimum requirements are:</p>
+                <ul>
+                  <li>Linux kernel 4.x or newer</li>
+                  <li>Bash shell</li>
+                  <li>curl or wget</li>
+                  <li>At least 100MB of free disk space</li>
+                  <li>Internet connection for installation and updates</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="installation">
+              <div class="faq-question">How do I install Lebit.sh without using curl?</div>
+              <div class="faq-answer">
+                <p>If you prefer not to use curl or if it's not available on your system, you can install Lebit.sh using wget:</p>
+                <pre><code>wget -O - https://lebit.sh | sh</code></pre>
+                <p>Alternatively, you can manually download the installation script and run it:</p>
+                <pre><code>wget https://lebit.sh/install.sh
+chmod +x install.sh
+./install.sh</code></pre>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="installation">
+              <div class="faq-question">Is it safe to pipe the installation script directly to shell?</div>
+              <div class="faq-answer">
+                <p>We understand the concerns about piping scripts directly to shell. For those who prefer to review the installation script before running it, you can download the script first and inspect it:</p>
+                <pre><code>curl -o install.sh https://lebit.sh
+less install.sh  # Review the script
+chmod +x install.sh
+./install.sh</code></pre>
+                <p>Our installation script is open source, and we encourage users to review it before running. The script is designed to be transparent and does not perform any actions without user confirmation.</p>
+              </div>
+            </div>
+            
+            <!-- Usage FAQs -->
+            <div class="faq-item" data-category="usage">
+              <div class="faq-question">How do I update Lebit.sh to the latest version?</div>
+              <div class="faq-answer">
+                <p>Updating Lebit.sh is simple. Just run the following command:</p>
+                <pre><code>lebit update</code></pre>
+                <p>This will check for updates and, if available, download and install the latest version of Lebit.sh. Your configuration and installed modules will be preserved during the update.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="usage">
+              <div class="faq-question">Can I use Lebit.sh in scripts or automated workflows?</div>
+              <div class="faq-answer">
+                <p>Yes, Lebit.sh is designed to work well in scripts and automated workflows. Most commands support a <code>--quiet</code> or <code>-q</code> flag to suppress interactive prompts and output, making them suitable for scripting:</p>
+                <pre><code>lebit install docker --quiet</code></pre>
+                <p>You can also use the <code>--yes</code> or <code>-y</code> flag to automatically confirm all prompts:</p>
+                <pre><code>lebit install docker --yes</code></pre>
+                <p>For exit codes, Lebit.sh follows the standard convention of returning 0 for success and non-zero values for errors, allowing you to check the outcome in your scripts.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="usage">
+              <div class="faq-question">How do I uninstall Lebit.sh completely?</div>
+              <div class="faq-answer">
+                <p>To uninstall Lebit.sh and remove all its files from your system, run:</p>
+                <pre><code>lebit uninstall --purge</code></pre>
+                <p>This will remove Lebit.sh, its configuration files, and all installed modules. If you want to keep your configuration for future reinstallation, omit the <code>--purge</code> flag:</p>
+                <pre><code>lebit uninstall</code></pre>
+                <p>Note that this will not uninstall applications or services that were installed using Lebit.sh modules. You'll need to uninstall those separately.</p>
+              </div>
+            </div>
+            
+            <!-- Troubleshooting FAQs -->
+            <div class="faq-item" data-category="troubleshooting">
+              <div class="faq-question">I'm getting "Permission denied" errors when running Lebit.sh commands</div>
+              <div class="faq-answer">
+                <p>This typically occurs when you don't have the necessary permissions to perform the requested action. There are a few ways to address this:</p>
+                <ol>
+                  <li>
+                    <p>Run the command with sudo:</p>
+                    <pre><code>sudo lebit [command]</code></pre>
+                  </li>
+                  <li>
+                    <p>Check if you have write permissions to the directories Lebit.sh is trying to access. For example, if you've configured a custom installation path, make sure you have write permissions to that directory.</p>
+                  </li>
+                  <li>
+                    <p>If you're encountering permission issues with a specific module, check the module's documentation for any special permission requirements.</p>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="troubleshooting">
+              <div class="faq-question">Lebit.sh says "Command not found" after installation</div>
+              <div class="faq-answer">
+                <p>If you're seeing a "Command not found" error when trying to run Lebit.sh, it's likely that the installation directory is not in your PATH. Here's how to fix this:</p>
+                <ol>
+                  <li>
+                    <p>Check where Lebit.sh is installed:</p>
+                    <pre><code>find / -name lebit 2>/dev/null</code></pre>
+                  </li>
+                  <li>
+                    <p>Add the directory to your PATH by adding the following line to your <code>~/.bashrc</code> or <code>~/.zshrc</code> file:</p>
+                    <pre><code>export PATH=$PATH:/path/to/lebit/directory</code></pre>
+                  </li>
+                  <li>
+                    <p>Reload your shell configuration:</p>
+                    <pre><code>source ~/.bashrc</code></pre>
+                    <p>or</p>
+                    <pre><code>source ~/.zshrc</code></pre>
+                  </li>
+                </ol>
+                <p>Alternatively, you can run Lebit.sh using the full path to the executable:</p>
+                <pre><code>/path/to/lebit/directory/lebit [command]</code></pre>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="troubleshooting">
+              <div class="faq-question">How do I diagnose issues with Lebit.sh?</div>
+              <div class="faq-answer">
+                <p>If you're experiencing issues with Lebit.sh, you can use the built-in diagnostic tools to help identify the problem:</p>
+                <ol>
+                  <li>
+                    <p>Enable debug logging:</p>
+                    <pre><code>lebit config set log.level debug</code></pre>
+                  </li>
+                  <li>
+                    <p>Run the command that's causing issues with the <code>--verbose</code> flag:</p>
+                    <pre><code>lebit [command] --verbose</code></pre>
+                  </li>
+                  <li>
+                    <p>Check the log file for detailed information:</p>
+                    <pre><code>cat ~/.config/lebit/logs/lebit.log</code></pre>
+                  </li>
+                  <li>
+                    <p>Run the diagnostics command to check for common issues:</p>
+                    <pre><code>lebit diagnostics</code></pre>
+                  </li>
+                </ol>
+                <p>If you're still having issues, you can open an issue on our <a href="https://github.com/lebitai/lebitsh/issues" target="_blank">GitHub repository</a> with the output of these commands.</p>
+              </div>
+            </div>
+            
+            <!-- Module FAQs -->
+            <div class="faq-item" data-category="modules">
+              <div class="faq-question">Can I create my own custom modules for Lebit.sh?</div>
+              <div class="faq-answer">
+                <p>Yes, Lebit.sh supports custom modules. To create a custom module:</p>
+                <ol>
+                  <li>
+                    <p>Create a new directory in <code>~/.config/lebit/modules/</code> with your module name:</p>
+                    <pre><code>mkdir -p ~/.config/lebit/modules/mymodule</code></pre>
+                  </li>
+                  <li>
+                    <p>Create a <code>main.sh</code> file in this directory, which will be the entry point for your module:</p>
+                    <pre><code>touch ~/.config/lebit/modules/mymodule/main.sh</code></pre>
+                  </li>
+                  <li>
+                    <p>Implement your module following the Lebit.sh module API. Here's a simple example:</p>
+                    <pre><code>#!/bin/bash
+
+# Main function for the module
+mymodule_main() {
+    echo "Hello from my custom module!"
+}
+
+# Initialize the module
+mymodule_init() {
+    echo "Initializing my custom module..."
+}
+
+# Clean up function
+mymodule_cleanup() {
+    echo "Cleaning up my custom module..."
+}
+
+# Add any additional functions here
+mymodule_custom_function() {
+    echo "This is a custom function!"
+}
+</code></pre>
+                  </li>
+                  <li>
+                    <p>Make the script executable:</p>
+                    <pre><code>chmod +x ~/.config/lebit/modules/mymodule/main.sh</code></pre>
+                  </li>
+                </ol>
+                <p>After creating your module, you can use it with Lebit.sh commands:</p>
+                <pre><code>lebit mymodule</code></pre>
+                <p>For more detailed information on creating custom modules, refer to the <a href="https://github.com/lebitai/lebitsh/wiki/Custom-Modules" target="_blank">Custom Modules Guide</a> in our wiki.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="modules">
+              <div class="faq-question">Why do some modules require sudo privileges?</div>
+              <div class="faq-answer">
+                <p>Some modules require sudo privileges because they need to perform actions that require elevated permissions, such as:</p>
+                <ul>
+                  <li>Installing system packages</li>
+                  <li>Modifying system configuration files</li>
+                  <li>Managing system services</li>
+                  <li>Installing software in system directories</li>
+                </ul>
+                <p>Lebit.sh will always inform you when a command requires sudo privileges and will prompt for your password when needed. If you prefer not to enter your password for each command, you can run Lebit.sh with sudo from the beginning:</p>
+                <pre><code>sudo lebit [command]</code></pre>
+                <p>However, for security reasons, we recommend only using sudo when necessary and responding to the prompts as they appear.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item" data-category="modules">
+              <div class="faq-question">Can I use Lebit.sh on non-Linux systems like macOS or Windows?</div>
+              <div class="faq-answer">
+                <p>Lebit.sh is primarily designed for Linux systems. However:</p>
+                <ul>
+                  <li>
+                    <p><strong>macOS</strong>: Some modules may work on macOS, especially those that don't rely on Linux-specific features. However, full compatibility is not guaranteed, and you may encounter issues with certain modules.</p>
+                  </li>
+                  <li>
+                    <p><strong>Windows</strong>: Lebit.sh is not designed to work natively on Windows. However, you can use it within the Windows Subsystem for Linux (WSL) if you have that installed.</p>
+                  </li>
+                </ul>
+                <p>We're considering expanding Lebit.sh to better support other operating systems in the future. If you're interested in helping with this effort, please check our <a href="https://github.com/lebitai/lebitsh/contribute" target="_blank">contribution guidelines</a>.</p>
+              </div>
+            </div>
+          </div>
+          
+          <h3>Still Have Questions?</h3>
+          <p>If you couldn't find the answer to your question here, there are several ways to get help:</p>
+          <ul>
+            <li>Check the <a href="https://github.com/lebitai/lebitsh/wiki" target="_blank">Wiki</a> for more detailed documentation</li>
+            <li>Join our <a href="https://discord.gg/lebitsh" target="_blank">Discord community</a> to connect with other users and developers</li>
+            <li>Open an issue on <a href="https://github.com/lebitai/lebitsh/issues" target="_blank">GitHub</a> if you've found a bug or have a feature request</li>
+            <li>Email us at <a href="mailto:support@lebit.sh">support@lebit.sh</a> for direct assistance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux System Initialization Toolkit - Making Linux configuration simple</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ category filtering
+    document.addEventListener('DOMContentLoaded', function() {
+      const categories = document.querySelectorAll('.faq-category');
+      const faqItems = document.querySelectorAll('.faq-item');
+      
+      categories.forEach(category => {
+        category.addEventListener('click', function() {
+          // Remove active class from all categories
+          categories.forEach(cat => cat.classList.remove('active'));
+          
+          // Add active class to clicked category
+          this.classList.add('active');
+          
+          const selectedCategory = this.getAttribute('data-category');
+          
+          // Show/hide FAQ items based on selected category
+          faqItems.forEach(item => {
+            if (selectedCategory === 'all' || item.getAttribute('data-category') === selectedCategory) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+    
+    // Language switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // Close language options when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP address detection and automatic language switching
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if language preference is already set
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // Respect user's choice if language is already selected
+        return;
+      }
+      
+      // Use third-party API to detect user's IP address and geolocation
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // Set default language based on country code
+          const country = data.country_code;
+          let defaultLang = 'zh'; // Default to Chinese
+          
+          // List of countries where English is the primary language
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // Redirect to English version if needed
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              // Get the current page name and redirect to its English version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/en/docs/' + currentPage;
+            }
+          } else {
+            // Redirect to Chinese version if needed
+            if (window.location.pathname.indexOf('/en/') !== -1) {
+              // Get the current page name and redirect to its Chinese version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/docs/' + currentPage;
+            }
+          }
+          
+          // Save language preference to local storage
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('Unable to detect user location:', error);
+        });
+    });
+  </script>
+</body>
+</html>

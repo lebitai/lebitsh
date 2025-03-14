@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuration - Lebit.sh</title>
+  <meta name="description" content="Learn how to configure Lebit.sh to match your specific requirements">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .docs-header {
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1542726059-83b4d5354231?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      padding: 6rem 0 3rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .docs-content {
+      padding: 3rem 0;
+    }
+    
+    .docs-nav {
+      position: sticky;
+      top: 80px;
+    }
+    
+    .docs-nav ul {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .docs-nav li {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .docs-nav li:last-child {
+      border-bottom: none;
+    }
+    
+    .docs-nav a {
+      display: block;
+      padding: 1rem;
+      color: var(--dark-color);
+      transition: all 0.3s ease;
+    }
+    
+    .docs-nav a:hover, .docs-nav a.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .docs-main {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    
+    .docs-main h2 {
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main h3 {
+      margin: 1.5rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .docs-main p, .docs-main ul, .docs-main ol {
+      margin-bottom: 1rem;
+    }
+    
+    .docs-main ul, .docs-main ol {
+      padding-left: 2rem;
+    }
+    
+    .docs-main li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .docs-main code {
+      background-color: var(--light-color);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    
+    .docs-main pre {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main pre code {
+      background-color: transparent;
+      color: white;
+      padding: 0;
+    }
+    
+    .code-block {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 3px;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .copy-btn:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    
+    .config-table th, .config-table td {
+      border: 1px solid #eee;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    
+    .config-table th {
+      background-color: var(--light-color);
+      font-weight: 500;
+    }
+    
+    .config-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    @media (max-width: 768px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .docs-nav {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="../index.html#features">Features</a></li>
+          <li><a href="../index.html#modules">Modules</a></li>
+          <li><a href="../index.html#installation">Installation</a></li>
+          <li><a href="../index.html#documentation">Documentation</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">English <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="../../docs/configuration.html" data-lang="zh">中文</a>
+              <a href="../docs/configuration.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Documentation header -->
+  <header class="docs-header">
+    <div class="container">
+      <h1>Configuration</h1>
+      <p>Customize Lebit.sh to match your specific requirements</p>
+    </div>
+  </header>
+
+  <!-- Documentation content -->
+  <section class="docs-content">
+    <div class="container">
+      <div class="docs-grid" style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem;">
+        <div class="docs-nav">
+          <ul>
+            <li><a href="quickstart.html">Quick Start</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="configuration.html" class="active">Configuration</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="docs-main">
+          <h2>Configuration Guide</h2>
+          <p>Lebit.sh is designed to be highly customizable, allowing you to tailor it to your specific needs. This guide explains how to configure various aspects of Lebit.sh, from basic settings to module-specific configurations.</p>
+          
+          <h3>Configuration File</h3>
+          <p>The main configuration file for Lebit.sh is located at <code>~/.config/lebit/config.yaml</code>. This YAML file contains all the settings that control how Lebit.sh behaves.</p>
+          <p>If the file doesn't exist, it will be created with default values when you run Lebit.sh for the first time. You can edit this file directly with any text editor, or use the configuration commands provided by Lebit.sh.</p>
+          
+          <h3>Using Configuration Commands</h3>
+          <p>Lebit.sh provides a set of commands for managing configuration settings without having to edit the configuration file directly:</p>
+          
+          <div class="code-block">
+            <pre><code># View all current configuration settings
+lebit config list
+
+# Get the value of a specific setting
+lebit config get [key]
+
+# Set the value of a specific setting
+lebit config set [key] [value]
+
+# Reset a specific setting to its default value
+lebit config reset [key]
+
+# Reset all settings to their default values
+lebit config reset --all</code></pre>
+          </div>
+          
+          <h3>Global Configuration Options</h3>
+          <p>These settings apply to Lebit.sh as a whole:</p>
+          
+          <table class="config-table">
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Description</th>
+                <th>Default Value</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>install.path</code></td>
+                <td>The directory where Lebit.sh is installed</td>
+                <td><code>/usr/local/lebit</code></td>
+                <td><code>lebit config set install.path /opt/lebit</code></td>
+              </tr>
+              <tr>
+                <td><code>log.level</code></td>
+                <td>The logging level (debug, info, warn, error)</td>
+                <td><code>info</code></td>
+                <td><code>lebit config set log.level debug</code></td>
+              </tr>
+              <tr>
+                <td><code>update.check</code></td>
+                <td>Whether to automatically check for updates</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set update.check false</code></td>
+              </tr>
+              <tr>
+                <td><code>update.interval</code></td>
+                <td>How often to check for updates (in days)</td>
+                <td><code>7</code></td>
+                <td><code>lebit config set update.interval 14</code></td>
+              </tr>
+              <tr>
+                <td><code>proxy.enabled</code></td>
+                <td>Whether to use a proxy for network operations</td>
+                <td><code>false</code></td>
+                <td><code>lebit config set proxy.enabled true</code></td>
+              </tr>
+              <tr>
+                <td><code>proxy.url</code></td>
+                <td>The URL of the proxy server</td>
+                <td><code>""</code></td>
+                <td><code>lebit config set proxy.url http://proxy.example.com:8080</code></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h3>Module-Specific Configuration</h3>
+          <p>Each module has its own set of configuration options. These are organized under the module name in the configuration file.</p>
+          
+          <h4>System Module Configuration</h4>
+          <table class="config-table">
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Description</th>
+                <th>Default Value</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>system.clean.logs</code></td>
+                <td>Whether to clean system logs during cleanup</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.clean.logs false</code></td>
+              </tr>
+              <tr>
+                <td><code>system.clean.temp</code></td>
+                <td>Whether to clean temporary files during cleanup</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.clean.temp false</code></td>
+              </tr>
+              <tr>
+                <td><code>system.clean.cache</code></td>
+                <td>Whether to clean package caches during cleanup</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.clean.cache false</code></td>
+              </tr>
+              <tr>
+                <td><code>system.optimize.cpu</code></td>
+                <td>Whether to optimize CPU settings</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.optimize.cpu false</code></td>
+              </tr>
+              <tr>
+                <td><code>system.optimize.memory</code></td>
+                <td>Whether to optimize memory settings</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.optimize.memory false</code></td>
+              </tr>
+              <tr>
+                <td><code>system.optimize.disk</code></td>
+                <td>Whether to optimize disk I/O settings</td>
+                <td><code>true</code></td>
+                <td><code>lebit config set system.optimize.disk false</code></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h4>Docker Module Configuration</h4>
+          <table class="config-table">
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Description</th>
+                <th>Default Value</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>docker.data.path</code></td>
+                <td>The directory where Docker stores its data</td>
+                <td><code>/var/lib/docker</code></td>
+                <td><code>lebit config set docker.data.path /opt/docker</code></td>
+              </tr>
+              <tr>
+                <td><code>docker.compose.version</code></td>
+                <td>The version of Docker Compose to install</td>
+                <td><code>latest</code></td>
+                <td><code>lebit config set docker.compose.version 2.5.0</code></td>
+              </tr>
+              <tr>
+                <td><code>docker.registry</code></td>
+                <td>The Docker registry to use</td>
+                <td><code>docker.io</code></td>
+                <td><code>lebit config set docker.registry registry.example.com</code></td>
+              </tr>
+              <tr>
+                <td><code>docker.prune.interval</code></td>
+                <td>How often to automatically prune Docker resources (in days, 0 to disable)</td>
+                <td><code>0</code></td>
+                <td><code>lebit config set docker.prune.interval 7</code></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <h3>Configuration Best Practices</h3>
+          <p>Here are some recommendations for configuring Lebit.sh:</p>
+          <ul>
+            <li><strong>Use Version Control:</strong> Consider keeping your configuration file in a version control system like Git to track changes and easily revert if needed.</li>
+            <li><strong>Backup Your Configuration:</strong> Regularly back up your configuration file, especially before making significant changes.</li>
+            <li><strong>Document Your Changes:</strong> Add comments to your configuration file explaining why you made certain changes, which can be helpful for future reference.</li>
+            <li><strong>Test Changes in a Safe Environment:</strong> If possible, test configuration changes in a non-production environment before applying them to critical systems.</li>
+          </ul>
+          
+          <h3>Advanced Configuration</h3>
+          <p>For advanced users, Lebit.sh supports creating custom modules and extending the functionality of existing modules. To learn more about advanced configuration options, refer to the <a href="https://github.com/lebitai/lebitsh/wiki/Advanced-Configuration" target="_blank">Advanced Configuration Guide</a> in our wiki.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux System Initialization Toolkit - Making Linux configuration simple</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Language switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // Close language options when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP address detection and automatic language switching
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if language preference is already set
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // Respect user's choice if language is already selected
+        return;
+      }
+      
+      // Use third-party API to detect user's IP address and geolocation
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // Set default language based on country code
+          const country = data.country_code;
+          let defaultLang = 'zh'; // Default to Chinese
+          
+          // List of countries where English is the primary language
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // Redirect to English version if needed
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              // Get the current page name and redirect to its English version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/en/docs/' + currentPage;
+            }
+          } else {
+            // Redirect to Chinese version if needed
+            if (window.location.pathname.indexOf('/en/') !== -1) {
+              // Get the current page name and redirect to its Chinese version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/docs/' + currentPage;
+            }
+          }
+          
+          // Save language preference to local storage
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('Unable to detect user location:', error);
+        });
+    });
+  </script>
+</body>
+</html>

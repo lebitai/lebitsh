@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modules - Lebit.sh</title>
+  <meta name="description" content="Explore the various modules available in Lebit.sh and their functionalities">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .docs-header {
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1542726059-83b4d5354231?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      padding: 6rem 0 3rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .docs-content {
+      padding: 3rem 0;
+    }
+    
+    .docs-nav {
+      position: sticky;
+      top: 80px;
+    }
+    
+    .docs-nav ul {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .docs-nav li {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .docs-nav li:last-child {
+      border-bottom: none;
+    }
+    
+    .docs-nav a {
+      display: block;
+      padding: 1rem;
+      color: var(--dark-color);
+      transition: all 0.3s ease;
+    }
+    
+    .docs-nav a:hover, .docs-nav a.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .docs-main {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    
+    .docs-main h2 {
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main h3 {
+      margin: 1.5rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .docs-main p, .docs-main ul, .docs-main ol {
+      margin-bottom: 1rem;
+    }
+    
+    .docs-main ul, .docs-main ol {
+      padding-left: 2rem;
+    }
+    
+    .docs-main li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .docs-main code {
+      background-color: var(--light-color);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    
+    .docs-main pre {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main pre code {
+      background-color: transparent;
+      color: white;
+      padding: 0;
+    }
+    
+    .module-card {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .module-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .module-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .module-icon {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-right: 1rem;
+    }
+    
+    .module-title {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    
+    .module-commands {
+      margin-top: 1.5rem;
+    }
+    
+    .command-item {
+      background-color: var(--light-color);
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    
+    .command-name {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .command-desc {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .docs-nav {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="../index.html#features">Features</a></li>
+          <li><a href="../index.html#modules">Modules</a></li>
+          <li><a href="../index.html#installation">Installation</a></li>
+          <li><a href="../index.html#documentation">Documentation</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">English <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="../../docs/modules.html" data-lang="zh">中文</a>
+              <a href="../docs/modules.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Documentation header -->
+  <header class="docs-header">
+    <div class="container">
+      <h1>Modules</h1>
+      <p>Explore the powerful modules available in Lebit.sh</p>
+    </div>
+  </header>
+
+  <!-- Documentation content -->
+  <section class="docs-content">
+    <div class="container">
+      <div class="docs-grid" style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem;">
+        <div class="docs-nav">
+          <ul>
+            <li><a href="quickstart.html">Quick Start</a></li>
+            <li><a href="modules.html" class="active">Modules</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="docs-main">
+          <h2>Modules</h2>
+          <p>Lebit.sh is designed with a modular architecture, allowing you to install and use only the components you need. Each module serves a specific purpose and can be installed independently. This page provides detailed information about each module, including their functionalities and available commands.</p>
+          
+          <h3 id="system">System Management</h3>
+          <div class="module-card">
+            <div class="module-header">
+              <div class="module-icon"><i class="fas fa-server"></i></div>
+              <h4 class="module-title">System Management Module</h4>
+            </div>
+            <p>The system management module provides tools for monitoring, optimizing, and maintaining your Linux system. It includes commands for gathering system information, cleaning unnecessary files, and optimizing system performance.</p>
+            
+            <div class="module-commands">
+              <h5>Key Commands:</h5>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit system info</code></div>
+                <div class="command-desc">Displays comprehensive information about your system, including CPU, memory, disk, and operating system details.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit system clean</code></div>
+                <div class="command-desc">Cleans up system logs, temporary files, and package caches to free up disk space.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit system optimize</code></div>
+                <div class="command-desc">Optimizes system settings for better performance based on your hardware configuration.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit system monitor</code></div>
+                <div class="command-desc">Real-time monitoring of system resources, including CPU, memory, and disk usage.</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="docker">Docker Management</h3>
+          <div class="module-card">
+            <div class="module-header">
+              <div class="module-icon"><i class="fab fa-docker"></i></div>
+              <h4 class="module-title">Docker Management Module</h4>
+            </div>
+            <p>The Docker management module simplifies the installation, configuration, and management of Docker and Docker Compose. It provides commands for managing containers, images, volumes, and networks.</p>
+            
+            <div class="module-commands">
+              <h5>Key Commands:</h5>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit docker install</code></div>
+                <div class="command-desc">Installs Docker and Docker Compose on your system with optimal settings.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit docker upgrade</code></div>
+                <div class="command-desc">Upgrades Docker and Docker Compose to the latest versions while preserving your configurations.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit docker prune</code></div>
+                <div class="command-desc">Cleans up unused Docker resources, including containers, images, volumes, and networks.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit docker stats</code></div>
+                <div class="command-desc">Displays resource usage statistics for running Docker containers.</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="dev">Development Environment</h3>
+          <div class="module-card">
+            <div class="module-header">
+              <div class="module-icon"><i class="fas fa-code"></i></div>
+              <h4 class="module-title">Development Environment Module</h4>
+            </div>
+            <p>The development environment module helps you set up a complete development environment for various programming languages and frameworks. It includes tools for installing programming languages, development tools, and code editors.</p>
+            
+            <div class="module-commands">
+              <h5>Key Commands:</h5>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit dev install [language]</code></div>
+                <div class="command-desc">Installs a specific programming language and its development tools. Supported languages include Python, Node.js, Go, Ruby, and more.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit dev editor [editor]</code></div>
+                <div class="command-desc">Installs and configures a code editor. Supported editors include VSCode, Sublime Text, Vim, and Emacs.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit dev setup [framework]</code></div>
+                <div class="command-desc">Sets up a development environment for a specific framework, including dependencies and configurations.</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="tools">System Tools</h3>
+          <div class="module-card">
+            <div class="module-header">
+              <div class="module-icon"><i class="fas fa-tools"></i></div>
+              <h4 class="module-title">System Tools Module</h4>
+            </div>
+            <p>The system tools module provides a collection of useful utilities for system administration and maintenance. It includes tools for disk management, file operations, security, and more.</p>
+            
+            <div class="module-commands">
+              <h5>Key Commands:</h5>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit tools disk</code></div>
+                <div class="command-desc">Provides disk management tools, including partitioning, formatting, and mounting operations.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit tools security</code></div>
+                <div class="command-desc">Security tools for system hardening, firewall configuration, and security auditing.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit tools backup</code></div>
+                <div class="command-desc">Tools for creating, managing, and restoring backups of your system and data.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit tools network</code></div>
+                <div class="command-desc">Network management tools, including network troubleshooting, configuration, and monitoring.</div>
+              </div>
+            </div>
+          </div>
+          
+          <h3 id="mining">Mining Tools</h3>
+          <div class="module-card">
+            <div class="module-header">
+              <div class="module-icon"><i class="fas fa-coins"></i></div>
+              <h4 class="module-title">Mining Tools Module</h4>
+            </div>
+            <p>The mining tools module provides tools for setting up and managing cryptocurrency mining operations. It supports various cryptocurrencies and mining algorithms, with optimized configurations for different hardware.</p>
+            
+            <div class="module-commands">
+              <h5>Key Commands:</h5>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit mining setup [crypto]</code></div>
+                <div class="command-desc">Sets up mining software for a specific cryptocurrency, with optimized configurations for your hardware.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit mining start</code></div>
+                <div class="command-desc">Starts the mining process with the configured settings.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit mining stop</code></div>
+                <div class="command-desc">Stops the mining process while preserving your configurations.</div>
+              </div>
+              
+              <div class="command-item">
+                <div class="command-name"><code>lebit mining stats</code></div>
+                <div class="command-desc">Displays mining statistics, including hashrate, power consumption, and earnings.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux System Initialization Toolkit - Making Linux configuration simple</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Language switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // Close language options when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP address detection and automatic language switching
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if language preference is already set
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // Respect user's choice if language is already selected
+        return;
+      }
+      
+      // Use third-party API to detect user's IP address and geolocation
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // Set default language based on country code
+          const country = data.country_code;
+          let defaultLang = 'zh'; // Default to Chinese
+          
+          // List of countries where English is the primary language
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // Redirect to English version if needed
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              // Get the current page name and redirect to its English version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/en/docs/' + currentPage;
+            }
+          } else {
+            // Redirect to Chinese version if needed
+            if (window.location.pathname.indexOf('/en/') !== -1) {
+              // Get the current page name and redirect to its Chinese version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/docs/' + currentPage;
+            }
+          }
+          
+          // Save language preference to local storage
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('Unable to detect user location:', error);
+        });
+    });
+  </script>
+</body>
+</html>
