@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配置指南 - Lebit.sh</title>
+  <meta name="description" content="Lebit.sh工具包的详细配置说明">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .doc-header {
+      padding: 8rem 2rem 2rem;
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+    }
+    
+    .doc-content {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    
+    .doc-content h2 {
+      font-size: 2rem;
+      margin: 2rem 0 1rem;
+      color: var(--dark-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .doc-content h3 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--dark-color);
+    }
+    
+    .doc-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .doc-content code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: var(--primary-color);
+    }
+    
+    .code-block {
+      background-color: #1e272e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      color: #00b894;
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .note {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    .note-title {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background-color: var(--light-color);
+      font-weight: 500;
+    }
+    
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .config-section {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .config-section h3 {
+      color: var(--primary-color);
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="../index.html">首页</a></li>
+        <li><a href="../index.html#features">特性</a></li>
+        <li><a href="../index.html#modules">模块</a></li>
+        <li><a href="../index.html#installation">安装</a></li>
+        <li><a href="../index.html#documentation">文档</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 文档头部 -->
+  <header class="doc-header">
+    <h1>配置指南</h1>
+    <p>自定义Lebit.sh以满足您的需求</p>
+  </header>
+
+  <!-- 文档内容 -->
+  <section class="doc-content">
+    <h2>配置概述</h2>
+    <p>Lebit.sh提供了灵活的配置选项，允许您根据自己的需求和偏好自定义工具行为。本文档将介绍如何配置Lebit.sh的各个方面，包括全局设置和模块特定设置。</p>
+    
+    <div class="config-section">
+      <h3>配置文件位置</h3>
+      <p>Lebit.sh的配置文件存储在以下位置：</p>
+      
+      <ul>
+        <li><strong>全局配置</strong>: <code>~/.config/lebit/config</code></li>
+        <li><strong>模块配置</strong>: <code>~/.config/lebit/modules/&lt;module_name&gt;/config</code></li>
+        <li><strong>用户数据</strong>: <code>~/.local/share/lebit/</code></li>
+      </ul>
+      
+      <p>安装Lebit.sh后，这些目录会自动创建，并填充默认配置文件。</p>
+    </div>
+    
+    <div class="config-section">
+      <h3>全局配置</h3>
+      <p>全局配置文件控制Lebit.sh的整体行为和外观。以下是一些重要的全局配置选项：</p>
+      
+      <div class="code-block">
+        <code>
+# Lebit.sh 全局配置
+
+# 界面设置
+COLOR_SCHEME="default"       # 可选: default, dark, light, custom
+ENABLE_ANIMATIONS=true       # 是否启用动画效果
+VERBOSE_OUTPUT=false         # 是否显示详细输出
+
+# 一般设置
+DEFAULT_MODULE="system"      # 启动时默认打开的模块
+CHECK_UPDATES=true           # 是否自动检查更新
+UPDATE_INTERVAL=7            # 检查更新的时间间隔（天）
+
+# 系统设置
+BACKUP_BEFORE_CHANGES=true   # 在进行更改前是否创建备份
+MAX_BACKUP_COUNT=5           # 保留的最大备份数量
+BACKUP_LOCATION="~/.local/share/lebit/backups"
+        </code>
+      </div>
+      
+      <p>要修改这些设置，只需编辑配置文件并根据需要更改值：</p>
+      
+      <div class="code-block">
+        <code>nano ~/.config/lebit/config</code>
+      </div>
+    </div>
+    
+    <div class="config-section">
+      <h3>模块配置</h3>
+      <p>每个模块都有自己的配置文件，允许您自定义该模块的特定行为。以下是一些常用模块的配置示例：</p>
+      
+      <h4>系统模块配置</h4>
+      <div class="code-block">
+        <code>
+# 系统模块配置
+
+# 清理设置
+CLEAN_PACKAGE_CACHE=true     # 清理软件包缓存
+CLEAN_LOGS=true              # 清理旧日志文件
+CLEAN_TEMP_FILES=true        # 清理临时文件
+LOG_RETENTION_DAYS=30        # 保留日志的天数
+
+# 优化设置
+OPTIMIZE_SWAP=true           # 优化交换分区使用
+OPTIMIZE_FILESYSTEM=true     # 优化文件系统
+OPTIMIZE_CPU=true            # 优化CPU性能
+        </code>
+      </div>
+      
+      <h4>Docker模块配置</h4>
+      <div class="code-block">
+        <code>
+# Docker模块配置
+
+# 安装设置
+DOCKER_VERSION="latest"      # Docker版本
+DOCKER_COMPOSE_VERSION="latest" # Docker Compose版本
+INSTALL_METHOD="official"    # 安装方法: official, package, manual
+
+# 网络设置
+DEFAULT_NETWORK_DRIVER="bridge"
+CUSTOM_DNS_SERVERS="8.8.8.8,1.1.1.1"
+
+# 存储设置
+DEFAULT_STORAGE_DRIVER="overlay2"
+DOCKER_ROOT="/var/lib/docker"
+        </code>
+      </div>
+    </div>
+    
+    <div class="config-section">
+      <h3>使用环境变量</h3>
+      <p>除了配置文件外，您还可以使用环境变量来临时覆盖配置设置。这对于测试或在特定情况下修改行为非常有用。</p>
+      
+      <p>Lebit.sh遵循以下环境变量命名约定：</p>
+      
+      <div class="code-block">
+        <code>LEBIT_[MODULE]_[SETTING]</code>
+      </div>
+      
+      <p>例如，要临时禁用Docker模块的自动更新检查，可以使用：</p>
+      
+      <div class="code-block">
+        <code>LEBIT_DOCKER_CHECK_UPDATES=false lebit docker</code>
+      </div>
+    </div>
+    
+    <div class="config-section">
+      <h3>通过命令行配置</h3>
+      <p>Lebit.sh提供了一个配置命令，允许您直接从命令行查看和修改设置：</p>
+      
+      <h4>查看当前配置</h4>
+      <div class="code-block">
+        <code>lebit config list</code>
+      </div>
+      
+      <h4>查看特定模块的配置</h4>
+      <div class="code-block">
+        <code>lebit config list docker</code>
+      </div>
+      
+      <h4>修改配置设置</h4>
+      <div class="code-block">
+        <code>lebit config set BACKUP_BEFORE_CHANGES false</code>
+      </div>
+      
+      <h4>修改模块特定设置</h4>
+      <div class="code-block">
+        <code>lebit config set docker DOCKER_VERSION 20.10.8</code>
+      </div>
+      
+      <h4>重置为默认配置</h4>
+      <div class="code-block">
+        <code>lebit config reset</code>
+      </div>
+    </div>
+    
+    <div class="config-section">
+      <h3>配置文件语法</h3>
+      <p>Lebit.sh配置文件使用简单的键值对语法。以下是一些语法规则：</p>
+      
+      <ul>
+        <li>每行一个键值对，格式为：<code>KEY=VALUE</code></li>
+        <li>注释以<code>#</code>开头</li>
+        <li>字符串值可以用引号括起来，也可以不用</li>
+        <li>布尔值用<code>true</code>或<code>false</code>表示</li>
+        <li>数组用逗号分隔，例如：<code>ARRAY_VALUE="item1,item2,item3"</code></li>
+      </ul>
+    </div>
+    
+    <div class="config-section">
+      <h3>高级配置</h3>
+      <p>对于高级用户，Lebit.sh支持更复杂的配置选项和功能：</p>
+      
+      <h4>创建配置文件夹</h4>
+      <p>您可以将配置分离为多个文件，存储在特定目录中：</p>
+      <div class="code-block">
+        <code>
+~/.config/lebit/conf.d/
+  01-base.conf
+  02-modules.conf
+  03-custom.conf
+        </code>
+      </div>
+      <p>Lebit.sh会按照字母数字顺序加载这些文件，后面的设置会覆盖前面的设置。</p>
+      
+      <h4>配置文件模板</h4>
+      <p>您可以创建配置模板，以便在多个系统上快速部署：</p>
+      <div class="code-block">
+        <code>lebit config export template.conf</code>
+      </div>
+      
+      <p>然后在另一个系统上导入：</p>
+      <div class="code-block">
+        <code>lebit config import template.conf</code>
+      </div>
+    </div>
+    
+    <div class="note">
+      <div class="note-title">安全提示</div>
+      <p>配置文件可能包含敏感信息，如API密钥或凭据。确保将配置文件的权限设置为仅所有者可读写：</p>
+      <div class="code-block">
+        <code>chmod 600 ~/.config/lebit/config</code>
+      </div>
+    </div>
+    
+    <h2>配置示例</h2>
+    <p>以下是一些常见场景的配置示例：</p>
+    
+    <h3>服务器优化配置</h3>
+    <div class="code-block">
+      <code>
+# Lebit.sh 服务器优化配置
+DEFAULT_MODULE="system"
+BACKUP_BEFORE_CHANGES=true
+BACKUP_LOCATION="/opt/backups/lebit"
+
+# 系统模块设置
+OPTIMIZE_SWAP=true
+SWAP_SWAPPINESS=10
+OPTIMIZE_FILESYSTEM=true
+OPTIMIZE_CPU=true
+CPU_GOVERNOR="performance"
+
+# Docker模块设置
+DOCKER_VERSION="stable"
+DEFAULT_STORAGE_DRIVER="overlay2"
+ENABLE_LIVE_RESTORE=true
+      </code>
+    </div>
+    
+    <h3>开发环境配置</h3>
+    <div class="code-block">
+      <code>
+# Lebit.sh 开发环境配置
+DEFAULT_MODULE="dev"
+COLOR_SCHEME="dark"
+ENABLE_ANIMATIONS=true
+
+# 开发模块设置
+DEV_DEFAULT_EDITOR="vscode"
+DEV_INSTALL_GIT=true
+DEV_GIT_USER_NAME="Your Name"
+DEV_GIT_USER_EMAIL="your.email@example.com"
+DEV_NODEJS_VERSION="16"
+DEV_PYTHON_VERSION="3.9"
+      </code>
+    </div>
+    
+    <h2>故障排除</h2>
+    <p>如果您遇到配置问题，可以尝试以下方法：</p>
+    
+    <ul>
+      <li>运行诊断命令：<code>lebit config validate</code></li>
+      <li>检查配置语法错误：<code>lebit config check</code></li>
+      <li>以调试模式运行Lebit.sh：<code>LEBIT_DEBUG=true lebit</code></li>
+      <li>重置为默认配置：<code>lebit config reset</code></li>
+    </ul>
+    
+    <h2>下一步</h2>
+    <p>现在您已经了解了如何配置Lebit.sh，可以：</p>
+    <ul>
+      <li><a href="modules.html">了解更多关于各个模块的详细信息</a></li>
+      <li><a href="development.html">学习如何开发自定义模块</a></li>
+      <li><a href="faq.html">查看常见问题</a></li>
+    </ul>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  </script>
+</body>
+</html>

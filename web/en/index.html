@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lebit.sh - Linux System Initialization Toolkit</title>
+  <meta name="description" content="Lebit.sh provides a series of tools to help you quickly and efficiently set up and configure Linux environments">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Homepage specific styles */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1974&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 20%, #121212 150%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #ffffff, #3498db);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .hero p {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .hero .btn {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .hero .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    
+    .hero .btn-primary {
+      background: linear-gradient(to right, #3498db, #2980b9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .hero .btn-secondary {
+      background-color: transparent;
+      border: 2px solid white;
+    }
+    
+    /* Feature cards */
+    .feature-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .feature-card i {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark-color);
+    }
+    
+    .feature-card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature-card .btn {
+      margin-top: auto;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    
+    /* Stats section */
+    .stats {
+      background-color: white;
+      padding: 4rem 0;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--light-color);
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--dark-color);
+    }
+    
+    /* Media queries */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#modules">Modules</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#documentation">Documentation</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">English <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="../index.html" data-lang="zh">中文</a>
+              <a href="index.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Linux System Initialization Toolkit</h1>
+      <p>A modular toolkit for quickly configuring and optimizing Linux environments. Simplifying complex setup processes for both beginners and professionals.</p>
+      <div class="hero-buttons">
+        <a href="#installation" class="btn btn-secondary">Get Started</a>
+        <a href="https://github.com/lebitai/lebitsh" class="btn btn-primary" target="_blank">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-count="5000">0</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="15">0</div>
+          <div class="stat-label">Feature Modules</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="98">0</div>
+          <div class="stat-label">User Satisfaction</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="10000">0</div>
+          <div class="stat-label">Successful Deployments</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Core Features</h2>
+        <p>Why choose Lebit.sh?</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-bolt"></i>
+          <h3>Fast Setup</h3>
+          <p>Quickly set up a complete Linux environment with one command, saving hours of manual configuration.</p>
+          <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-puzzle-piece"></i>
+          <h3>Modular Design</h3>
+          <p>Install only the components you need. Each module is independent and can be installed separately.</p>
+          <a href="#modules" class="btn btn-primary">View Modules</a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Security Focused</h3>
+          <p>Emphasizing security best practices in all modules, protecting your system against common vulnerabilities.</p>
+          <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-cogs"></i>
+          <h3>Automation</h3>
+          <p>Automate repetitive system administration tasks with simple commands and intuitive interfaces.</p>
+          <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-code"></i>
+          <h3>Customizable</h3>
+          <p>Easily customize configurations to meet your specific requirements with clear documentation.</p>
+          <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-sync-alt"></i>
+          <h3>Easy Updates</h3>
+          <p>Stay up to date with the latest security patches and features through a simple update mechanism.</p>
+          <a href="#" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules section -->
+  <section id="modules" class="modules">
+    <div class="container">
+      <div class="modules-heading">
+        <h2>Feature Modules</h2>
+        <p>Choose modules according to your needs</p>
+      </div>
+      <div class="modules-grid">
+        <div class="module">
+          <div class="module-icon">
+            <i class="fas fa-server"></i>
+          </div>
+          <div class="module-content">
+            <h3>System Management</h3>
+            <p>System information collection, optimization, cleaning, and management tools.</p>
+            <a href="docs/modules.html#system" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-icon">
+            <i class="fab fa-docker"></i>
+          </div>
+          <div class="module-content">
+            <h3>Docker Management</h3>
+            <p>Installation and management of Docker and Docker Compose, simplifying container deployment.</p>
+            <a href="docs/modules.html#docker" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <div class="module-content">
+            <h3>Development Environment</h3>
+            <p>Setup tools for development environments, including programming languages and editors.</p>
+            <a href="docs/modules.html#dev" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-icon">
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="module-content">
+            <h3>System Tools</h3>
+            <p>Collection of practical system tools for various tasks and optimizations.</p>
+            <a href="docs/modules.html#tools" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+        <div class="module">
+          <div class="module-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <div class="module-content">
+            <h3>Mining Tools</h3>
+            <p>Cryptocurrency mining tools and configurations supporting various cryptocurrencies.</p>
+            <a href="docs/modules.html#mining" class="btn btn-primary">Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation section -->
+  <section id="installation" class="installation">
+    <div class="container">
+      <div class="installation-heading">
+        <h2>Installation</h2>
+        <p>Start using Lebit.sh in just one step</p>
+      </div>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">Copied!</div>
+      </div>
+      <p class="text-center">This command will download and execute the installation script, which will guide you through the setup process.</p>
+      
+      <h3 class="text-center" style="margin-top: 2rem; margin-bottom: 1rem;">Compatibility</h3>
+      <div class="compatibility-list" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="compatibility-item" style="display: flex; flex-direction: column; align-items: center;">
+          <i class="fab fa-ubuntu" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+          <span>Ubuntu</span>
+        </div>
+        <div class="compatibility-item" style="display: flex; flex-direction: column; align-items: center;">
+          <i class="fab fa-centos" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+          <span>CentOS</span>
+        </div>
+        <div class="compatibility-item" style="display: flex; flex-direction: column; align-items: center;">
+          <i class="fab fa-fedora" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+          <span>Fedora</span>
+        </div>
+        <div class="compatibility-item" style="display: flex; flex-direction: column; align-items: center;">
+          <i class="fab fa-debian" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+          <span>Debian</span>
+        </div>
+        <div class="compatibility-item" style="display: flex; flex-direction: column; align-items: center;">
+          <i class="fab fa-linux" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+          <span>Arch Linux</span>
+        </div>
+      </div>
+      
+      <p class="text-center">You can also install specific modules directly:</p>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">Copied!</div>
+      </div>
+      <p class="text-center">Or use the alternative approach:</p>
+      <div class="code-block">
+        <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker</code>
+        <button class="copy-button" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker">
+          <i class="fas fa-copy"></i>
+        </button>
+        <div class="copy-success">Copied!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documentation section -->
+  <section id="documentation" class="documentation">
+    <div class="container">
+      <div class="documentation-heading">
+        <h2>Documentation</h2>
+        <p>Comprehensive guides and resources</p>
+      </div>
+      <div class="docs-grid">
+        <div class="doc-card">
+          <div class="doc-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="doc-content">
+            <h3>Quick Start Guide</h3>
+            <p>Get up and running with Lebit.sh quickly. This guide covers basic installation and usage.</p>
+            <a href="docs/quickstart.html" class="btn btn-primary">Read Guide</a>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <i class="fas fa-cubes"></i>
+          </div>
+          <div class="doc-content">
+            <h3>Module Documentation</h3>
+            <p>Detailed documentation for each module, including commands and examples.</p>
+            <a href="docs/modules.html" class="btn btn-primary">Explore Modules</a>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <i class="fas fa-sliders-h"></i>
+          </div>
+          <div class="doc-content">
+            <h3>Configuration Options</h3>
+            <p>Learn how to customize Lebit.sh to meet your specific requirements.</p>
+            <a href="docs/configuration.html" class="btn btn-primary">View Options</a>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="doc-content">
+            <h3>FAQ</h3>
+            <p>Answers to common questions and troubleshooting tips.</p>
+            <a href="docs/faq.html" class="btn btn-primary">Read FAQ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux System Initialization Toolkit - Making Linux configuration simple</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Navigation bar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+    
+    // Counter animation
+    function runCounter() {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      
+      statNumbers.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-count'));
+        const duration = 2000; // ms
+        const step = Math.ceil(target / (duration / 20)); // Update every 20ms
+        let current = 0;
+        
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            clearInterval(timer);
+            current = target;
+          }
+          
+          // Format with commas for thousands
+          const formattedNumber = new Intl.NumberFormat().format(current);
+          
+          // Add % sign for percentages
+          if (stat.nextElementSibling.textContent.includes('Satisfaction')) {
+            stat.textContent = current + '%';
+          } else {
+            stat.textContent = formattedNumber;
+          }
+        }, 20);
+      });
+    }
+    
+    // Feature card appearance animation
+    function animateFeatureCards() {
+      const featureCards = document.querySelectorAll('.feature-card');
+      
+      featureCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 150 * index);
+      });
+    }
+    
+    // Event listeners for scroll
+    let counterAnimated = false;
+    window.addEventListener('scroll', function() {
+      // Activate counter when in viewport
+      const statsSection = document.querySelector('.stats');
+      if (statsSection && !counterAnimated) {
+        const position = statsSection.getBoundingClientRect();
+        
+        // If stats section is visible in viewport
+        if (position.top < window.innerHeight && position.bottom >= 0) {
+          runCounter();
+          counterAnimated = true;
+        }
+      }
+      
+      // Animate feature cards when in viewport
+      const featuresSection = document.querySelector('.features');
+      if (featuresSection) {
+        const position = featuresSection.getBoundingClientRect();
+        
+        // If features section is visible in viewport
+        if (position.top < window.innerHeight && position.bottom >= 0) {
+          animateFeatureCards();
+        }
+      }
+    });
+    
+    // Language switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // Close language options when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP address detection and automatic language switching
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if language preference is already set
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // Respect user's choice if language is already selected
+        return;
+      }
+      
+      // Use third-party API to detect user's IP address and geolocation
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // Set default language based on country code
+          const country = data.country_code;
+          let defaultLang = 'zh'; // Default to Chinese
+          
+          // List of countries where English is the primary language
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // If not already on English page and user is from English-speaking country
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              window.location.href = '/en/index.html';
+            }
+          }
+          
+          // Save language preference to local storage
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('Unable to detect user location:', error);
+        });
+    });
+    
+    // 复制按钮功能
+    document.addEventListener('DOMContentLoaded', function() {
+      // 确保所有复制成功提示默认是隐藏的
+      document.querySelectorAll('.copy-success').forEach(el => {
+        el.classList.remove('show');
+      });
+      
+      const copyButtons = document.querySelectorAll('.copy-button');
+      copyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const text = button.getAttribute('data-clipboard-text');
+          navigator.clipboard.writeText(text).then(() => {
+            // 先移除所有其他可能显示的提示
+            document.querySelectorAll('.copy-success').forEach(el => {
+              el.classList.remove('show');
+            });
+            // 显示当前按钮的提示
+            button.nextElementSibling.classList.add('show');
+            setTimeout(() => {
+              button.nextElementSibling.classList.remove('show');
+            }, 2000);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
