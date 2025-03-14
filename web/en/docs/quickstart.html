@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Start Guide - Lebit.sh</title>
+  <meta name="description" content="Get started with Lebit.sh quickly with this step-by-step guide">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .docs-header {
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%), url('https://images.unsplash.com/photo-1542726059-83b4d5354231?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      padding: 6rem 0 3rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .docs-content {
+      padding: 3rem 0;
+    }
+    
+    .docs-nav {
+      position: sticky;
+      top: 80px;
+    }
+    
+    .docs-nav ul {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .docs-nav li {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .docs-nav li:last-child {
+      border-bottom: none;
+    }
+    
+    .docs-nav a {
+      display: block;
+      padding: 1rem;
+      color: var(--dark-color);
+      transition: all 0.3s ease;
+    }
+    
+    .docs-nav a:hover, .docs-nav a.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .docs-main {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    
+    .docs-main h2 {
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main h3 {
+      margin: 1.5rem 0 1rem;
+    }
+    
+    .docs-main p, .docs-main ul, .docs-main ol {
+      margin-bottom: 1rem;
+    }
+    
+    .docs-main ul, .docs-main ol {
+      padding-left: 2rem;
+    }
+    
+    .docs-main li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .docs-main code {
+      background-color: var(--light-color);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    
+    .docs-main pre {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    .docs-main pre code {
+      background-color: transparent;
+      color: white;
+      padding: 0;
+    }
+    
+    .code-block {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 3px;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .copy-btn:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    @media (max-width: 768px) {
+      .docs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .docs-nav {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html"><h1 class="logo">Lebit<span>.sh</span></h1></a>
+      <div class="nav-right">
+        <ul>
+          <li><a href="../index.html#features">Features</a></li>
+          <li><a href="../index.html#modules">Modules</a></li>
+          <li><a href="../index.html#installation">Installation</a></li>
+          <li><a href="../index.html#documentation">Documentation</a></li>
+          <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+          <li class="language-switch">
+            <div class="current-lang">English <i class="fas fa-chevron-down"></i></div>
+            <div class="lang-options">
+              <a href="../../docs/quickstart.html" data-lang="zh">中文</a>
+              <a href="../docs/quickstart.html" data-lang="en">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Documentation header -->
+  <header class="docs-header">
+    <div class="container">
+      <h1>Quick Start Guide</h1>
+      <p>Get up and running with Lebit.sh in minutes</p>
+    </div>
+  </header>
+
+  <!-- Documentation content -->
+  <section class="docs-content">
+    <div class="container">
+      <div class="docs-grid" style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem;">
+        <div class="docs-nav">
+          <ul>
+            <li><a href="quickstart.html" class="active">Quick Start</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="configuration.html">Configuration</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="docs-main">
+          <h2>Quick Start Guide</h2>
+          
+          <h3>Installation</h3>
+          <p>Installing Lebit.sh is simple and straightforward. Just run the following command in your terminal:</p>
+          <div class="code-block">
+            <pre><code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code></pre>
+            <button class="copy-btn" data-clipboard-text="curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+          <p>This command downloads and executes the installation script, which will guide you through the setup process.</p>
+          
+          <h3>Basic Usage</h3>
+          <p>After installation, you can use Lebit.sh by running the <code>lebit</code> command in your terminal. Here are some basic commands to get you started:</p>
+          
+          <h4>View Help</h4>
+          <div class="code-block">
+            <pre><code>lebit --help</code></pre>
+          </div>
+          <p>Displays the help information with all available commands and options.</p>
+          
+          <h4>Update Lebit.sh</h4>
+          <div class="code-block">
+            <pre><code>lebit update</code></pre>
+          </div>
+          <p>Updates Lebit.sh to the latest version.</p>
+          
+          <h4>List All Modules</h4>
+          <div class="code-block">
+            <pre><code>lebit list</code></pre>
+          </div>
+          <p>Lists all available modules and their current installation status.</p>
+          
+          <h3>Installing Modules</h3>
+          <p>Lebit.sh is designed with a modular architecture. You can install only the modules you need. To install a module, use the following command:</p>
+          <div class="code-block">
+            <pre><code>lebit install [module_name]</code></pre>
+          </div>
+          <p>For example, to install the Docker module:</p>
+          <div class="code-block">
+            <pre><code>lebit install docker</code></pre>
+          </div>
+          
+          <h3>Running Module Commands</h3>
+          <p>Each module has its own set of commands. To run a module-specific command, use the following format:</p>
+          <div class="code-block">
+            <pre><code>lebit [module_name] [command]</code></pre>
+          </div>
+          <p>For example, to get system information using the system module:</p>
+          <div class="code-block">
+            <pre><code>lebit system info</code></pre>
+          </div>
+          
+          <h3>Configuration</h3>
+          <p>Lebit.sh can be configured to suit your needs. The configuration file is located at <code>~/.config/lebit/config.yaml</code>. You can edit this file directly or use the configuration commands:</p>
+          <div class="code-block">
+            <pre><code>lebit config set [key] [value]</code></pre>
+          </div>
+          <p>For example, to set the default installation path:</p>
+          <div class="code-block">
+            <pre><code>lebit config set install.path /opt/lebit</code></pre>
+          </div>
+          
+          <h3>Next Steps</h3>
+          <p>Now that you know the basics, you can explore the various modules and features of Lebit.sh. Check out the following resources for more information:</p>
+          <ul>
+            <li><a href="modules.html">Module Documentation</a> - Detailed information about each module.</li>
+            <li><a href="configuration.html">Configuration Options</a> - Learn how to customize Lebit.sh.</li>
+            <li><a href="faq.html">FAQ</a> - Answers to common questions.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux System Initialization Toolkit - Making Linux configuration simple</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Language switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const languageSwitch = document.querySelector('.language-switch');
+      if (languageSwitch) {
+        const currentLang = languageSwitch.querySelector('.current-lang');
+        currentLang.addEventListener('click', function() {
+          languageSwitch.classList.toggle('show');
+        });
+        
+        // Close language options when clicking elsewhere
+        document.addEventListener('click', function(e) {
+          if (!languageSwitch.contains(e.target)) {
+            languageSwitch.classList.remove('show');
+          }
+        });
+      }
+    });
+    
+    // IP address detection and automatic language switching
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if language preference is already set
+      const preferredLang = localStorage.getItem('preferredLanguage');
+      if (preferredLang) {
+        // Respect user's choice if language is already selected
+        return;
+      }
+      
+      // Use third-party API to detect user's IP address and geolocation
+      fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+          // Set default language based on country code
+          const country = data.country_code;
+          let defaultLang = 'zh'; // Default to Chinese
+          
+          // List of countries where English is the primary language
+          const englishCountries = ['US', 'GB', 'AU', 'CA', 'NZ', 'IE', 'IN', 'ZA', 'SG'];
+          
+          if (englishCountries.includes(country)) {
+            defaultLang = 'en';
+            // Redirect to English version if needed
+            if (window.location.pathname.indexOf('/en/') === -1) {
+              // Get the current page name and redirect to its English version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/en/docs/' + currentPage;
+            }
+          } else {
+            // Redirect to Chinese version if needed
+            if (window.location.pathname.indexOf('/en/') !== -1) {
+              // Get the current page name and redirect to its Chinese version
+              const currentPage = window.location.pathname.split('/').pop();
+              window.location.href = '/docs/' + currentPage;
+            }
+          }
+          
+          // Save language preference to local storage
+          localStorage.setItem('preferredLanguage', defaultLang);
+        })
+        .catch(error => {
+          console.error('Unable to detect user location:', error);
+        });
+    });
+  </script>
+</body>
+</html>

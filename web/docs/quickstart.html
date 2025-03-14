@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>快速入门指南 - Lebit.sh</title>
+  <meta name="description" content="快速上手Lebit.sh的基本功能和命令">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .doc-header {
+      padding: 8rem 2rem 2rem;
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+    }
+    
+    .doc-content {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    
+    .doc-content h2 {
+      font-size: 2rem;
+      margin: 2rem 0 1rem;
+      color: var(--dark-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .doc-content h3 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--dark-color);
+    }
+    
+    .doc-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .doc-content code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: var(--primary-color);
+    }
+    
+    .code-block {
+      background-color: #1e272e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      color: #00b894;
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .steps {
+      counter-reset: step;
+      margin: 2rem 0;
+    }
+    
+    .step {
+      position: relative;
+      padding-left: 3rem;
+      margin-bottom: 2rem;
+    }
+    
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 2rem;
+      height: 2rem;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .note {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    .note-title {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background-color: var(--light-color);
+      font-weight: 500;
+    }
+    
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="../index.html">首页</a></li>
+        <li><a href="../index.html#features">特性</a></li>
+        <li><a href="../index.html#modules">模块</a></li>
+        <li><a href="../index.html#installation">安装</a></li>
+        <li><a href="../index.html#documentation">文档</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 文档头部 -->
+  <header class="doc-header">
+    <h1>快速入门指南</h1>
+    <p>快速上手Lebit.sh的基本功能和命令</p>
+  </header>
+
+  <!-- 文档内容 -->
+  <section class="doc-content">
+    <h2>简介</h2>
+    <p>Lebit.sh是一个Linux系统初始化工具包，提供一系列模块化工具，帮助您快速设置和配置Linux环境。本指南将引导您完成安装和基本使用流程。</p>
+    
+    <h2>安装</h2>
+    <p>Lebit.sh的安装非常简单，只需一行命令即可开始使用：</p>
+    
+    <div class="code-block">
+      <code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code>
+    </div>
+    
+    <p>这个命令将下载并运行交互式安装程序，您可以选择需要的模块进行安装。</p>
+    
+    <div class="note">
+      <div class="note-title">注意</div>
+      <p>安装前请确保您有sudo权限，因为某些模块可能需要安装系统软件包。</p>
+    </div>
+    
+    <h2>基本用法</h2>
+    <p>安装完成后，您可以通过以下方式使用Lebit.sh：</p>
+    
+    <div class="steps">
+      <div class="step">
+        <h3>启动主菜单</h3>
+        <p>运行 <code>lebit</code> 命令启动交互式主菜单：</p>
+        <div class="code-block">
+          <code>lebit</code>
+        </div>
+        <p>从主菜单中，您可以选择所需的模块。</p>
+      </div>
+      
+      <div class="step">
+        <h3>直接调用特定模块</h3>
+        <p>您可以直接调用特定模块，例如Docker模块：</p>
+        <div class="code-block">
+          <code>lebit docker</code>
+        </div>
+      </div>
+      
+      <div class="step">
+        <h3>使用模块特定命令</h3>
+        <p>每个模块都有自己的子命令，例如：</p>
+        <div class="code-block">
+          <code>lebit docker install</code>
+        </div>
+        <p>运行特定模块的安装子命令。</p>
+      </div>
+    </div>
+    
+    <h2>可用模块</h2>
+    <p>Lebit.sh包含以下主要模块：</p>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>模块名称</th>
+            <th>命令</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>系统管理</td>
+            <td><code>lebit system</code></td>
+            <td>系统管理和信息收集工具</td>
+          </tr>
+          <tr>
+            <td>Docker管理</td>
+            <td><code>lebit docker</code></td>
+            <td>Docker和Docker Compose的安装和管理</td>
+          </tr>
+          <tr>
+            <td>开发环境</td>
+            <td><code>lebit dev</code></td>
+            <td>开发环境设置工具</td>
+          </tr>
+          <tr>
+            <td>系统工具</td>
+            <td><code>lebit tools</code></td>
+            <td>实用系统工具集合</td>
+          </tr>
+          <tr>
+            <td>挖矿工具</td>
+            <td><code>lebit mining</code></td>
+            <td>加密货币挖矿工具</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <h2>配置</h2>
+    <p>Lebit.sh的配置文件位于 <code>~/.config/lebit/config</code>。您可以编辑此文件来调整Lebit.sh的行为。</p>
+    
+    <p>有关更多配置选项，请参阅<a href="configuration.html">配置指南</a>。</p>
+    
+    <h2>获取帮助</h2>
+    <p>如果您需要帮助，可以使用以下命令：</p>
+    
+    <div class="code-block">
+      <code>lebit help</code>
+    </div>
+    
+    <p>或者使用特定模块的帮助命令：</p>
+    
+    <div class="code-block">
+      <code>lebit docker help</code>
+    </div>
+    
+    <h2>下一步</h2>
+    <p>现在您已经了解了Lebit.sh的基本用法，可以：</p>
+    <ul>
+      <li><a href="../modules.html">了解更多关于各个模块的详细信息</a></li>
+      <li><a href="configuration.html">学习如何配置Lebit.sh</a></li>
+      <li><a href="faq.html">查看常见问题</a></li>
+    </ul>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  </script>
+</body>
+</html>

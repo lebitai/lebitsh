@@ -1,19 +1,143 @@
-# Introduction
-A summary of the default configuration of the development tools collection, including:  
--- Visual Studio Code  
--- Windows Terminal Preview   
+# Lebit.sh - Linux System Initialization Toolkit
 
-## Windows Ternimal Preview  
---Profiles.json 
+Lebit.sh provides a suite of tools to help you quickly and efficiently set up and configure your Linux environment. Just run our one-line installation command to get started.
 
-## iTerm2-Color-Schemes  
-- Fonts: MesloLFG* (4 files) on macOS  
-- Config file of Colors : Coolnight  
+[English](#english) | [中文](#中文)
 
+<a name="english"></a>
+## Available Modules
 
-# Global Description
-By default that the config files of development tools(such as : vs code and Windows terminal etc.,)
+### System Management
+System optimization, cleaning, and information gathering tools.
 
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh
+```
+
+Features:
+- Hardware information collection
+- System cleaning and deep cleaning
+- Time synchronization tools
+
+### Docker Management
+Easily install and configure Docker environments.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh
+```
+
+Features:
+- Install Docker and Docker Compose
+- Upgrade Docker to the latest version
+- Configure Docker settings
+- Clean Docker resources
+- Docker container monitoring
+
+### Development Environment
+Quickly set up development environments, including popular programming languages and tools.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://dev.lebit.sh | sh
+```
+
+Features:
+- Install Golang
+- Install Node.js (via NVM)
+- Install Rust
+- Install SQLite3
+- Set up quick aliases
+
+### System Tools
+Collection of useful system utilities.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://tools.lebit.sh | sh
+```
+
+Features:
+- SSL certificate renewal tools
+
+### Mining Tools
+Tools for cryptocurrency mining operations.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://mining.lebit.sh | sh
+```
+
+Features:
+- Ritual mining
+- EthStorage mining
+- TitanNetwork mining
+
+## System Features
+
+### Configuration System
+Lebit.sh now includes a powerful configuration system allowing users to customize the toolkit's behavior:
+
+- User-level, system-level, and default configuration files
+- Configurable log levels, color usage, and other settings
+- Support for modifying configuration through built-in editors
+
+### Logging System
+The new logging system provides better debugging and troubleshooting capabilities:
+
+- Support for multiple log levels (DEBUG, INFO, WARN, ERROR, CRITICAL)
+- Simultaneous logging to console and log files
+- Log browsing and search functionality
+
+### Enhanced UI
+The user interface has been enhanced to provide a better user experience:
+
+- Color-coded outputs for better readability
+- Progress indicators for long-running operations
+- Interactive menus for module selection
+
+## Installation
+
+To install Lebit.sh with all modules:
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh
+```
+
+To install a specific module directly:
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- [module-name]
+```
+
+## Project Structure
+
+```
+lebitsh/
+├── config/          # Configuration files
+├── logs/            # Log files
+├── modules/         # All available modules
+│   ├── core/        # Core functionality
+│   ├── system/      # System management tools
+│   ├── docker/      # Docker utilities
+│   ├── dev/         # Development environment tools
+│   ├── tools/       # System utilities
+│   └── mining/      # Mining tools
+├── utils/           # Utility functions and helpers
+└── main.sh          # Main entry script
+```
+
+## Documentation
+
+For more detailed documentation, please visit our [website](https://lebit.sh).
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+<a name="中文"></a>
 # Lebit.sh - Linux系统初始化工具包
 
 Lebit.sh提供了一系列工具，帮助您快速高效地设置和配置Linux环境。只需运行我们的一行命令安装即可开始使用。
@@ -99,85 +223,77 @@ Lebit.sh现在包含一个功能强大的配置系统，允许用户自定义工
 - 日志浏览和搜索功能
 
 ### 增强UI
-改进的用户界面提供更好的交互体验：
+用户界面经过改进，提供更好的用户体验：
 
-- 彩色输出和格式化
-- 进度指示器和状态显示
-- 系统信息概览
-
-## 如何使用
-
-### 通用安装
-交互式菜单，包含所有可用模块:
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh
-```
-
-### 直接模块访问
-您也可以直接访问特定模块:
-
-```bash
-# 访问Docker模块
-curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh
-
-# 访问模块的替代方式
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker
-```
-
-## 要求
-- 基于Linux的操作系统 (Ubuntu, Debian, CentOS, RHEL, Fedora等)
-- Root访问权限 (sudo权限)
+- 颜色编码输出，提高可读性
+- 长时间运行操作的进度指示器
+- 用于模块选择的交互式菜单
 
 ## 项目结构
 
 ```
 lebitsh/
-├── common/           # 公共库和函数
-│   ├── config.sh     # 配置管理系统
-│   ├── logging.sh    # 日志记录系统
-│   ├── ui.sh         # 用户界面组件
-│   └── utils.sh      # 通用工具函数
-├── config/           # 配置文件
-│   └── defaults.conf # 默认配置
-├── modules/          # 功能模块
-│   ├── dev/          # 开发环境模块
-│   ├── docker/       # Docker管理模块
-│   ├── mining/       # 挖矿工具模块
-│   ├── system/       # 系统管理模块
-│   └── tools/        # 系统工具模块
-├── install.sh        # 安装脚本
-└── main.sh           # 主入口脚本
+├── config/          # 配置文件
+├── logs/            # 日志文件
+├── modules/         # 所有可用模块
+│   ├── core/        # 核心功能
+│   ├── system/      # 系统管理工具
+│   ├── docker/      # Docker工具
+│   ├── dev/         # 开发环境工具
+│   ├── tools/       # 系统工具
+│   └── mining/      # 挖矿工具
+├── utils/           # 工具函数和帮助程序
+└── main.sh          # 主入口脚本
 ```
 
+## 安装
+
+安装包含所有模块的Lebit.sh：
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh
+```
+
+直接安装特定模块：
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- [模块名称]
+```
+
+## 文档
+
+有关更详细的文档，请访问我们的[网站](https://lebit.sh)。
+
 ## 贡献
-欢迎贡献！请随时提交问题或拉取请求，帮助我们改进工具包。
+
+欢迎贡献！请随时提交Pull Request。
 
 ## 许可证
-MIT
+
+本项目采用MIT许可证 - 有关详细信息，请参阅LICENSE文件。
 
 ## 挖矿工具详细说明
 
 ### EthStorage
+EthStorage是一个去中心化存储网络，允许用户通过贡献磁盘空间来获得奖励。我们的EthStorage挖矿工具提供:
 
-1. 节点安装命令如下:  
-   `wget -O ethstorage_install.sh https://raw.githubusercontent.com/xiaoliwe/mining/main/EthStorage/install.sh && chmod +x ethstorage_install.sh && ./ethstorage_install.sh`  
-    以初始化挖矿环境。  
+- 自动安装和配置EthStorage节点
+- 性能优化设置
+- 存储空间管理
+- 奖励统计和报告
 
-2. 官方文档在这里: https://docs.ethstorage.io/storage-provider-guide/tutorials
+### Ritual Coin
+Ritual项目的CPU挖矿工具，针对消费级硬件优化:
 
-### Ritual
-
-1. 节点安装命令如下:  
-   `wget -O ritual_install.sh https://raw.githubusercontent.com/xiaoliwe/mining/main/Ritual/install.sh && chmod +x ritual_install.sh && ./ritual_install.sh`  
-   以初始化挖矿环境。
-
-2. 官方文档在这里: https://docs.ritual.net/
+- 多线程CPU挖矿
+- 自动核心检测与优化
+- 挖矿池集成
+- 低资源消耗模式
 
 ### TitanNetwork
+TitanNetwork节点设置和维护工具:
 
-1. 节点安装命令如下:  
-   `wget -O titan_install.sh https://raw.githubusercontent.com/xiaoliwe/mining/main/TitanNetwork/install.sh && chmod +x titan_install.sh && ./titan_install.sh`  
-   以初始化挖矿环境。
-
-2. 官方文档在这里: https://docs.titan.network/
+- 一键节点部署
+- 自动网络配置
+- 节点监控和统计
+- 奖励追踪

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>功能模块 - Lebit.sh</title>
+  <meta name="description" content="了解Lebit.sh提供的所有功能模块及其详细功能">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .module-header {
+      padding: 8rem 2rem 2rem;
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+    }
+    
+    .module-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .module-detail {
+      padding: 4rem 2rem;
+      background-color: white;
+    }
+    
+    .module-detail:nth-child(even) {
+      background-color: var(--light-color);
+    }
+    
+    .module-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .module-detail:nth-child(even) .module-container {
+      direction: rtl;
+    }
+    
+    .module-detail:nth-child(even) .module-container > * {
+      direction: ltr;
+    }
+    
+    .module-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--dark-color);
+    }
+    
+    .module-content p {
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    
+    .module-features {
+      margin: 2rem 0;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature-item i {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      margin-top: 0.25rem;
+    }
+    
+    .feature-text h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark-color);
+    }
+    
+    .module-image {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      height: 300px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .module-image i {
+      font-size: 8rem;
+      color: var(--primary-color);
+    }
+    
+    .code-snippet {
+      background-color: #1e272e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-snippet code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      color: #00b894;
+      white-space: pre;
+    }
+    
+    .cta-buttons {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .module-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .module-image {
+        order: -1;
+      }
+      
+      .module-detail:nth-child(even) .module-container .module-image {
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="index.html">首页</a></li>
+        <li><a href="index.html#features">特性</a></li>
+        <li><a href="index.html#modules">模块</a></li>
+        <li><a href="index.html#installation">安装</a></li>
+        <li><a href="index.html#documentation">文档</a></li>
+        <li><a href="about.html">关于我们</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 模块页头部 -->
+  <header class="module-header">
+    <h1>功能模块</h1>
+    <p>深入了解Lebit.sh提供的各种功能模块及其详细特性</p>
+  </header>
+
+  <!-- 系统管理模块 -->
+  <section class="module-detail">
+    <div class="module-container">
+      <div class="module-content">
+        <h2>系统管理</h2>
+        <p>系统管理模块提供一系列工具，帮助您管理和优化Linux系统，收集系统信息，并执行常规维护任务。</p>
+        
+        <div class="code-snippet">
+          <code>curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh</code>
+        </div>
+        
+        <div class="module-features">
+          <div class="feature-item">
+            <i class="fas fa-server"></i>
+            <div class="feature-text">
+              <h3>硬件信息收集</h3>
+              <p>快速获取系统的CPU、内存、磁盘和网络信息，生成格式化报告用于系统评估。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-broom"></i>
+            <div class="feature-text">
+              <h3>系统清理与深度清理</h3>
+              <p>删除临时文件、缓存和日志，释放磁盘空间，并清理不再需要的包和旧内核。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-clock"></i>
+            <div class="feature-text">
+              <h3>时间同步工具</h3>
+              <p>配置NTP服务，确保系统时钟与标准时间服务器保持同步，对于日志记录和时间敏感的应用至关重要。</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">查看文档</a>
+          <a href="#" class="btn btn-secondary">安装指南</a>
+        </div>
+      </div>
+      <div class="module-image">
+        <i class="fas fa-server"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Docker管理模块 -->
+  <section class="module-detail">
+    <div class="module-container">
+      <div class="module-content">
+        <h2>Docker管理</h2>
+        <p>Docker管理模块简化了Docker和Docker Compose的安装、配置和管理过程，帮助您快速开始使用容器化技术。</p>
+        
+        <div class="code-snippet">
+          <code>curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh</code>
+        </div>
+        
+        <div class="module-features">
+          <div class="feature-item">
+            <i class="fab fa-docker"></i>
+            <div class="feature-text">
+              <h3>Docker安装</h3>
+              <p>自动安装最新版本的Docker和Docker Compose，包括所有必要的依赖项，适用于各种Linux发行版。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-arrow-up"></i>
+            <div class="feature-text">
+              <h3>Docker升级</h3>
+              <p>轻松将现有Docker安装升级到最新版本，确保获得最新的功能和安全修复。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-sliders-h"></i>
+            <div class="feature-text">
+              <h3>Docker配置</h3>
+              <p>根据最佳实践配置Docker守护程序，包括存储驱动、日志轮转和网络设置。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-trash-alt"></i>
+            <div class="feature-text">
+              <h3>资源清理</h3>
+              <p>清理未使用的容器、镜像、网络和卷，释放磁盘空间，保持Docker环境整洁。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-tachometer-alt"></i>
+            <div class="feature-text">
+              <h3>容器监控</h3>
+              <p>提供工具监控Docker容器的资源使用情况，包括CPU、内存和网络使用率。</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">查看文档</a>
+          <a href="#" class="btn btn-secondary">安装指南</a>
+        </div>
+      </div>
+      <div class="module-image">
+        <i class="fab fa-docker"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- 开发环境模块 -->
+  <section class="module-detail">
+    <div class="module-container">
+      <div class="module-content">
+        <h2>开发环境</h2>
+        <p>开发环境模块帮助您快速设置完整的开发环境，安装流行的编程语言和工具，节省时间专注于编码。</p>
+        
+        <div class="code-snippet">
+          <code>curl --proto '=https' --tlsv1.2 -sSf https://dev.lebit.sh | sh</code>
+        </div>
+        
+        <div class="module-features">
+          <div class="feature-item">
+            <i class="fas fa-code"></i>
+            <div class="feature-text">
+              <h3>Golang安装</h3>
+              <p>安装最新版本的Go编程语言，配置GOPATH和环境变量，准备好开始Go开发。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fab fa-node-js"></i>
+            <div class="feature-text">
+              <h3>Node.js (通过NVM)</h3>
+              <p>使用Node Version Manager安装Node.js，允许轻松切换不同版本，适合多项目开发。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fab fa-rust"></i>
+            <div class="feature-text">
+              <h3>Rust安装</h3>
+              <p>安装Rust编程语言和Cargo包管理器，设置开发环境，并配置必要的工具链。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-database"></i>
+            <div class="feature-text">
+              <h3>SQLite3安装</h3>
+              <p>安装SQLite3轻量级数据库和开发工具，适合嵌入式应用和快速原型开发。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-terminal"></i>
+            <div class="feature-text">
+              <h3>快速别名</h3>
+              <p>设置实用的命令行别名，提高生产力，包括常用Git命令、导航和系统操作的快捷方式。</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">查看文档</a>
+          <a href="#" class="btn btn-secondary">安装指南</a>
+        </div>
+      </div>
+      <div class="module-image">
+        <i class="fas fa-code"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- 系统工具模块 -->
+  <section class="module-detail">
+    <div class="module-container">
+      <div class="module-content">
+        <h2>系统工具</h2>
+        <p>系统工具模块提供专门的实用工具，帮助您解决特定的系统管理任务，提高安全性并简化常规操作。</p>
+        
+        <div class="code-snippet">
+          <code>curl --proto '=https' --tlsv1.2 -sSf https://tools.lebit.sh | sh</code>
+        </div>
+        
+        <div class="module-features">
+          <div class="feature-item">
+            <i class="fas fa-lock"></i>
+            <div class="feature-text">
+              <h3>SSL证书更新工具</h3>
+              <p>简化SSL证书的更新过程，自动更新Let's Encrypt证书，并配置自动续期，确保网站安全。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-shield-alt"></i>
+            <div class="feature-text">
+              <h3>防火墙配置</h3>
+              <p>提供简化的防火墙配置工具，帮助您设置安全规则，保护服务器免受未授权访问。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-history"></i>
+            <div class="feature-text">
+              <h3>备份工具</h3>
+              <p>设置自动备份系统，确保重要数据得到定期备份，并提供简单的恢复选项。</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">查看文档</a>
+          <a href="#" class="btn btn-secondary">安装指南</a>
+        </div>
+      </div>
+      <div class="module-image">
+        <i class="fas fa-tools"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- 挖矿工具模块 -->
+  <section class="module-detail">
+    <div class="module-container">
+      <div class="module-content">
+        <h2>挖矿工具</h2>
+        <p>挖矿工具模块提供一套完整的工具，帮助您快速设置和管理加密货币挖矿操作，支持多种流行的挖矿协议。</p>
+        
+        <div class="code-snippet">
+          <code>curl --proto '=https' --tlsv1.2 -sSf https://mining.lebit.sh | sh</code>
+        </div>
+        
+        <div class="module-features">
+          <div class="feature-item">
+            <i class="fas fa-coins"></i>
+            <div class="feature-text">
+              <h3>Ritual挖矿</h3>
+              <p>自动设置Ritual挖矿环境，包括所有必要的依赖项和配置，简化挖矿过程。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-hdd"></i>
+            <div class="feature-text">
+              <h3>EthStorage挖矿</h3>
+              <p>配置EthStorage挖矿节点，优化存储性能，并提供监控和管理工具。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-network-wired"></i>
+            <div class="feature-text">
+              <h3>TitanNetwork挖矿</h3>
+              <p>设置TitanNetwork挖矿操作，包括节点配置和网络参数优化。</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-chart-line"></i>
+            <div class="feature-text">
+              <h3>性能监控</h3>
+              <p>提供工具监控挖矿操作的性能，包括哈希率、温度和电力使用情况。</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons">
+          <a href="#" class="btn btn-primary">查看文档</a>
+          <a href="#" class="btn btn-secondary">安装指南</a>
+        </div>
+      </div>
+      <div class="module-image">
+        <i class="fas fa-coins"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于 Lebit.sh - Linux系统初始化工具包</title>
+  <meta name="description" content="了解Lebit.sh项目的背景、目标和团队">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .about-section {
+      padding: 8rem 2rem 5rem;
+      background-color: white;
+    }
+    
+    .about-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .about-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--dark-color);
+      text-align: center;
+    }
+    
+    .about-section h2 {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+      color: var(--dark-color);
+    }
+    
+    .about-section p {
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    
+    .team-section {
+      padding: 5rem 2rem;
+      background-color: var(--light-color);
+    }
+    
+    .team-heading {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .team-member {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .team-member:hover {
+      transform: translateY(-10px);
+    }
+    
+    .member-image {
+      height: 250px;
+      background-color: #ddd;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .member-info {
+      padding: 1.5rem;
+    }
+    
+    .member-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark-color);
+    }
+    
+    .member-info p.role {
+      color: var(--primary-color);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .social-links {
+      margin-top: 1rem;
+    }
+    
+    .social-links a {
+      color: var(--dark-color);
+      margin-right: 1rem;
+      font-size: 1.2rem;
+    }
+    
+    .social-links a:hover {
+      color: var(--primary-color);
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 3rem auto;
+    }
+    
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background-color: var(--primary-color);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+    }
+    
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+    
+    .timeline-item:nth-child(odd) {
+      left: 0;
+    }
+    
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      right: -12.5px;
+      background-color: white;
+      border: 4px solid var(--primary-color);
+      top: 20px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    
+    .timeline-item:nth-child(even)::after {
+      left: -12.5px;
+    }
+    
+    .timeline-content {
+      padding: 20px 30px;
+      background-color: white;
+      position: relative;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .timeline-content h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+    }
+    
+    .timeline-date {
+      color: #888;
+      font-style: italic;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+      
+      .timeline-item::after {
+        left: 18px;
+      }
+      
+      .timeline-item:nth-child(even)::after {
+        left: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="index.html">首页</a></li>
+        <li><a href="index.html#features">特性</a></li>
+        <li><a href="index.html#modules">模块</a></li>
+        <li><a href="index.html#installation">安装</a></li>
+        <li><a href="index.html#documentation">文档</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 关于部分 -->
+  <section class="about-section">
+    <div class="about-container">
+      <h1>关于 Lebit.sh</h1>
+      
+      <h2>项目背景</h2>
+      <p>Lebit.sh 项目起源于我们在日常工作中面临的一个共同问题：每次在新的Linux服务器上进行初始设置时，都需要执行大量重复性的命令和配置步骤。这不仅耗时，还容易出错，尤其是在管理多台服务器时。</p>
+      
+      <p>2023年底，我们决定创建一个统一的工具包，将这些常见的设置和配置任务自动化，使Linux系统的初始化过程变得简单高效。经过多次迭代和实际使用验证，Lebit.sh逐渐发展成为一个功能全面、模块化的Linux系统初始化工具包。</p>
+      
+      <h2>我们的使命</h2>
+      <p>我们的使命是简化Linux系统的设置和配置过程，让开发者和系统管理员能够更专注于他们的核心工作，而不是浪费时间在重复性的系统管理任务上。</p>
+      
+      <h2>核心理念</h2>
+      <p><strong>简单易用</strong> - 我们相信最好的工具应该简单易用，即使对于Linux新手也是如此。</p>
+      <p><strong>模块化设计</strong> - 每个功能都被设计为独立模块，用户可以根据需要选择使用哪些功能，不必安装不需要的组件。</p>
+      <p><strong>透明安全</strong> - 所有代码都是开源的，可以被审查。我们使用HTTPS和TLS 1.2+确保下载安全。</p>
+      <p><strong>持续改进</strong> - 我们不断收集用户反馈并改进工具，添加新功能和解决问题。</p>
+      
+      <h2>项目里程碑</h2>
+    </div>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>项目启动</h3>
+          <p class="timeline-date">2023年11月</p>
+          <p>Lebit.sh项目正式启动，开始设计初始架构和核心功能。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>首个版本发布</h3>
+          <p class="timeline-date">2023年12月</p>
+          <p>发布0.1.0版本，包含基本的系统管理和Docker功能。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>模块化重构</h3>
+          <p class="timeline-date">2024年2月</p>
+          <p>完成代码重构，采用模块化设计，增强扩展性。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>挖矿工具集成</h3>
+          <p class="timeline-date">2024年7月</p>
+          <p>集成加密货币挖矿工具，支持Ritual、EthStorage和TitanNetwork。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>日志和配置系统</h3>
+          <p class="timeline-date">2025年3月</p>
+          <p>添加全面的日志系统和配置管理功能，大幅提升用户体验。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 团队部分 -->
+  <section class="team-section">
+    <div class="container">
+      <div class="team-heading">
+        <h2>我们的团队</h2>
+        <p>Lebit.sh 背后的专业人士</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-image" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+          <div class="member-info">
+            <h3>李小明</h3>
+            <p class="role">创始人 & 首席开发者</p>
+            <p>拥有10年Linux系统管理和Shell脚本开发经验，专注于自动化和系统优化。</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="member-image" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+          <div class="member-info">
+            <h3>张玲</h3>
+            <p class="role">DevOps 工程师</p>
+            <p>Docker和Kubernetes专家，负责容器化和自动化部署相关模块的开发。</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="member-image" style="background-image: url('https://randomuser.me/api/portraits/men/67.jpg');"></div>
+          <div class="member-info">
+            <h3>王建国</h3>
+            <p class="role">系统架构师</p>
+            <p>专注于系统性能优化和安全加固，负责核心架构设计和技术决策。</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member">
+          <div class="member-image" style="background-image: url('https://randomuser.me/api/portraits/women/29.jpg');"></div>
+          <div class="member-info">
+            <h3>陈梦</h3>
+            <p class="role">前端开发者</p>
+            <p>负责Lebit.sh的用户界面设计和网站开发，专注于提升用户体验。</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  </script>
+</body>
+</html>
