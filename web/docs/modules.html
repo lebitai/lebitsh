@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模块文档 - Lebit.sh</title>
+  <meta name="description" content="Lebit.sh提供的各种功能模块详细说明">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .doc-header {
+      padding: 8rem 2rem 2rem;
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+    }
+    
+    .doc-content {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    
+    .doc-content h2 {
+      font-size: 2rem;
+      margin: 2rem 0 1rem;
+      color: var(--dark-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .doc-content h3 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--dark-color);
+    }
+    
+    .doc-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .doc-content code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      color: var(--primary-color);
+    }
+    
+    .code-block {
+      background-color: #1e272e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      color: #00b894;
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .module-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .module-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .module-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .module-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      width: 3rem;
+      height: 3rem;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .module-title {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--dark-color);
+    }
+    
+    .command-list {
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .command-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .command-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    
+    .command-name {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .command-desc {
+      margin-bottom: 0.5rem;
+    }
+    
+    .command-usage {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      background-color: #1e272e;
+      color: #00b894;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">Lebit<span>.sh</span></h1>
+      <ul>
+        <li><a href="../index.html">首页</a></li>
+        <li><a href="../index.html#features">特性</a></li>
+        <li><a href="../index.html#modules">模块</a></li>
+        <li><a href="../index.html#installation">安装</a></li>
+        <li><a href="../index.html#documentation">文档</a></li>
+        <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 文档头部 -->
+  <header class="doc-header">
+    <h1>模块文档</h1>
+    <p>Lebit.sh提供的各种功能模块详细说明</p>
+  </header>
+
+  <!-- 文档内容 -->
+  <section class="doc-content">
+    <h2>模块概述</h2>
+    <p>Lebit.sh的核心设计理念是模块化。每个模块专注于解决特定领域的问题，使得您可以根据需要选择安装和使用。以下是Lebit.sh提供的主要模块的详细说明。</p>
+    
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-icon"><i class="fas fa-cogs"></i></div>
+        <h3 class="module-title">系统管理模块</h3>
+      </div>
+      <p>系统管理模块提供一系列工具，帮助您管理和优化Linux系统，收集系统信息，以及执行常见的系统维护任务。</p>
+      
+      <div class="command-list">
+        <div class="command-item">
+          <div class="command-name">系统信息</div>
+          <div class="command-desc">显示关于您系统的详细信息，包括硬件、操作系统和资源使用情况。</div>
+          <div class="command-usage">lebit system info</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">系统清理</div>
+          <div class="command-desc">清理系统中的临时文件、包缓存等，释放磁盘空间。</div>
+          <div class="command-usage">lebit system clean</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">系统优化</div>
+          <div class="command-desc">优化系统性能，调整系统参数，提高整体响应速度。</div>
+          <div class="command-usage">lebit system optimize</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">系统备份</div>
+          <div class="command-desc">备份重要的系统配置文件，以便在需要时恢复。</div>
+          <div class="command-usage">lebit system backup</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-icon"><i class="fab fa-docker"></i></div>
+        <h3 class="module-title">Docker管理模块</h3>
+      </div>
+      <p>Docker管理模块提供Docker和Docker Compose的安装、配置和管理功能，简化容器部署流程。</p>
+      
+      <div class="command-list">
+        <div class="command-item">
+          <div class="command-name">Docker安装</div>
+          <div class="command-desc">安装最新版本的Docker和Docker Compose。</div>
+          <div class="command-usage">lebit docker install</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">Docker升级</div>
+          <div class="command-desc">将现有的Docker和Docker Compose升级到最新版本。</div>
+          <div class="command-usage">lebit docker upgrade</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">Docker清理</div>
+          <div class="command-desc">清理未使用的Docker容器、镜像和卷，释放磁盘空间。</div>
+          <div class="command-usage">lebit docker clean</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">Docker备份</div>
+          <div class="command-desc">备份Docker容器和镜像配置。</div>
+          <div class="command-usage">lebit docker backup</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-icon"><i class="fas fa-code"></i></div>
+        <h3 class="module-title">开发环境模块</h3>
+      </div>
+      <p>开发环境模块帮助开发人员快速设置各种编程环境，包括编程语言、编辑器和开发工具。</p>
+      
+      <div class="command-list">
+        <div class="command-item">
+          <div class="command-name">Node.js环境</div>
+          <div class="command-desc">安装和配置Node.js开发环境。</div>
+          <div class="command-usage">lebit dev nodejs</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">Python环境</div>
+          <div class="command-desc">安装和配置Python开发环境，包括virtualenv和pip。</div>
+          <div class="command-usage">lebit dev python</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">Go环境</div>
+          <div class="command-desc">安装和配置Go语言开发环境。</div>
+          <div class="command-usage">lebit dev golang</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">编辑器设置</div>
+          <div class="command-desc">安装和配置常用的代码编辑器，如VS Code、Vim等。</div>
+          <div class="command-usage">lebit dev editor</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-icon"><i class="fas fa-tools"></i></div>
+        <h3 class="module-title">系统工具模块</h3>
+      </div>
+      <p>系统工具模块提供一系列实用工具，帮助用户执行各种系统任务和优化。</p>
+      
+      <div class="command-list">
+        <div class="command-item">
+          <div class="command-name">网络工具</div>
+          <div class="command-desc">网络诊断和优化工具集合。</div>
+          <div class="command-usage">lebit tools network</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">磁盘工具</div>
+          <div class="command-desc">磁盘分析、清理和优化工具。</div>
+          <div class="command-usage">lebit tools disk</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">安全工具</div>
+          <div class="command-desc">系统安全加固和漏洞扫描工具。</div>
+          <div class="command-usage">lebit tools security</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">监控工具</div>
+          <div class="command-desc">系统资源和性能监控工具。</div>
+          <div class="command-usage">lebit tools monitor</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="module-card">
+      <div class="module-header">
+        <div class="module-icon"><i class="fas fa-coins"></i></div>
+        <h3 class="module-title">挖矿工具模块</h3>
+      </div>
+      <p>挖矿工具模块提供加密货币挖矿的相关工具和配置，支持多种加密货币挖矿。</p>
+      
+      <div class="command-list">
+        <div class="command-item">
+          <div class="command-name">挖矿软件安装</div>
+          <div class="command-desc">安装和配置各种挖矿软件。</div>
+          <div class="command-usage">lebit mining install</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">挖矿配置</div>
+          <div class="command-desc">配置挖矿软件参数，包括矿池、钱包地址等。</div>
+          <div class="command-usage">lebit mining config</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">挖矿启动</div>
+          <div class="command-desc">启动挖矿进程。</div>
+          <div class="command-usage">lebit mining start</div>
+        </div>
+        
+        <div class="command-item">
+          <div class="command-name">挖矿监控</div>
+          <div class="command-desc">监控挖矿状态和性能。</div>
+          <div class="command-usage">lebit mining monitor</div>
+        </div>
+      </div>
+    </div>
+    
+    <h2>模块依赖关系</h2>
+    <p>大多数Lebit.sh模块可以独立使用，但某些模块可能依赖于其他模块。例如，挖矿工具模块可能依赖于系统优化模块以获得最佳性能。在安装过程中，Lebit.sh会自动处理这些依赖关系。</p>
+    
+    <h2>模块配置</h2>
+    <p>每个模块都有自己的配置文件，位于 <code>~/.config/lebit/modules/&lt;module_name&gt;/config</code>。您可以编辑这些文件来自定义模块的行为。有关更多详细信息，请参阅<a href="configuration.html">配置文档</a>。</p>
+    
+    <h2>扩展模块</h2>
+    <p>Lebit.sh支持自定义模块，您可以开发自己的模块并集成到Lebit.sh中。有关如何开发自定义模块的信息，请参阅<a href="development.html">开发文档</a>。</p>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <h3>Lebit.sh</h3>
+      <p>Linux系统初始化工具包 - 让Linux配置变得简单</p>
+      <div class="social-icons">
+        <a href="https://github.com/lebitai/lebitsh" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <p>&copy; 2025 Lebit.sh. 基于MIT许可证开源。</p>
+    </div>
+  </footer>
+
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.padding = '0.5rem 2rem';
+        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+      } else {
+        navbar.style.padding = '1rem 2rem';
+        navbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+      }
+    });
+  </script>
+</body>
+</html>
