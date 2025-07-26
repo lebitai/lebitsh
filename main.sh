@@ -133,16 +133,55 @@ view_logs() {
     done
 }
 
+# Function to run specific module
+run_module() {
+    local module="$1"
+    case "$module" in
+        system)
+            log_info "Running System Management module"
+            bash "${MODULES_DIR}/system/main.sh"
+            ;;
+        docker)
+            log_info "Running Docker Management module"
+            bash "${MODULES_DIR}/docker/main.sh"
+            ;;
+        dev)
+            log_info "Running Development Environment module"
+            bash "${MODULES_DIR}/dev/main.sh"
+            ;;
+        tools)
+            log_info "Running System Tools module"
+            bash "${MODULES_DIR}/tools/main.sh"
+            ;;
+        mining)
+            log_info "Running Mining Tools module"
+            bash "${MODULES_DIR}/mining/main.sh"
+            ;;
+        *)
+            error_msg "Unknown module: $module"
+            log_error "Unknown module requested: $module"
+            return 1
+            ;;
+    esac
+}
+
 # Main function
 main() {
-    # Clear screen
-    clear
-    
     # Check privileges
     check_privileges
     
     # Log application start
     log_info "Lebit.sh started (version: $(get_config LEBITSH_VERSION "1.0.0"))"
+    
+    # Check if a module was specified as command line argument
+    if [ $# -gt 0 ]; then
+        # Direct module execution
+        run_module "$1"
+        exit $?
+    fi
+    
+    # Clear screen for interactive mode
+    clear
     
     # Display welcome message
     welcome
