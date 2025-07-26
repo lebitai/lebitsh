@@ -11,7 +11,7 @@ Lebit.sh provides a suite of tools to help you quickly and efficiently set up an
 System optimization, cleaning, and information gathering tools.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- system
 ```
 
 Features:
@@ -23,7 +23,7 @@ Features:
 Easily install and configure Docker environments.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- docker
 ```
 
 Features:
@@ -37,7 +37,7 @@ Features:
 Quickly set up development environments, including popular programming languages and tools.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://dev.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- dev
 ```
 
 Features:
@@ -51,7 +51,7 @@ Features:
 Collection of useful system utilities.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://tools.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- tools
 ```
 
 Features:
@@ -61,7 +61,7 @@ Features:
 Tools for cryptocurrency mining operations.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://mining.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- mining
 ```
 
 Features:
