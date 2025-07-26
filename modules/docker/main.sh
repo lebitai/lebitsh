@@ -98,20 +98,36 @@ docker_main() {
             latest_version=$(get_github_latest_version "docker/compose")
             
             if [ -z "$latest_version" ]; then
-                latest_version="2.21.0" # Fallback version
+                latest_version="2.24.0" # Fallback version
             fi
             
             # Get system architecture
             arch=$(get_arch)
             
             # Download and install Docker Compose
-            if ! curl -fsSL "https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}" -o /usr/local/bin/docker-compose; then
-                complete_progress_failure
-                error_msg "Failed to download Docker Compose"
-            else
+            # Try new naming format first (v2.x)
+            compose_url="https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}"
+            
+            show_progress "Downloading Docker Compose v${latest_version}"
+            if curl -fsSL "$compose_url" -o /usr/local/bin/docker-compose 2>/dev/null; then
                 chmod +x /usr/local/bin/docker-compose
                 complete_progress_success
                 success_msg "Docker Compose v${latest_version} installed successfully"
+            else
+                # Try alternative URL format
+                compose_url="https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-linux-${arch}"
+                if curl -fsSL "$compose_url" -o /usr/local/bin/docker-compose 2>/dev/null; then
+                    chmod +x /usr/local/bin/docker-compose
+                    complete_progress_success
+                    success_msg "Docker Compose v${latest_version} installed successfully"
+                else
+                    complete_progress_failure
+                    error_msg "Failed to download Docker Compose"
+                    info_msg "You can install Docker Compose plugin instead:"
+                    echo "  sudo apt-get update && sudo apt-get install docker-compose-plugin"
+                    echo "  # or"
+                    echo "  sudo yum install docker-compose-plugin"
+                fi
             fi
             
             read -p "Press Enter to continue..."
