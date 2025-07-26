@@ -1,28 +1,12 @@
 #!/bin/bash
 
-# Color definitions
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-WHITE='\033[1;37m'
-NC='\033[0m' # No Color
+# Get the absolute path of the script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "${SCRIPT_DIR}/../../../" && pwd)"
+COMMON_DIR="${ROOT_DIR}/common"
 
-# Function: Display brand
-show_brand() {
-    clear
-    echo -e "${WHITE}"
-    echo "
-.-------------------------------------.
-| _         _     _ _     ____  _   _ |
-|| |    ___| |__ (_) |_  / ___|| | | ||
-|| |   / _ \ '_ \| | __| \___ \| |_| ||
-|| |__|  __/ |_) | | |_ _ ___) |  _  ||
-||_____\___|_.__/|_|\__(_)____/|_| |_||
-'-------------------------------------'      
-            https://lebit.sh
-"
-    echo -e "${NC}"
-}
+# Source common UI functions
+source "${COMMON_DIR}/ui.sh"
 
 # Function: Output error message and exit
 error_exit() {
