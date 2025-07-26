@@ -7,15 +7,13 @@ export default {
    */
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const hostname = url.hostname;
     const path = url.pathname;
     
-    console.log("Hostname:", hostname);
     console.log("Path:", path);
     
-    // 如果是 i.lebit.sh 域名，返回安装脚本
-    if (hostname === "i.lebit.sh") {
-      console.log("Serving install script for i.lebit.sh");
+    // 检查是否是安装脚本请求
+    if (path === "/install" || path === "/install/") {
+      console.log("Serving install script");
       
       try {
         // 尝试从静态资产中获取 install.sh
@@ -213,8 +211,8 @@ main "$@"
       }
     }
     
-    // 对于 lebit.sh 域名和其他情况，提供静态资产（网站内容）
-    console.log("Serving static assets for", hostname);
+    // 对于所有其他路径，提供静态资产（网站内容）
+    console.log("Serving static assets");
     return env.ASSETS.fetch(request);
   }
 };
