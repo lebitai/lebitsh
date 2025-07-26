@@ -4,5 +4,8 @@
   "compatibility_date": "2025-07-26",
   "assets": {
     "directory": "./web"
+  },
+  "vars": {
+    "ZONE_ID": "aae8b378c9d04f1398305d0e2a99d757"
   }
 }
