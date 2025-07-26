@@ -10,27 +10,14 @@ export default {
     const path = url.pathname;
     
     console.log("Path:", path);
+    console.log("Full URL:", request.url);
     
     // 检查是否是安装脚本请求
     if (path === "/install" || path === "/install/") {
       console.log("Serving install script");
       
-      try {
-        // 尝试从静态资产中获取 install.sh
-        const installResponse = await env.ASSETS.fetch(new URL("/install.sh", url));
-        const installScript = await installResponse.text();
-        
-        return new Response(installScript, {
-          headers: {
-            "Content-Type": "application/x-sh",
-            "Content-Disposition": 'attachment; filename="install.sh"'
-          }
-        });
-      } catch (e) {
-        console.log("Falling back to inline script");
-        
-        // 如果找不到 install.sh，则返回内联的安装脚本
-        const installScript = `#!/bin/bash
+      // 直接读取并返回 install.sh 文件内容
+      const installScript = `#!/bin/bash
 
 # Lebit.sh Installation Script
 
@@ -201,18 +188,18 @@ trap cleanup EXIT
 # Run main function with all arguments
 main "$@"
 `;
-        
-        return new Response(installScript, {
-          headers: {
-            "Content-Type": "application/x-sh",
-            "Content-Disposition": 'attachment; filename="install.sh"'
-          }
-        });
-      }
+      
+      console.log("Returning install script with headers");
+      return new Response(installScript, {
+        headers: {
+          "Content-Type": "application/x-sh",
+          "Content-Disposition": 'attachment; filename="install.sh"'
+        }
+      });
     }
     
     // 对于所有其他路径，提供静态资产（网站内容）
-    console.log("Serving static assets");
+    console.log("Serving static assets for path:", path);
     return env.ASSETS.fetch(request);
   }
 };
