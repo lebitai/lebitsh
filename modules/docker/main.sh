@@ -104,30 +104,104 @@ docker_main() {
             # Get system architecture
             arch=$(get_arch)
             
-            # Download and install Docker Compose
-            # Try new naming format first (v2.x)
-            compose_url="https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}"
+            # Try to install Docker Compose
+            compose_installed=false
             
-            show_progress "Downloading Docker Compose v${latest_version}"
-            if curl -fsSL "$compose_url" -o /usr/local/bin/docker-compose 2>/dev/null; then
-                chmod +x /usr/local/bin/docker-compose
-                complete_progress_success
-                success_msg "Docker Compose v${latest_version} installed successfully"
-            else
-                # Try alternative URL format
-                compose_url="https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-linux-${arch}"
-                if curl -fsSL "$compose_url" -o /usr/local/bin/docker-compose 2>/dev/null; then
+            # Method 1: Try downloading standalone binary
+            show_progress "Attempting to download Docker Compose standalone binary"
+            
+            # Try multiple URL formats
+            for url_format in \
+                "https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}" \
+                "https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-linux-${arch}" \
+                "https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-Linux-${arch}"
+            do
+                if curl -fsSL "$url_format" -o /tmp/docker-compose-test 2>/dev/null; then
+                    mv /tmp/docker-compose-test /usr/local/bin/docker-compose
                     chmod +x /usr/local/bin/docker-compose
                     complete_progress_success
-                    success_msg "Docker Compose v${latest_version} installed successfully"
+                    compose_installed=true
+                    success_msg "Docker Compose v${latest_version} standalone installed successfully"
+                    break
+                fi
+            done
+            
+            # Method 2: Install Docker Compose plugin via package manager
+            if [ "$compose_installed" = false ]; then
+                complete_progress_failure
+                info_msg "Standalone binary download failed, installing Docker Compose plugin instead..."
+                
+                # Detect distribution and install accordingly
+                if [ -f /etc/os-release ]; then
+                    . /etc/os-release
+                    distro=${ID,,}
+                    
+                    show_progress "Installing Docker Compose plugin via package manager"
+                    
+                    case $distro in
+                        ubuntu|debian)
+                            apt-get update -y >/dev/null 2>&1
+                            if apt-get install -y docker-compose-plugin >/dev/null 2>&1; then
+                                complete_progress_success
+                                compose_installed=true
+                                success_msg "Docker Compose plugin installed successfully via apt"
+                            fi
+                            ;;
+                        centos|rhel|fedora|rocky|almalinux)
+                            if command_exists dnf; then
+                                if dnf install -y docker-compose-plugin >/dev/null 2>&1; then
+                                    complete_progress_success
+                                    compose_installed=true
+                                    success_msg "Docker Compose plugin installed successfully via dnf"
+                                fi
+                            else
+                                if yum install -y docker-compose-plugin >/dev/null 2>&1; then
+                                    complete_progress_success
+                                    compose_installed=true
+                                    success_msg "Docker Compose plugin installed successfully via yum"
+                                fi
+                            fi
+                            ;;
+                    esac
+                fi
+            fi
+            
+            # Method 3: Install via Docker plugin manager
+            if [ "$compose_installed" = false ] && command_exists docker; then
+                show_progress "Attempting to install via Docker CLI plugin manager"
+                
+                # Create plugin directory if it doesn't exist
+                mkdir -p /usr/local/lib/docker/cli-plugins
+                
+                # Try to download directly to Docker CLI plugins directory
+                compose_cli_url="https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}"
+                if curl -fsSL "$compose_cli_url" -o /usr/local/lib/docker/cli-plugins/docker-compose 2>/dev/null; then
+                    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+                    complete_progress_success
+                    compose_installed=true
+                    success_msg "Docker Compose installed as Docker CLI plugin"
                 else
                     complete_progress_failure
-                    error_msg "Failed to download Docker Compose"
-                    info_msg "You can install Docker Compose plugin instead:"
-                    echo "  sudo apt-get update && sudo apt-get install docker-compose-plugin"
-                    echo "  # or"
-                    echo "  sudo yum install docker-compose-plugin"
                 fi
+            fi
+            
+            # Verify installation
+            if [ "$compose_installed" = true ]; then
+                echo ""
+                info_msg "Verifying Docker Compose installation..."
+                
+                if command -v docker-compose >/dev/null 2>&1; then
+                    version=$(docker-compose --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+                    success_msg "Docker Compose standalone is available (version: $version)"
+                    info_msg "Usage: docker-compose [command]"
+                elif docker compose version >/dev/null 2>&1; then
+                    version=$(docker compose version --short 2>/dev/null)
+                    success_msg "Docker Compose plugin is available (version: $version)"
+                    info_msg "Usage: docker compose [command] (no hyphen)"
+                fi
+            else
+                error_msg "Failed to install Docker Compose using all available methods"
+                info_msg "Please check your internet connection and try again"
             fi
             
             read -p "Press Enter to continue..."
