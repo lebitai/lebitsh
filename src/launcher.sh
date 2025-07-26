@@ -92,13 +92,37 @@ run_remote_script() {
         local module_dir=$(dirname "$script_path")
         echo "[INFO] Downloading module dependencies..."
         
-        # Download other module files if they exist
-        # Common module files
-        for file in install.sh config.sh monitor.sh upgrade.sh; do
-            if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
-                chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
-            fi
-        done
+        # Download module-specific files based on module type
+        case "$module_dir" in
+            "modules/system")
+                for file in cleanup.sh hwinfo.sh sync_time.sh; do
+                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
+                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
+                    fi
+                done
+                ;;
+            "modules/docker")
+                for file in install.sh monitor.sh upgrade.sh; do
+                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
+                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
+                    fi
+                done
+                ;;
+            "modules/dev")
+                for file in golang.sh node.sh rust.sh sqlite.sh quickalias.sh; do
+                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
+                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
+                    fi
+                done
+                ;;
+            "modules/tools")
+                for file in alias_manager.sh renew_ssl.sh; do
+                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
+                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
+                    fi
+                done
+                ;;
+        esac
         
         # For mining modules, check for subdirectories
         if [[ "$module_dir" == "modules/mining" ]]; then
