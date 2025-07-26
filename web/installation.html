@@ -44,7 +44,7 @@
                             <div class="terminal-title">Terminal</div>
                         </div>
                         <div class="terminal-body">
-                            <pre><code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code></pre>
+                            <pre><code>curl -sSf https://lebit.sh/install | sh</code></pre>
                         </div>
                     </div>
                     <p>This command will download and run the installation script, which will:</p>
@@ -70,16 +70,16 @@
                             <div class="terminal-title">Terminal</div>
                         </div>
                         <div class="terminal-body">
-                            <pre><code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/system | sh</code></pre>
+                            <pre><code>curl -sSf https://lebit.sh/install | sh -s -- system</code></pre>
                         </div>
                     </div>
                     <p>Available modules:</p>
                     <ul>
-                        <li><strong>System Management</strong>: <code>https://lebit.sh/system</code></li>
-                        <li><strong>Docker Management</strong>: <code>https://lebit.sh/docker</code></li>
-                        <li><strong>Development Environment</strong>: <code>https://lebit.sh/dev</code></li>
-                        <li><strong>System Tools</strong>: <code>https://lebit.sh/tools</code></li>
-                        <li><strong>Mining Tools</strong>: <code>https://lebit.sh/mining</code></li>
+                        <li><strong>System Management</strong>: <code>curl -sSf https://lebit.sh/install | sh -s -- system</code></li>
+                        <li><strong>Docker Management</strong>: <code>curl -sSf https://lebit.sh/install | sh -s -- docker</code></li>
+                        <li><strong>Development Environment</strong>: <code>curl -sSf https://lebit.sh/install | sh -s -- dev</code></li>
+                        <li><strong>System Tools</strong>: <code>curl -sSf https://lebit.sh/install | sh -s -- tools</code></li>
+                        <li><strong>Mining Tools</strong>: <code>curl -sSf https://lebit.sh/install | sh -s -- mining</code></li>
                     </ul>
                 </div>
                 

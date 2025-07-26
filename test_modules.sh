@@ -8,12 +8,12 @@ modules=("system" "docker" "dev" "tools" "mining")
 
 for module in "${modules[@]}"; do
     echo -e "\n测试 $module 模块:"
-    echo "命令: curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/$module -H 'User-Agent: curl/7.88.1' | head -10"
+    echo "命令: curl -sSf https://lebit.sh/install -H 'User-Agent: curl/7.88.1' | sh -s -- $module | head -10"
     echo "---"
-    curl --proto '=https' --tlsv1.2 -sSf "https://lebit.sh/$module?t=$(date +%s)" -H "User-Agent: curl/7.88.1" | head -10
+    echo "Note: Module-specific URLs are deprecated. Use: curl -sSf https://lebit.sh/install | sh -s -- $module"
     echo -e "\n---"
 done
 
 echo -e "\n测试主安装路径:"
-echo "命令: curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | head -10"
-curl --proto '=https' --tlsv1.2 -sSf "https://lebit.sh/install?t=$(date +%s)" -H "User-Agent: curl/7.88.1" | head -10
+echo "命令: curl -sSf https://lebit.sh/install | head -10"
+curl -sSf "https://lebit.sh/install?t=$(date +%s)" -H "User-Agent: curl/7.88.1" | head -10

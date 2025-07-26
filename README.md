@@ -11,7 +11,7 @@ Lebit.sh provides a suite of tools to help you quickly and efficiently set up an
 System optimization, cleaning, and information gathering tools.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- system
+curl -sSf https://lebit.sh/install | sh -s -- system
 ```
 
 Features:
@@ -23,7 +23,7 @@ Features:
 Easily install and configure Docker environments.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- docker
+curl -sSf https://lebit.sh/install | sh -s -- docker
 ```
 
 Features:
@@ -37,7 +37,7 @@ Features:
 Quickly set up development environments, including popular programming languages and tools.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- dev
+curl -sSf https://lebit.sh/install | sh -s -- dev
 ```
 
 Features:
@@ -51,7 +51,7 @@ Features:
 Collection of useful system utilities.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- tools
+curl -sSf https://lebit.sh/install | sh -s -- tools
 ```
 
 Features:
@@ -61,7 +61,7 @@ Features:
 Tools for cryptocurrency mining operations.
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- mining
+curl -sSf https://lebit.sh/install | sh -s -- mining
 ```
 
 Features:
@@ -97,13 +97,13 @@ The user interface has been enhanced to provide a better user experience:
 To install Lebit.sh with all modules:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh
+curl -sSf https://lebit.sh/install | sh
 ```
 
 To install a specific module directly:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/install | sh -s -- [module-name]
+curl -sSf https://lebit.sh/install | sh -s -- [module-name]
 ```
 
 ## Project Structure
@@ -148,7 +148,7 @@ Lebit.sh提供了一系列工具，帮助您快速高效地设置和配置Linux�
 系统优化、清理和信息收集工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/system | sh
+curl -sSf https://lebit.sh/install | sh -s -- system
 ```
 
 功能:
@@ -160,7 +160,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/system | sh
 轻松安装和配置Docker环境。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/docker | sh
+curl -sSf https://lebit.sh/install | sh -s -- docker
 ```
 
 功能:
@@ -174,7 +174,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/docker | sh
 快速设置开发环境，包括流行的编程语言和工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/dev | sh
+curl -sSf https://lebit.sh/install | sh -s -- dev
 ```
 
 功能:
@@ -188,7 +188,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/dev | sh
 实用系统工具集合。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/tools | sh
+curl -sSf https://lebit.sh/install | sh -s -- tools
 ```
 
 功能:
@@ -198,7 +198,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/tools | sh
 加密货币挖矿操作的工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/mining | sh
+curl -sSf https://lebit.sh/install | sh -s -- mining
 ```
 
 功能:
@@ -251,13 +251,13 @@ lebitsh/
 安装包含所有模块的Lebit.sh：
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh
+curl -sSf https://lebit.sh/install | sh
 ```
 
 直接安装特定模块：
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- [模块名称]
+curl -sSf https://lebit.sh/install | sh -s -- [模块名称]
 ```
 
 ## 文档
