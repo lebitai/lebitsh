@@ -137,6 +137,11 @@ run_remote_script() {
     # Change to execution directory and run the script
     cd "$EXEC_DIR"
     
+    # Set environment variables that scripts expect
+    export SCRIPT_DIR="$EXEC_DIR"
+    export COMMON_DIR="$EXEC_DIR/common"
+    export MODULES_DIR="$EXEC_DIR/modules"
+    
     # Run the script from its expected location
     bash "$script_path" $args
     local exit_code=$?
