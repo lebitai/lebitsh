@@ -1,0 +1,8 @@
+{
+  "name": "lebitsh",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-07-26",
+  "assets": {
+    "directory": "./web"
+  }
+}

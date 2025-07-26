@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lebit.sh - Quick Alias Setup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        .content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .command-box {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .copy-btn:hover {
+            background: #2d3748;
+        }
+        .aliases-list {
+            margin: 2rem 0;
+        }
+        .aliases-list h2 {
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        .alias-item {
+            display: flex;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .alias-name {
+            font-weight: 700;
+            width: 150px;
+            color: #667eea;
+        }
+        .alias-command {
+            flex: 1;
+            color: #4a5568;
+        }
+        .instructions {
+            background-color: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            .alias-item {
+                flex-direction: column;
+            }
+            .alias-name {
+                width: 100%;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lebit.sh</h1>
+            <div class="subtitle">Linux System Initialization Toolkit</div>
+        </header>
+        
+        <div class="content">
+            <h2>Quick Alias Setup</h2>
+            <p>Enhance your terminal productivity with our collection of useful aliases. Run the following command to automatically set up these aliases in your shell configuration:</p>
+            
+            <div class="command-box">
+                curl -s https://lebit.sh/alias | bash
+                <button class="copy-btn" onclick="copyCommand()">Copy</button>
+            </div>
+            
+            <div class="instructions">
+                <h3>How it works:</h3>
+                <ol>
+                    <li>The command downloads and executes a script from our server</li>
+                    <li>The script adds useful aliases to your shell configuration file (~/.bashrc or ~/.zshrc)</li>
+                    <li>Aliases are immediately available in new terminal sessions</li>
+                    <li>For current session, you might need to run: <code>source ~/.bashrc</code> (or ~/.zshrc)</li>
+                </ol>
+            </div>
+            
+            <div class="aliases-list">
+                <h2>Included Aliases</h2>
+                <div class="alias-item">
+                    <div class="alias-name">apt-up</div>
+                    <div class="alias-command">apt update && apt upgrade -y</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">dfh</div>
+                    <div class="alias-command">df -h</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">duh</div>
+                    <div class="alias-command">du -h --max-depth=1</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">psa</div>
+                    <div class="alias-command">ps aux</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">ll</div>
+                    <div class="alias-command">ls -alF</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">la</div>
+                    <div class="alias-command">ls -A</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">l</div>
+                    <div class="alias-command">ls -CF</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">grep</div>
+                    <div class="alias-command">grep --color=auto</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">fgrep</div>
+                    <div class="alias-command">fgrep --color=auto</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">egrep</div>
+                    <div class="alias-command">egrep --color=auto</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">..</div>
+                    <div class="alias-command">cd ..</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">...</div>
+                    <div class="alias-command">cd ../..</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">....</div>
+                    <div class="alias-command">cd ../../..</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">h</div>
+                    <div class="alias-command">history</div>
+                </div>
+                <div class="alias-item">
+                    <div class="alias-name">j</div>
+                    <div class="alias-command">jobs -l</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Lebit.sh - Making Linux system initialization easier, one command at a time.</p>
+            <p><a href="https://lebit.sh" style="color: #667eea;">Visit our main site</a> for more tools and documentation.</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCommand() {
+            const command = "curl -s https://lebit.sh/alias | bash";
+            navigator.clipboard.writeText(command).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

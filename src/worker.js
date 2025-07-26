@@ -1,4 +1,34 @@
-#!/bin/bash
+/**
+ * Welcome to Cloudflare Workers! This is your first worker.
+ *
+ * - Run `wrangler dev` in your terminal to start a development server
+ * - Open a browser tab at http://localhost:8787/ to see your worker in action
+ * - Run `wrangler deploy` to publish your worker
+ *
+ * Learn more at https://developers.cloudflare.com/workers/
+ */
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    
+    // For the root path, serve the install script
+    if (path === '/') {
+      // Read the install.sh file from assets
+      try {
+        const installScriptResponse = await env.ASSETS.fetch(new URL('/install.sh', url));
+        const installScript = await installScriptResponse.text();
+        
+        return new Response(installScript, {
+          headers: {
+            'Content-Type': 'application/x-sh',
+            'Content-Disposition': 'attachment; filename="install.sh"'
+          }
+        });
+      } catch (e) {
+        // Fallback if install.sh is not found
+        const installScript = `#!/bin/bash
 
 # Lebit.sh Installation Script
 
@@ -13,24 +43,24 @@ NC='\033[0m' # No Color
 
 # Function to print colored output
 info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+    echo -e "\${BLUE}[INFO]\${NC} \$1"
 }
 
 success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    echo -e "\${GREEN}[SUCCESS]\${NC} \$1"
 }
 
 warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+    echo -e "\${YELLOW}[WARNING]\${NC} \$1"
 }
 
 error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo -e "\${RED}[ERROR]\${NC} \$1"
 }
 
 # Function to check if running as root
 check_root() {
-    if [ "$EUID" -eq 0 ]; then
+    if [ "\$EUID" -eq 0 ]; then
         error "This script should not be run as root. Please run without sudo."
         exit 1
     fi
@@ -38,7 +68,7 @@ check_root() {
 
 # Function to detect OS
 detect_os() {
-    if [[ "$(uname)" != "Linux" ]]; then
+    if [[ "\$(uname)" != "Linux" ]]; then
         error "This script is designed for Linux systems only"
         exit 1
     fi
@@ -46,29 +76,29 @@ detect_os() {
     if [ -f /etc/os-release ]; then
         # shellcheck disable=SC1091
         source /etc/os-release
-        DISTRO=$ID
-        VERSION=$VERSION_ID
+        DISTRO=\$ID
+        VERSION=\$VERSION_ID
     elif type lsb_release >/dev/null 2>&1; then
-        DISTRO=$(lsb_release -si)
-        VERSION=$(lsb_release -sr)
+        DISTRO=\$(lsb_release -si)
+        VERSION=\$(lsb_release -sr)
     elif [ -f /etc/lsb-release ]; then
         # shellcheck disable=SC1091
         source /etc/lsb-release
-        DISTRO=$DISTRIB_ID
-        VERSION=$DISTRIB_RELEASE
+        DISTRO=\$DISTRIB_ID
+        VERSION=\$DISTRIB_RELEASE
     else
         error "Unsupported Linux distribution"
         exit 1
     fi
 
     # Convert to lowercase
-    DISTRO=$(echo "$DISTRO" | tr '[:upper:]' '[:lower:]')
-    info "Detected OS: $DISTRO:$VERSION"
+    DISTRO=\$(echo "\$DISTRO" | tr '[:upper:]' '[:lower:]')
+    info "Detected OS: \$DISTRO:\$VERSION"
 }
 
 # Function to check if command exists
 command_exists() {
-    command -v "$1" >/dev/null 2>&1
+    command -v "\$1" >/dev/null 2>&1
 }
 
 # Function to check internet connection
@@ -86,7 +116,7 @@ check_internet() {
 install_packages() {
     info "Installing required packages..."
     
-    case $DISTRO in
+    case \$DISTRO in
         ubuntu|debian)
             sudo apt-get update -qq >/dev/null
             sudo apt-get install -y curl sudo >/dev/null 2>&1
@@ -99,7 +129,7 @@ install_packages() {
             fi
             ;;
         *)
-            error "Unsupported distribution: $DISTRO"
+            error "Unsupported distribution: \$DISTRO"
             exit 1
             ;;
     esac
@@ -112,8 +142,8 @@ install_lebitsh() {
     info "Downloading Lebit.sh..."
     
     # Create temporary directory
-    TEMP_DIR=$(mktemp -d)
-    cd "$TEMP_DIR"
+    TEMP_DIR=\$(mktemp -d)
+    cd "\$TEMP_DIR"
     
     # Download the main script
     if ! curl -fsSL "https://raw.githubusercontent.com/lebitai/lebitsh/main/main.sh" -o main.sh; then
@@ -129,7 +159,7 @@ install_lebitsh() {
     
     # Run the main installer
     info "Running Lebit.sh installer..."
-    bash main.sh "$@"
+    bash main.sh "\$@"
     
     # Cleanup
     cleanup
@@ -137,20 +167,9 @@ install_lebitsh() {
 
 # Function to cleanup temporary files
 cleanup() {
-    if [ -d "$TEMP_DIR" ]; then
-        rm -rf "$TEMP_DIR"
+    if [ -d "\$TEMP_DIR" ]; then
+        rm -rf "\$TEMP_DIR"
     fi
-}
-
-# Function to show usage
-usage() {
-    echo "Usage: $0 [module]"
-    echo "  module: Optional. Install a specific module (system, docker, dev, tools, mining)"
-    echo "  If no module is specified, the interactive installer will be launched"
-    echo ""
-    echo "Examples:"
-    echo "  curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh"
-    echo "  curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker"
 }
 
 # Main function
@@ -168,7 +187,7 @@ main() {
     install_packages
     
     # Install Lebit.sh
-    install_lebitsh "$@"
+    install_lebitsh "\$@"
     
     success "Lebit.sh installation completed!"
     echo "You can now run 'lebitsh' to start the toolkit."
@@ -178,4 +197,19 @@ main() {
 trap cleanup EXIT
 
 # Run main function with all arguments
-main "$@"
+main "\$@"
+`;
+        
+        return new Response(installScript, {
+          headers: {
+            'Content-Type': 'application/x-sh',
+            'Content-Disposition': 'attachment; filename="install.sh"'
+          }
+        });
+      }
+    }
+    
+    // For other paths, serve static assets
+    return env.ASSETS.fetch(request);
+  },
+};

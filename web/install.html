@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install - Lebit.sh</title>
+    <meta name="description" content="Install Lebit.sh with a single command and start optimizing your Linux environment.">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <h1>Lebit.sh</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/install.html" class="active">Install</a></li>
+                    <li><a href="/learn.html">Learn</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1>Installation</h1>
+                <p class="subtitle">Get started with Lebit.sh in seconds.</p>
+                
+                <div class="install-card">
+                    <h2>Install with one command</h2>
+                    <p>Run this in your terminal to install Lebit.sh with all modules:</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="terminal-title">Terminal</div>
+                        </div>
+                        <div class="terminal-body">
+                            <pre><code>curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh</code></pre>
+                        </div>
+                    </div>
+                    <p>This command will download and run the installation script, which will:</p>
+                    <ul>
+                        <li>Check your system requirements</li>
+                        <li>Download the latest version of Lebit.sh</li>
+                        <li>Install it to <code>/usr/local/bin/lebit</code></li>
+                        <li>Set up configuration files</li>
+                    </ul>
+                </div>
+                
+                <div class="install-card">
+                    <h2>Install a specific module</h2>
+                    <p>If you only need specific functionality, you can install individual modules:</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="terminal-title">Terminal</div>
+                        </div>
+                        <div class="terminal-body">
+                            <pre><code>curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh</code></pre>
+                        </div>
+                    </div>
+                    <p>Available modules:</p>
+                    <ul>
+                        <li><strong>System Management</strong>: <code>https://system.lebit.sh</code></li>
+                        <li><strong>Docker Management</strong>: <code>https://docker.lebit.sh</code></li>
+                        <li><strong>Development Environment</strong>: <code>https://dev.lebit.sh</code></li>
+                        <li><strong>System Tools</strong>: <code>https://tools.lebit.sh</code></li>
+                        <li><strong>Mining Tools</strong>: <code>https://mining.lebit.sh</code></li>
+                    </ul>
+                </div>
+                
+                <div class="install-card">
+                    <h2>Quick Alias Setup</h2>
+                    <p>Enhance your terminal productivity with our collection of useful aliases:</p>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="terminal-title">Terminal</div>
+                        </div>
+                        <div class="terminal-body">
+                            <pre><code>curl -s https://lebit.sh/alias | bash</code></pre>
+                        </div>
+                    </div>
+                    <p>This command will set up useful aliases in your shell configuration. <a href="/alias.html">Learn more</a>.</p>
+                </div>
+                
+                <div class="install-card">
+                    <h2>Manual installation</h2>
+                    <p>If you prefer to install manually:</p>
+                    <ol>
+                        <li>Download the latest release from <a href="https://github.com/lebitai/lebitsh/releases" target="_blank">GitHub</a></li>
+                        <li>Extract the archive</li>
+                        <li>Run the install script: <code>sudo ./install.sh</code></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Lebit.sh</h2>
+                    <p>Linux System Initialization Toolkit</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Documentation</h4>
+                        <ul>
+                            <li><a href="/install.html">Installation</a></li>
+                            <li><a href="/learn.html">Learn</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://github.com/lebitai/lebitsh" target="_blank">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lebit.sh. Licensed under the MIT License.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
