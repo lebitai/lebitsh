@@ -87,6 +87,20 @@ run_remote_script() {
     cp "$cache_file" "$target_path"
     chmod +x "$target_path"
     
+    # For main.sh, download all module main.sh files since they might be called
+    if [[ "$script_path" == "main.sh" ]]; then
+        echo "[INFO] Preparing modules..."
+        for module in system docker dev tools mining; do
+            local module_main="modules/$module/main.sh"
+            mkdir -p "$EXEC_DIR/modules/$module"
+            if download_with_cache "$GITHUB_BASE/$module_main" "$EXEC_DIR/$module_main"; then
+                chmod +x "$EXEC_DIR/$module_main"
+            else
+                echo "[WARNING] Failed to download $module_main"
+            fi
+        done
+    fi
+    
     # For module scripts, also download their dependencies
     if [[ "$script_path" == modules/*/main.sh ]]; then
         local module_dir=$(dirname "$script_path")
