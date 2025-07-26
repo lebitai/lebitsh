@@ -81,15 +81,40 @@ run_remote_script() {
         fi
     done
     
-    # Copy the main script to execution directory
-    cp "$cache_file" "$EXEC_DIR/$(basename "$script_path")"
-    chmod +x "$EXEC_DIR/$(basename "$script_path")"
+    # Copy the script to the correct location in execution directory
+    local target_path="$EXEC_DIR/$script_path"
+    mkdir -p "$(dirname "$target_path")"
+    cp "$cache_file" "$target_path"
+    chmod +x "$target_path"
+    
+    # For module scripts, also download their dependencies
+    if [[ "$script_path" == modules/*/main.sh ]]; then
+        local module_dir=$(dirname "$script_path")
+        echo "[INFO] Downloading module dependencies..."
+        
+        # Download other module files if they exist
+        # Common module files
+        for file in install.sh config.sh monitor.sh upgrade.sh; do
+            if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
+                chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
+            fi
+        done
+        
+        # For mining modules, check for subdirectories
+        if [[ "$module_dir" == "modules/mining" ]]; then
+            for submodule in Ritual TitanNetwork EthStorage; do
+                if download_with_cache "$GITHUB_BASE/$module_dir/$submodule/install.sh" "$EXEC_DIR/$module_dir/$submodule/install.sh" 2>/dev/null; then
+                    chmod +x "$EXEC_DIR/$module_dir/$submodule/install.sh" 2>/dev/null || true
+                fi
+            done
+        fi
+    fi
     
     # Change to execution directory and run the script
     cd "$EXEC_DIR"
     
-    # Run the script with its original name
-    bash "./$(basename "$script_path")" $args
+    # Run the script from its expected location
+    bash "$script_path" $args
     local exit_code=$?
     
     # Cleanup
