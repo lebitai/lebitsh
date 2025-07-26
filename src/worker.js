@@ -108,7 +108,7 @@ error() {
 download_with_cache() {
     local url="$1"
     local cache_path="$2"
-    local force_download="${3:-false}"
+    local force_download="\${3:-false}"
     
     # Create cache directory if it doesn't exist
     mkdir -p "$(dirname "$cache_path")"
@@ -179,7 +179,7 @@ show_menu() {
         "Exit"
     )
     
-    select opt in "${options[@]}"; do
+    select opt in "\${options[@]}"; do
         case $REPLY in
             1) run_module "system" ;;
             2) run_module "docker" ;;
@@ -297,7 +297,7 @@ fi
 download_with_cache() {
     local url="$1"
     local cache_path="$2"
-    local force="${3:-false}"
+    local force="\${3:-false}"
     
     mkdir -p "$(dirname "$cache_path")"
     
@@ -343,9 +343,9 @@ run_remote_script() {
         fi
         
         # Set up environment
-        export SCRIPT_DIR="$EXEC_DIR"
-        export COMMON_DIR="$EXEC_DIR/common"
-        export MODULES_DIR="$EXEC_DIR/modules"
+        export SCRIPT_DIR="\$EXEC_DIR"
+        export COMMON_DIR="\$EXEC_DIR/common"
+        export MODULES_DIR="\$EXEC_DIR/modules"
         
         # Execute the script
         bash "$cache_file" $args
