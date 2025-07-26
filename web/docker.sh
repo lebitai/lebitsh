@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is the entry point for docker.lebit.sh
+# This script is the entry point for lebit.sh/docker
 
 # Get the absolute path to the script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

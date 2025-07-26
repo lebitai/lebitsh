@@ -8,16 +8,51 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
+    const userAgent = request.headers.get("User-Agent") || "";
     
     console.log("Path:", path);
     console.log("Full URL:", request.url);
+    console.log("User-Agent:", userAgent);
     
-    // 检查是否是安装脚本请求
-    if (path === "/install" || path === "/install/") {
-      console.log("Serving install script");
-      
-      // 直接读取并返回 install.sh 文件内容
-      const installScript = `#!/bin/bash
+    // 检查是否是 curl/wget 请求
+    const isCommandLineRequest = userAgent.toLowerCase().includes("curl") || 
+                                userAgent.toLowerCase().includes("wget");
+    
+    // 定义模块映射
+    const modules = ['system', 'docker', 'dev', 'tools', 'mining'];
+    const modulePath = path.slice(1).split('/')[0]; // 获取第一级路径
+    
+    // 定义通用的模块安装脚本生成函数
+    const generateModuleScript = (module) => {
+      return `#!/bin/bash
+
+# Lebit.sh ${module.charAt(0).toUpperCase() + module.slice(1)} Module Installation Script
+
+set -e
+
+# Create temporary directory
+TEMP_DIR=$(mktemp -d)
+cd "$TEMP_DIR"
+
+# Download and execute the main script with module parameter
+echo "[INFO] Installing Lebit.sh ${module} module..."
+
+if ! curl -fsSL "https://raw.githubusercontent.com/lebitai/lebitsh/main/main.sh" -o main.sh; then
+    echo "[ERROR] Failed to download main installer" >&2
+    rm -rf "$TEMP_DIR"
+    exit 1
+fi
+
+chmod +x main.sh
+bash main.sh ${module}
+
+# Cleanup
+rm -rf "$TEMP_DIR"
+`;
+    };
+    
+    // 定义主安装脚本内容
+    const installScript = `#!/bin/bash
 
 # Lebit.sh Installation Script
 
@@ -188,14 +223,54 @@ trap cleanup EXIT
 # Run main function with all arguments
 main "$@"
 `;
+    
+    // 处理命令行请求
+    if (isCommandLineRequest) {
+      // 如果请求的是模块路径（如 /system, /docker 等）
+      if (modules.includes(modulePath)) {
+        console.log(`Serving ${modulePath} module script for command line tool`);
+        
+        return new Response(generateModuleScript(modulePath), {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "no-cache, no-store, must-revalidate"
+          }
+        });
+      }
       
-      console.log("Returning install script with headers");
-      return new Response(installScript, {
-        headers: {
-          "Content-Type": "application/x-sh",
-          "Content-Disposition": 'attachment; filename="install.sh"'
-        }
-      });
+      // 如果请求的是根路径或 /install 路径
+      if (path === "/" || path === "/install" || path === "/install/") {
+        console.log("Serving install script for command line tool");
+        
+        return new Response(installScript, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "no-cache, no-store, must-revalidate"
+          }
+        });
+      }
+    }
+    
+    // 处理浏览器请求
+    if (!isCommandLineRequest) {
+      // 如果浏览器访问模块路径，返回404或重定向到模块文档
+      if (modules.includes(modulePath)) {
+        // 重定向到模块文档页面
+        return Response.redirect(`${url.origin}/modules.html#${modulePath}`, 302);
+      }
+      
+      // 如果浏览器访问 /install 路径，返回安装脚本作为下载
+      if (path === "/install" || path === "/install/") {
+        console.log("Serving install script for browser");
+        
+        return new Response(installScript, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Disposition": 'attachment; filename="install.sh"',
+            "Cache-Control": "no-cache, no-store, must-revalidate"
+          }
+        });
+      }
     }
     
     // 对于所有其他路径，提供静态资产（网站内容）

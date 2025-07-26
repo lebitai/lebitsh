@@ -1,0 +1,11 @@
+name = "lebitsh"
+main = "src/worker.js"
+compatibility_date = "2024-01-01"
+workers_dev = false
+
+[site]
+bucket = "./web"
+
+[[routes]]
+pattern = "lebit.sh/*"
+zone_name = "lebit.sh"

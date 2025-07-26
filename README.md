@@ -148,7 +148,7 @@ Lebit.sh提供了一系列工具，帮助您快速高效地设置和配置Linux�
 系统优化、清理和信息收集工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/system | sh
 ```
 
 功能:
@@ -160,7 +160,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://system.lebit.sh | sh
 轻松安装和配置Docker环境。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/docker | sh
 ```
 
 功能:
@@ -174,7 +174,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh
 快速设置开发环境，包括流行的编程语言和工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://dev.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/dev | sh
 ```
 
 功能:
@@ -188,7 +188,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://dev.lebit.sh | sh
 实用系统工具集合。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://tools.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/tools | sh
 ```
 
 功能:
@@ -198,7 +198,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://tools.lebit.sh | sh
 加密货币挖矿操作的工具。
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://mining.lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/mining | sh
 ```
 
 功能:

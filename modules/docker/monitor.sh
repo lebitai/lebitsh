@@ -20,7 +20,7 @@ setup_docker_monitoring() {
     if ! command_exists docker; then
         error_msg "Docker is not installed. Please install Docker first."
         info_msg "You can install Docker using:"
-        echo "  curl --proto '=https' --tlsv1.2 -sSf https://docker.lebit.sh | sh"
+        echo "  curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh/docker | sh"
         exit 1
     fi
     
