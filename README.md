@@ -97,13 +97,13 @@ The user interface has been enhanced to provide a better user experience:
 To install Lebit.sh with all modules:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh
 ```
 
 To install a specific module directly:
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- [module-name]
+curl --proto '=https' --tlsv1.2 -sSf https://i.lebit.sh | sh -s -- [module-name]
 ```
 
 ## Project Structure

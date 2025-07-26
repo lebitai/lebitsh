@@ -4,28 +4,28 @@
 
 set -e
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Colors (using tput for better compatibility)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+NC=$(tput sgr0) # No Color
 
 # Function to print colored output
 info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+    echo "[INFO] $1"
 }
 
 success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    echo "[SUCCESS] $1"
 }
 
 warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+    echo "[WARNING] $1"
 }
 
 error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo "[ERROR] $1" >&2
 }
 
 # Function to check if running as root
@@ -140,17 +140,6 @@ cleanup() {
     if [ -d "$TEMP_DIR" ]; then
         rm -rf "$TEMP_DIR"
     fi
-}
-
-# Function to show usage
-usage() {
-    echo "Usage: $0 [module]"
-    echo "  module: Optional. Install a specific module (system, docker, dev, tools, mining)"
-    echo "  If no module is specified, the interactive installer will be launched"
-    echo ""
-    echo "Examples:"
-    echo "  curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh"
-    echo "  curl --proto '=https' --tlsv1.2 -sSf https://lebit.sh | sh -s -- docker"
 }
 
 # Main function
