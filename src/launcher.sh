@@ -59,37 +59,44 @@ run_remote_script() {
     
     echo "[INFO] Loading $script_path..."
     
-    if download_with_cache "$url" "$cache_file"; then
-        # Create a temporary directory for execution
-        EXEC_DIR=$(mktemp -d)
-        cd "$EXEC_DIR"
-        
-        # Download common dependencies if needed
-        if [[ "$script_path" == modules/* ]]; then
-            mkdir -p common
-            for dep in ui.sh logging.sh config.sh utils.sh; do
-                download_with_cache "$GITHUB_BASE/common/$dep" "common/$dep" >/dev/null 2>&1 || true
-            done
-        fi
-        
-        # Set up environment
-        export SCRIPT_DIR="$EXEC_DIR"
-        export COMMON_DIR="$EXEC_DIR/common"
-        export MODULES_DIR="$EXEC_DIR/modules"
-        
-        # Execute the script
-        bash "$cache_file" $args
-        local exit_code=$?
-        
-        # Cleanup
-        cd - >/dev/null
-        rm -rf "$EXEC_DIR"
-        
-        return $exit_code
-    else
+    # Download the main script
+    if ! download_with_cache "$url" "$cache_file"; then
         echo "[ERROR] Failed to load $script_path" >&2
         return 1
     fi
+    
+    # Create a temporary directory for execution
+    EXEC_DIR=$(mktemp -d)
+    local original_dir=$(pwd)
+    
+    # Set up directory structure
+    mkdir -p "$EXEC_DIR/common"
+    mkdir -p "$EXEC_DIR/modules"
+    
+    # Download common dependencies
+    echo "[INFO] Downloading dependencies..."
+    for dep in ui.sh logging.sh config.sh utils.sh; do
+        if ! download_with_cache "$GITHUB_BASE/common/$dep" "$EXEC_DIR/common/$dep"; then
+            echo "[WARNING] Failed to download common/$dep - some features may not work"
+        fi
+    done
+    
+    # Copy the main script to execution directory
+    cp "$cache_file" "$EXEC_DIR/$(basename "$script_path")"
+    chmod +x "$EXEC_DIR/$(basename "$script_path")"
+    
+    # Change to execution directory and run the script
+    cd "$EXEC_DIR"
+    
+    # Run the script with its original name
+    bash "./$(basename "$script_path")" $args
+    local exit_code=$?
+    
+    # Cleanup
+    cd "$original_dir"
+    rm -rf "$EXEC_DIR"
+    
+    return $exit_code
 }
 
 # Show banner
