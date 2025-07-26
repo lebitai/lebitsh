@@ -87,66 +87,50 @@ run_remote_script() {
     cp "$cache_file" "$target_path"
     chmod +x "$target_path"
     
-    # For main.sh, download all module main.sh files since they might be called
+    # For main.sh, download all module main.sh files AND their dependencies
     if [[ "$script_path" == "main.sh" ]]; then
         echo "[INFO] Preparing modules..."
-        for module in system docker dev tools mining; do
-            local module_main="modules/$module/main.sh"
-            mkdir -p "$EXEC_DIR/modules/$module"
-            if download_with_cache "$GITHUB_BASE/$module_main" "$EXEC_DIR/$module_main"; then
-                chmod +x "$EXEC_DIR/$module_main"
-            else
-                echo "[WARNING] Failed to download $module_main"
-            fi
+        
+        # System module
+        mkdir -p "$EXEC_DIR/modules/system"
+        for file in main.sh cleanup.sh hwinfo.sh sync_time.sh; do
+            download_with_cache "$GITHUB_BASE/modules/system/$file" "$EXEC_DIR/modules/system/$file" 2>/dev/null && \
+                chmod +x "$EXEC_DIR/modules/system/$file" 2>/dev/null || true
+        done
+        
+        # Docker module
+        mkdir -p "$EXEC_DIR/modules/docker"
+        for file in main.sh install.sh monitor.sh upgrade.sh; do
+            download_with_cache "$GITHUB_BASE/modules/docker/$file" "$EXEC_DIR/modules/docker/$file" 2>/dev/null && \
+                chmod +x "$EXEC_DIR/modules/docker/$file" 2>/dev/null || true
+        done
+        
+        # Dev module
+        mkdir -p "$EXEC_DIR/modules/dev"
+        for file in main.sh golang.sh node.sh rust.sh sqlite.sh quickalias.sh; do
+            download_with_cache "$GITHUB_BASE/modules/dev/$file" "$EXEC_DIR/modules/dev/$file" 2>/dev/null && \
+                chmod +x "$EXEC_DIR/modules/dev/$file" 2>/dev/null || true
+        done
+        
+        # Tools module
+        mkdir -p "$EXEC_DIR/modules/tools"
+        for file in main.sh alias_manager.sh renew_ssl.sh; do
+            download_with_cache "$GITHUB_BASE/modules/tools/$file" "$EXEC_DIR/modules/tools/$file" 2>/dev/null && \
+                chmod +x "$EXEC_DIR/modules/tools/$file" 2>/dev/null || true
+        done
+        
+        # Mining module and submodules
+        mkdir -p "$EXEC_DIR/modules/mining"
+        download_with_cache "$GITHUB_BASE/modules/mining/main.sh" "$EXEC_DIR/modules/mining/main.sh" 2>/dev/null && \
+            chmod +x "$EXEC_DIR/modules/mining/main.sh" 2>/dev/null || true
+        
+        for submodule in Ritual TitanNetwork EthStorage; do
+            mkdir -p "$EXEC_DIR/modules/mining/$submodule"
+            download_with_cache "$GITHUB_BASE/modules/mining/$submodule/install.sh" "$EXEC_DIR/modules/mining/$submodule/install.sh" 2>/dev/null && \
+                chmod +x "$EXEC_DIR/modules/mining/$submodule/install.sh" 2>/dev/null || true
         done
     fi
     
-    # For module scripts, also download their dependencies
-    if [[ "$script_path" == modules/*/main.sh ]]; then
-        local module_dir=$(dirname "$script_path")
-        echo "[INFO] Downloading module dependencies..."
-        
-        # Download module-specific files based on module type
-        case "$module_dir" in
-            "modules/system")
-                for file in cleanup.sh hwinfo.sh sync_time.sh; do
-                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
-                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
-                    fi
-                done
-                ;;
-            "modules/docker")
-                for file in install.sh monitor.sh upgrade.sh; do
-                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
-                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
-                    fi
-                done
-                ;;
-            "modules/dev")
-                for file in golang.sh node.sh rust.sh sqlite.sh quickalias.sh; do
-                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
-                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
-                    fi
-                done
-                ;;
-            "modules/tools")
-                for file in alias_manager.sh renew_ssl.sh; do
-                    if download_with_cache "$GITHUB_BASE/$module_dir/$file" "$EXEC_DIR/$module_dir/$file" 2>/dev/null; then
-                        chmod +x "$EXEC_DIR/$module_dir/$file" 2>/dev/null || true
-                    fi
-                done
-                ;;
-        esac
-        
-        # For mining modules, check for subdirectories
-        if [[ "$module_dir" == "modules/mining" ]]; then
-            for submodule in Ritual TitanNetwork EthStorage; do
-                if download_with_cache "$GITHUB_BASE/$module_dir/$submodule/install.sh" "$EXEC_DIR/$module_dir/$submodule/install.sh" 2>/dev/null; then
-                    chmod +x "$EXEC_DIR/$module_dir/$submodule/install.sh" 2>/dev/null || true
-                fi
-            done
-        fi
-    fi
     
     # Change to execution directory and run the script
     cd "$EXEC_DIR"
