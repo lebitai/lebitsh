@@ -26,49 +26,47 @@ export default {
     const generateModuleScript = (module) => {
       return `#!/bin/bash
 
-# Lebit.sh ${module.charAt(0).toUpperCase() + module.slice(1)} Module Installation Script
+# Lebit.sh ${module.charAt(0).toUpperCase() + module.slice(1)} Module Quick Installer
 
 set -e
 
-# Create temporary directory
-TEMP_DIR=$(mktemp -d)
-cd "$TEMP_DIR"
+echo "[INFO] Installing Lebit.sh and running ${module} module..."
 
-# Download the complete Lebit.sh package
-echo "[INFO] Downloading Lebit.sh..."
-
-if ! curl -fsSL "https://github.com/lebitai/lebitsh/archive/refs/heads/main.tar.gz" -o lebitsh.tar.gz; then
-    echo "[ERROR] Failed to download Lebit.sh package" >&2
-    rm -rf "$TEMP_DIR"
+# Download and execute the main installer with module parameter
+if curl -fsSL https://lebit.sh/install | sh; then
+    echo "[INFO] Running ${module} module..."
+    # Try to run the module directly if lebitsh is in PATH
+    if command -v lebitsh >/dev/null 2>&1; then
+        lebitsh ${module}
+    else
+        # Fall back to direct execution
+        if [ -f "/usr/local/bin/lebitsh" ]; then
+            /usr/local/bin/lebitsh ${module}
+        elif [ -f "$HOME/.local/bin/lebitsh" ]; then
+            $HOME/.local/bin/lebitsh ${module}
+        else
+            echo "[ERROR] lebitsh command not found. Please run 'lebitsh ${module}' manually."
+            exit 1
+        fi
+    fi
+else
+    echo "[ERROR] Failed to install Lebit.sh"
     exit 1
 fi
-
-# Extract the tarball
-if ! tar -xzf lebitsh.tar.gz; then
-    echo "[ERROR] Failed to extract Lebit.sh package" >&2
-    rm -rf "$TEMP_DIR"
-    exit 1
-fi
-
-cd lebitsh-main
-chmod +x main.sh
-find . -name "*.sh" -type f -exec chmod +x {} \\; 2>/dev/null || true
-
-# Install and run specific module
-echo "[INFO] Installing ${module} module..."
-bash main.sh ${module}
-
-# Cleanup
-rm -rf "$TEMP_DIR"
 `;
     };
     
     // 定义主安装脚本内容
     const installScript = `#!/bin/bash
 
-# Lebit.sh Installation Script
+# Lebit.sh Lightweight Installer & Launcher
 
 set -e
+
+# Configuration
+GITHUB_BASE="https://raw.githubusercontent.com/lebitai/lebitsh/main"
+CACHE_DIR="\${HOME}/.cache/lebitsh"
+CACHE_EXPIRE=86400  # 24 hours in seconds
 
 # Colors (using tput for better compatibility)
 if command -v tput >/dev/null 2>&1; then
@@ -76,12 +74,16 @@ if command -v tput >/dev/null 2>&1; then
     GREEN=$(tput setaf 2 2>/dev/null || echo "")
     YELLOW=$(tput setaf 3 2>/dev/null || echo "")
     BLUE=$(tput setaf 4 2>/dev/null || echo "")
+    WHITE=$(tput setaf 7 2>/dev/null || echo "")
+    BOLD=$(tput bold 2>/dev/null || echo "")
     NC=$(tput sgr0 2>/dev/null || echo "")
 else
     RED=""
     GREEN=""
     YELLOW=""
     BLUE=""
+    WHITE=""
+    BOLD=""
     NC=""
 fi
 
@@ -102,234 +104,351 @@ error() {
     echo "[ERROR] $1" >&2
 }
 
+# Function to download file with caching
+download_with_cache() {
+    local url="$1"
+    local cache_path="$2"
+    local force_download="${3:-false}"
+    
+    # Create cache directory if it doesn't exist
+    mkdir -p "$(dirname "$cache_path")"
+    
+    # Check if cached file exists and is not expired
+    if [ "$force_download" = "false" ] && [ -f "$cache_path" ]; then
+        local file_age=$(($(date +%s) - $(stat -c %Y "$cache_path" 2>/dev/null || stat -f %m "$cache_path" 2>/dev/null || echo 0)))
+        if [ $file_age -lt $CACHE_EXPIRE ]; then
+            return 0
+        fi
+    fi
+    
+    # Download file
+    if curl -fsSL "$url" -o "$cache_path.tmp"; then
+        mv "$cache_path.tmp" "$cache_path"
+        chmod +x "$cache_path" 2>/dev/null || true
+        return 0
+    else
+        rm -f "$cache_path.tmp"
+        return 1
+    fi
+}
+
+# Function to run remote script
+run_remote_script() {
+    local script_path="$1"
+    shift
+    local args="$@"
+    
+    local cache_file="$CACHE_DIR/$(echo "$script_path" | tr '/' '_')"
+    local url="$GITHUB_BASE/$script_path"
+    
+    info "Loading $script_path..."
+    
+    if download_with_cache "$url" "$cache_file"; then
+        bash "$cache_file" $args
+    else
+        error "Failed to load $script_path"
+        return 1
+    fi
+}
+
+# Function to show ASCII art banner
+show_banner() {
+    echo -e "${WHITE}"
+    echo "***************************************"
+    echo "* _         _     _ _     ____  _   _ *"
+    echo "*| |    ___| |__ (_) |_  / ___|| | | |*"
+    echo "*| |   / _ \\ '_ \\| | __| \\___ \\| |_| |*"
+    echo "*| |__|  __/ |_) | | |_ _ ___) |  _  |*"
+    echo "*|_____\\___|_.__/|_|\\__(_)____/|_| |_|*"
+    echo "***************************************"
+    echo "            https://lebit.sh"
+    echo -e "${NC}"
+}
+
+# Function to show interactive menu
+show_menu() {
+    local PS3="Please select an option (1-8): "
+    local options=(
+        "System Management"
+        "Docker Management"
+        "Development Environment"
+        "System Tools"
+        "Mining Tools"
+        "Update Cache"
+        "Clear Cache"
+        "Exit"
+    )
+    
+    select opt in "${options[@]}"; do
+        case $REPLY in
+            1) run_module "system" ;;
+            2) run_module "docker" ;;
+            3) run_module "dev" ;;
+            4) run_module "tools" ;;
+            5) run_module "mining" ;;
+            6) update_cache ;;
+            7) clear_cache ;;
+            8) exit 0 ;;
+            *) echo "Invalid option" ;;
+        esac
+        break
+    done
+}
+
+# Function to run specific module
+run_module() {
+    local module="$1"
+    info "Loading $module module..."
+    run_remote_script "modules/$module/main.sh"
+}
+
+# Function to update cache
+update_cache() {
+    info "Updating cache..."
+    find "$CACHE_DIR" -type f -exec rm {} \\;
+    success "Cache cleared. Next run will download fresh copies."
+}
+
+# Function to clear cache
+clear_cache() {
+    info "Clearing cache..."
+    rm -rf "$CACHE_DIR"
+    success "Cache cleared."
+}
+
 # Function to check if running as root
 check_root() {
     if [ "$(id -u)" -eq 0 ]; then
-        warning "Running as root user. Some operations may have different behavior."
-        warning "For better security, consider creating a regular user account."
+        warning "Running as root user."
     fi
 }
 
-# Function to detect OS
-detect_os() {
-    if [ "$(uname)" != "Linux" ]; then
-        error "This script is designed for Linux systems only"
-        exit 1
-    fi
-
-    if [ -f /etc/os-release ]; then
-        # shellcheck disable=SC1091
-        . /etc/os-release
-        DISTRO=$ID
-        VERSION=$VERSION_ID
-    elif command -v lsb_release >/dev/null 2>&1; then
-        DISTRO=$(lsb_release -si)
-        VERSION=$(lsb_release -sr)
-    elif [ -f /etc/lsb-release ]; then
-        # shellcheck disable=SC1091
-        . /etc/lsb-release
-        DISTRO=$DISTRIB_ID
-        VERSION=$DISTRIB_RELEASE
+# Main function for the launcher
+main() {
+    # Check if we have arguments
+    if [ $# -gt 0 ]; then
+        case "$1" in
+            system|docker|dev|tools|mining)
+                run_module "$1"
+                ;;
+            update)
+                update_cache
+                ;;
+            clear-cache)
+                clear_cache
+                ;;
+            *)
+                error "Unknown command: $1"
+                echo "Usage: lebitsh [system|docker|dev|tools|mining|update|clear-cache]"
+                exit 1
+                ;;
+        esac
     else
-        error "Unsupported Linux distribution"
-        exit 1
-    fi
-
-    # Convert to lowercase
-    DISTRO=$(echo "$DISTRO" | tr '[:upper:]' '[:lower:]')
-    info "Detected OS: $DISTRO:$VERSION"
-}
-
-# Function to check if command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-# Function to check internet connection
-check_internet() {
-    info "Checking internet connection..."
-    if ping -c 1 8.8.8.8 >/dev/null 2>&1; then
-        success "Internet connection is available"
-    else
-        error "No internet connection detected"
-        exit 1
+        # Interactive mode
+        clear
+        show_banner
+        while true; do
+            show_menu
+        done
     fi
 }
 
-# Function to install required packages
-install_packages() {
-    info "Installing required packages..."
+# Installation function - creates a minimal launcher
+install_lebitsh() {
+    info "Installing Lebit.sh launcher..."
     
-    case $DISTRO in
-        ubuntu|debian)
-            sudo apt-get update -qq >/dev/null
-            sudo apt-get install -y curl sudo >/dev/null 2>&1
+    
+    # Determine installation location
+    if [ "$(id -u)" -eq 0 ]; then
+        BIN_DIR="/usr/local/bin"
+    else
+        BIN_DIR="$HOME/.local/bin"
+        mkdir -p "$BIN_DIR"
+    fi
+    
+    # Create the lebitsh launcher script
+    cat > "$BIN_DIR/lebitsh" << 'LAUNCHER_SCRIPT'
+#!/bin/bash
+
+# Lebit.sh Lightweight Launcher
+# This script downloads and executes Lebit.sh modules on demand
+
+set -e
+
+# Configuration
+GITHUB_BASE="https://raw.githubusercontent.com/lebitai/lebitsh/main"
+CACHE_DIR="${HOME}/.cache/lebitsh"
+CACHE_EXPIRE=86400  # 24 hours in seconds
+
+# Colors
+if command -v tput >/dev/null 2>&1; then
+    RED=$(tput setaf 1 2>/dev/null || echo "")
+    GREEN=$(tput setaf 2 2>/dev/null || echo "")
+    YELLOW=$(tput setaf 3 2>/dev/null || echo "")
+    BLUE=$(tput setaf 4 2>/dev/null || echo "")
+    WHITE=$(tput setaf 7 2>/dev/null || echo "")
+    BOLD=$(tput bold 2>/dev/null || echo "")
+    NC=$(tput sgr0 2>/dev/null || echo "")
+else
+    RED=""; GREEN=""; YELLOW=""; BLUE=""; WHITE=""; BOLD=""; NC=""
+fi
+
+# Function to download file with caching
+download_with_cache() {
+    local url="$1"
+    local cache_path="$2"
+    local force="${3:-false}"
+    
+    mkdir -p "$(dirname "$cache_path")"
+    
+    if [ "$force" = "false" ] && [ -f "$cache_path" ]; then
+        local file_age=$(($(date +%s) - $(stat -c %Y "$cache_path" 2>/dev/null || stat -f %m "$cache_path" 2>/dev/null || echo 0)))
+        if [ $file_age -lt $CACHE_EXPIRE ]; then
+            return 0
+        fi
+    fi
+    
+    if curl -fsSL "$url" -o "$cache_path.tmp"; then
+        mv "$cache_path.tmp" "$cache_path"
+        chmod +x "$cache_path" 2>/dev/null || true
+        return 0
+    else
+        rm -f "$cache_path.tmp"
+        return 1
+    fi
+}
+
+# Function to run remote script with dependencies
+run_remote_script() {
+    local script_path="$1"
+    shift
+    local args="$@"
+    
+    local cache_file="$CACHE_DIR/$(echo "$script_path" | tr '/' '_')"
+    local url="$GITHUB_BASE/$script_path"
+    
+    echo "[INFO] Loading $script_path..."
+    
+    if download_with_cache "$url" "$cache_file"; then
+        # Create a temporary directory for execution
+        EXEC_DIR=$(mktemp -d)
+        cd "$EXEC_DIR"
+        
+        # Download common dependencies if needed
+        if [[ "$script_path" == modules/* ]]; then
+            mkdir -p common
+            for dep in ui.sh logging.sh config.sh utils.sh; do
+                download_with_cache "$GITHUB_BASE/common/$dep" "common/$dep" >/dev/null 2>&1 || true
+            done
+        fi
+        
+        # Set up environment
+        export SCRIPT_DIR="$EXEC_DIR"
+        export COMMON_DIR="$EXEC_DIR/common"
+        export MODULES_DIR="$EXEC_DIR/modules"
+        
+        # Execute the script
+        bash "$cache_file" $args
+        local exit_code=$?
+        
+        # Cleanup
+        cd - >/dev/null
+        rm -rf "$EXEC_DIR"
+        
+        return $exit_code
+    else
+        echo "[ERROR] Failed to load $script_path" >&2
+        return 1
+    fi
+}
+
+# Show banner
+show_banner() {
+    echo -e "${WHITE}"
+    echo "***************************************"
+    echo "* _         _     _ _     ____  _   _ *"
+    echo "*| |    ___| |__ (_) |_  / ___|| | | |*"
+    echo "*| |   / _ \\\\ '_ \\\\| | __| \\\\___ \\\\| |_| |*"
+    echo "*| |__|  __/ |_) | | |_ _ ___) |  _  |*"
+    echo "*|_____\\\\___|_.__/|_|\\\\__(_)____/|_| |_|*"
+    echo "***************************************"
+    echo "            https://lebit.sh"
+    echo -e "${NC}"
+}
+
+# Main logic
+if [ $# -gt 0 ]; then
+    case "$1" in
+        system|docker|dev|tools|mining)
+            run_remote_script "modules/$1/main.sh"
             ;;
-        centos|rhel|fedora|rocky|almalinux)
-            if command_exists dnf; then
-                sudo dnf install -y curl sudo >/dev/null 2>&1
-            else
-                sudo yum install -y curl sudo >/dev/null 2>&1
-            fi
+        update-cache)
+            echo "[INFO] Clearing cache for updates..."
+            rm -rf "$CACHE_DIR"
+            echo "[SUCCESS] Cache cleared"
+            ;;
+        version)
+            echo "Lebit.sh Launcher v1.0"
+            ;;
+        help|--help|-h)
+            show_banner
+            echo "Usage: lebitsh [command]"
+            echo ""
+            echo "Commands:"
+            echo "  system       - System management tools"
+            echo "  docker       - Docker management tools"
+            echo "  dev          - Development environment setup"
+            echo "  tools        - System utilities"
+            echo "  mining       - Mining tools"
+            echo "  update-cache - Clear cache and fetch latest versions"
+            echo "  version      - Show version"
+            echo "  help         - Show this help"
+            echo ""
+            echo "Run without arguments for interactive menu"
             ;;
         *)
-            error "Unsupported distribution: $DISTRO"
+            echo "[ERROR] Unknown command: $1"
+            echo "Run 'lebitsh help' for usage"
             exit 1
             ;;
     esac
+else
+    # Interactive mode - run the main menu from GitHub
+    clear
+    show_banner
+    run_remote_script "main.sh"
+fi
+LAUNCHER_SCRIPT
     
-    success "Required packages installed"
-}
-
-# Function to download and run the main installer
-install_lebitsh() {
-    info "Downloading Lebit.sh..."
+    # Make the launcher executable
+    chmod +x "$BIN_DIR/lebitsh"
     
-    # Create temporary directory
-    TEMP_DIR=$(mktemp -d)
-    cd "$TEMP_DIR"
+    success "Installation completed!"
+    echo ""
+    info "Lebit.sh launcher has been installed!"
+    echo ""
+    info "Usage:"
+    echo "  lebitsh              # Interactive menu"
+    echo "  lebitsh system       # System management"
+    echo "  lebitsh docker       # Docker management"
+    echo "  lebitsh dev          # Development tools"
+    echo "  lebitsh tools        # System utilities"
+    echo "  lebitsh mining       # Mining tools"
+    echo "  lebitsh help         # Show help"
+    echo ""
     
-    # Download the entire repository as a tarball
-    info "Downloading complete Lebit.sh package..."
-    if ! curl -fsSL "https://github.com/lebitai/lebitsh/archive/refs/heads/main.tar.gz" -o lebitsh.tar.gz; then
-        error "Failed to download Lebit.sh package"
-        cleanup
-        exit 1
-    fi
-    
-    # Extract the tarball
-    if ! tar -xzf lebitsh.tar.gz; then
-        error "Failed to extract Lebit.sh package"
-        cleanup
-        exit 1
-    fi
-    
-    # Move to the extracted directory
-    cd lebitsh-main
-    
-    # Make scripts executable
-    chmod +x main.sh
-    find . -name "*.sh" -type f -exec chmod +x {} \; 2>/dev/null || true
-    
-    success "Download completed"
-    
-    # Run the main installer
-    info "Running Lebit.sh installer..."
-    
-    # Check if we're in a pipe/non-interactive mode
-    if [ -t 0 ] && [ -t 1 ]; then
-        # Interactive mode - run main.sh directly
-        bash main.sh "$@"
-    else
-        # Non-interactive mode - just download and install
-        info "Detected non-interactive installation"
-        
-        # If specific module requested, show instructions
-        if [ $# -gt 0 ]; then
-            MODULE="$1"
-            info "To install $MODULE module, run this after installation:"
-            echo "  bash $TEMP_DIR/main.sh $MODULE"
-        fi
-        
-        # Create installation directory
-        INSTALL_DIR="/opt/lebitsh"
-        if [ "$(id -u)" -eq 0 ]; then
-            # Running as root
-            mkdir -p "$INSTALL_DIR"
-            TARGET_DIR="$INSTALL_DIR"
-            BIN_DIR="/usr/local/bin"
-        else
-            # Running as regular user
-            INSTALL_DIR="$HOME/.lebitsh"
-            mkdir -p "$INSTALL_DIR"
-            TARGET_DIR="$INSTALL_DIR"
-            BIN_DIR="$HOME/.local/bin"
-            mkdir -p "$BIN_DIR"
-        fi
-        
-        # Copy all files to installation directory
-        info "Installing Lebit.sh to $TARGET_DIR..."
-        cp -r . "$TARGET_DIR/"
-        
-        # Verify installation
-        if [ ! -f "$TARGET_DIR/main.sh" ]; then
-            error "Installation failed: main.sh not found"
-            cleanup
-            exit 1
-        fi
-        
-        # Verify modules
-        for module in system docker dev tools mining; do
-            if [ ! -f "$TARGET_DIR/modules/$module/main.sh" ]; then
-                warning "Module $module not found, some features may not work"
-            fi
-        done
-        
-        # Create launcher script
-        cat > "$BIN_DIR/lebitsh" << EOF
-#!/bin/bash
-cd "$TARGET_DIR" && bash main.sh "\$@"
-EOF
-        chmod +x "$BIN_DIR/lebitsh"
-        
-        success "Installation completed!"
+    if [ "$(id -u)" -ne 0 ] && ! echo "$PATH" | grep -q "$BIN_DIR"; then
+        warning "Add $BIN_DIR to your PATH:"
+        echo "  echo 'export PATH=\"$BIN_DIR:\$PATH\"' >> ~/.bashrc"
+        echo "  source ~/.bashrc"
         echo ""
-        info "Lebit.sh has been installed successfully!"
-        info "Location: $TARGET_DIR"
-        echo ""
-        info "To use Lebit.sh, run:"
-        echo "  lebitsh"
-        echo ""
-        
-        if [ "$(id -u)" -ne 0 ] && ! echo "$PATH" | grep -q "$BIN_DIR"; then
-            warning "Please add $BIN_DIR to your PATH or restart your shell"
-        fi
-        
-        # If module was specified, provide direct command
-        if [ $# -gt 0 ]; then
-            echo ""
-            info "To install $MODULE module directly, run:"
-            echo "  lebitsh $MODULE"
-        fi
-    fi
-    
-    # Cleanup
-    cleanup
-}
-
-# Function to cleanup temporary files
-cleanup() {
-    if [ -d "$TEMP_DIR" ]; then
-        rm -rf "$TEMP_DIR"
+        info "Or run directly: $BIN_DIR/lebitsh"
     fi
 }
 
-# Main function
-main() {
-    # Check if we're running as root
-    check_root
-    
-    # Detect OS
-    detect_os
-    
-    # Check internet connection
-    check_internet
-    
-    # Install required packages
-    install_packages
-    
-    # Install Lebit.sh
-    install_lebitsh "$@"
-    
-    success "Lebit.sh installation completed!"
-    echo "You can now run 'lebitsh' to start the toolkit."
-}
-
-# Trap to ensure cleanup on exit
-trap cleanup EXIT
-
-# Run main function with all arguments
-main "$@"
+# Main installation process
+check_root
+install_lebitsh "$@"
 `;
     
     // 处理命令行请求
