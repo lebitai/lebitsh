@@ -13,8 +13,10 @@ install_golang() {
     show_brand
     section_header "Golang Installation"
     
-    # Check if root
-    check_root
+    # Check if root (only on Linux)
+    if [[ "$(uname)" == "Linux" ]]; then
+        check_root
+    fi
     
     # Check internet connection
     if ! check_internet; then
@@ -36,17 +38,28 @@ install_golang() {
     # Automatically fetch the latest version
     info_msg "Fetching latest Golang version from go.dev..."
     
-    # Use go.dev/dl/?mode=json API to get latest stable version
-    latest_version=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version' 2>/dev/null | sed 's/go//')
-    
-    # Fallback method if jq is not available
-    if [ -z "$latest_version" ]; then
-        latest_version=$(curl -s https://go.dev/dl/?mode=json | grep -o '"version":"go[0-9.]*"' | head -1 | cut -d '"' -f 4 | sed 's/go//')
+    # Check if jq is available
+    if command_exists jq; then
+        # Use jq if available (more reliable)
+        latest_version=$(curl -s 'https://go.dev/dl/?mode=json' | jq -r '.[0].version' 2>/dev/null | sed 's/go//')
+    else
+        # Fallback method without jq
+        latest_version=$(curl -s 'https://go.dev/dl/?mode=json' | grep -o '"version":"go[0-9.]*"' | head -1 | cut -d '"' -f 4 | sed 's/go//')
     fi
     
+    # Debug output
     if [ -z "$latest_version" ]; then
-        error_msg "Failed to fetch latest version. Please check your internet connection."
-        exit 1
+        error_msg "Failed to fetch latest version from API."
+        info_msg "Attempting alternative method..."
+        
+        # Try fetching from go.dev HTML page as last resort
+        latest_version=$(curl -s https://go.dev/dl/ | grep -o 'go[0-9]\+\.[0-9]\+\.[0-9]\+' | head -1 | sed 's/go//')
+        
+        if [ -z "$latest_version" ]; then
+            error_msg "Failed to fetch latest version. Please check your internet connection."
+            error_msg "You can manually specify a version by editing this script."
+            exit 1
+        fi
     fi
     
     version=$latest_version
@@ -175,8 +188,8 @@ install_golang() {
     [ -f "$user_home/.zshrc" ] && shell_configs+=("$user_home/.zshrc")
     [ -f "$user_home/.profile" ] && shell_configs+=("$user_home/.profile")
     
-    # For system-wide configuration
-    if [ -d "/etc/profile.d" ] && [ -w "/etc/profile.d" ]; then
+    # For system-wide configuration (Linux only)
+    if [ "$(uname)" == "Linux" ] && [ -d "/etc/profile.d" ] && [ -w "/etc/profile.d" ]; then
         # Create system-wide Go configuration
         cat > /etc/profile.d/golang.sh << EOF
 # Go environment - Added by lebit.sh
@@ -200,8 +213,8 @@ EOF
         info_msg "Updated $config"
     done
     
-    # Also update /etc/environment for Ubuntu/Debian systems
-    if [ -f "/etc/environment" ]; then
+    # Also update /etc/environment for Ubuntu/Debian systems (Linux only)
+    if [ "$(uname)" == "Linux" ] && [ -f "/etc/environment" ]; then
         # Read current PATH from /etc/environment
         current_path=$(grep "^PATH=" /etc/environment | cut -d'"' -f2)
         if [ -n "$current_path" ] && [[ ! "$current_path" =~ :/usr/local/go/bin ]]; then

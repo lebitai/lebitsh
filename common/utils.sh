@@ -1,7 +1,13 @@
 #!/bin/bash
 
 # Import UI functions
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# Get the directory where this script is located
+if command -v realpath >/dev/null 2>&1; then
+    SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+else
+    # Fallback for macOS and systems without realpath
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
 source "${SCRIPT_DIR}/ui.sh"
 
 # Import logging functions if available
