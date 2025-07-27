@@ -112,8 +112,10 @@ get_github_latest_version() {
         return 1
     fi
     
+    # Use portable approach that works on Ubuntu, CentOS, and macOS
     version=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | 
-              grep -oP '"tag_name": "\K(.*)(?=")' | 
+              grep '"tag_name"' | 
+              sed -E 's/.*"tag_name": "([^"]+)".*/\1/' | 
               sed 's/^v//')
     
     if [ -z "$version" ]; then
@@ -245,6 +247,118 @@ get_arch() {
             echo "$arch"
             ;;
     esac
+}
+
+# Function: Get Docker Compose architecture (different naming convention)
+get_docker_compose_arch() {
+    local arch
+    arch=$(uname -m)
+    
+    case $arch in
+        x86_64)
+            echo "x86_64"
+            ;;
+        aarch64|arm64)
+            echo "aarch64"  # Docker Compose uses aarch64 instead of arm64
+            ;;
+        armv7l)
+            echo "armv7"
+            ;;
+        *)
+            echo "$arch"
+            ;;
+    esac
+}
+
+# Function: Get operating system name for Docker Compose
+get_os_name() {
+    local os
+    os=$(uname -s | tr '[:upper:]' '[:lower:]')
+    
+    case $os in
+        linux)
+            echo "linux"
+            ;;
+        darwin)
+            echo "darwin"
+            ;;
+        *)
+            echo "$os"
+            ;;
+    esac
+}
+
+# Function: Get Docker Compose download URL
+get_docker_compose_url() {
+    local version="$1"
+    local os_name
+    local arch
+    
+    os_name=$(get_os_name)
+    arch=$(get_docker_compose_arch)
+    
+    # Try to get the exact URL from GitHub API
+    local api_url="https://api.github.com/repos/docker/compose/releases/tags/v${version}"
+    local asset_name="docker-compose-${os_name}-${arch}"
+    
+    local download_url
+    download_url=$(curl -s "$api_url" | 
+                   grep -E "browser_download_url.*${asset_name}\"" | 
+                   sed -E 's/.*"browser_download_url": "([^"]+)".*/\1/' | 
+                   head -1)
+    
+    if [ -n "$download_url" ]; then
+        echo "$download_url"
+    else
+        # Fallback to constructed URL
+        echo "https://github.com/docker/compose/releases/download/v${version}/docker-compose-${os_name}-${arch}"
+    fi
+}
+
+# Function: Check minimum system requirements
+check_system_requirements() {
+    local min_ram="$1" # in MB
+    arch=$(uname -m)
+    
+    case $arch in
+        x86_64|amd64)
+            echo "x86_64"
+            ;;
+        aarch64|arm64)
+            echo "aarch64"
+            ;;
+        armv7l|armv7)
+            echo "armv7"
+            ;;
+        armv6l|armv6)
+            echo "armv6"
+            ;;
+        *)
+            echo "$arch"
+            ;;
+    esac
+}
+
+# Function: Get Docker Compose download URL from GitHub
+get_docker_compose_url() {
+    local system arch binary_name download_url
+    
+    system=$(uname -s | tr '[:upper:]' '[:lower:]')
+    arch=$(get_docker_compose_arch)
+    binary_name="docker-compose-${system}-${arch}"
+    
+    # Get download URL from GitHub API
+    download_url=$(curl -s "https://api.github.com/repos/docker/compose/releases/latest" | \
+        grep -E "\"browser_download_url\".*${binary_name}\"" | \
+        sed 's/.*"browser_download_url": "\(.*\)"/\1/' | \
+        head -1)
+    
+    if [ -n "$download_url" ]; then
+        echo "$download_url"
+        return 0
+    else
+        return 1
+    fi
 }
 
 # Function: Check minimum system requirements

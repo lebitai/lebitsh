@@ -101,8 +101,9 @@ docker_main() {
                 latest_version="2.24.0" # Fallback version
             fi
             
-            # Get system architecture
-            arch=$(get_arch)
+            # Get operating system and architecture
+            os_name=$(get_os_name)
+            arch=$(get_docker_compose_arch)
             
             # Try to install Docker Compose
             compose_installed=false
@@ -110,21 +111,19 @@ docker_main() {
             # Method 1: Try downloading standalone binary
             show_progress "Attempting to download Docker Compose standalone binary"
             
-            # Try multiple URL formats
-            for url_format in \
-                "https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}" \
-                "https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-linux-${arch}" \
-                "https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-Linux-${arch}"
-            do
-                if curl -fsSL "$url_format" -o /tmp/docker-compose-test 2>/dev/null; then
+            # Get the correct download URL
+            compose_url=$(get_docker_compose_url "${latest_version}")
+            
+            # Try downloading with the detected URL
+            if [ -n "$compose_url" ]; then
+                if curl -fsSL "$compose_url" -o /tmp/docker-compose-test 2>/dev/null; then
                     mv /tmp/docker-compose-test /usr/local/bin/docker-compose
                     chmod +x /usr/local/bin/docker-compose
                     complete_progress_success
                     compose_installed=true
                     success_msg "Docker Compose v${latest_version} standalone installed successfully"
-                    break
                 fi
-            done
+            fi
             
             # Method 2: Install Docker Compose plugin via package manager
             if [ "$compose_installed" = false ]; then
@@ -140,26 +139,44 @@ docker_main() {
                     
                     case $distro in
                         ubuntu|debian)
-                            apt-get update -y >/dev/null 2>&1
-                            if apt-get install -y docker-compose-plugin >/dev/null 2>&1; then
-                                complete_progress_success
-                                compose_installed=true
-                                success_msg "Docker Compose plugin installed successfully via apt"
+                            # Only try plugin installation on Linux
+                            if [ "$os_name" = "linux" ]; then
+                                apt-get update -y >/dev/null 2>&1
+                                if apt-get install -y docker-compose-plugin >/dev/null 2>&1; then
+                                    complete_progress_success
+                                    compose_installed=true
+                                    success_msg "Docker Compose plugin installed successfully via apt"
+                                else
+                                    complete_progress_failure
+                                fi
+                            else
+                                complete_progress_failure
+                                info_msg "Docker Compose plugin is not available for $os_name via apt"
                             fi
                             ;;
                         centos|rhel|fedora|rocky|almalinux)
-                            if command_exists dnf; then
-                                if dnf install -y docker-compose-plugin >/dev/null 2>&1; then
-                                    complete_progress_success
-                                    compose_installed=true
-                                    success_msg "Docker Compose plugin installed successfully via dnf"
+                            # Only try plugin installation on Linux
+                            if [ "$os_name" = "linux" ]; then
+                                if command_exists dnf; then
+                                    if dnf install -y docker-compose-plugin >/dev/null 2>&1; then
+                                        complete_progress_success
+                                        compose_installed=true
+                                        success_msg "Docker Compose plugin installed successfully via dnf"
+                                    else
+                                        complete_progress_failure
+                                    fi
+                                else
+                                    if yum install -y docker-compose-plugin >/dev/null 2>&1; then
+                                        complete_progress_success
+                                        compose_installed=true
+                                        success_msg "Docker Compose plugin installed successfully via yum"
+                                    else
+                                        complete_progress_failure
+                                    fi
                                 fi
                             else
-                                if yum install -y docker-compose-plugin >/dev/null 2>&1; then
-                                    complete_progress_success
-                                    compose_installed=true
-                                    success_msg "Docker Compose plugin installed successfully via yum"
-                                fi
+                                complete_progress_failure
+                                info_msg "Docker Compose plugin is not available for $os_name via package manager"
                             fi
                             ;;
                     esac
@@ -170,17 +187,38 @@ docker_main() {
             if [ "$compose_installed" = false ] && command_exists docker; then
                 show_progress "Attempting to install via Docker CLI plugin manager"
                 
-                # Create plugin directory if it doesn't exist
-                mkdir -p /usr/local/lib/docker/cli-plugins
-                
-                # Try to download directly to Docker CLI plugins directory
-                compose_cli_url="https://github.com/docker/compose/releases/download/v${latest_version}/docker-compose-linux-${arch}"
-                if curl -fsSL "$compose_cli_url" -o /usr/local/lib/docker/cli-plugins/docker-compose 2>/dev/null; then
-                    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-                    complete_progress_success
-                    compose_installed=true
-                    success_msg "Docker Compose installed as Docker CLI plugin"
+                # Create appropriate plugin directory based on OS
+                if [ "$os_name" = "darwin" ]; then
+                    # macOS plugin locations
+                    plugin_dirs=(
+                        "$HOME/.docker/cli-plugins"
+                        "/usr/local/lib/docker/cli-plugins"
+                    )
                 else
+                    # Linux plugin locations
+                    plugin_dirs=(
+                        "/usr/local/lib/docker/cli-plugins"
+                        "$HOME/.docker/cli-plugins"
+                    )
+                fi
+                
+                # Try each plugin directory
+                for plugin_dir in "${plugin_dirs[@]}"; do
+                    # Create plugin directory if it doesn't exist
+                    mkdir -p "$plugin_dir" 2>/dev/null || continue
+                    
+                    # Try to download to plugin directory
+                    compose_cli_url=$(get_docker_compose_url "${latest_version}")
+                    if curl -fsSL "$compose_cli_url" -o "$plugin_dir/docker-compose" 2>/dev/null; then
+                        chmod +x "$plugin_dir/docker-compose"
+                        complete_progress_success
+                        compose_installed=true
+                        success_msg "Docker Compose installed as Docker CLI plugin in $plugin_dir"
+                        break
+                    fi
+                done
+                
+                if [ "$compose_installed" = false ]; then
                     complete_progress_failure
                 fi
             fi
