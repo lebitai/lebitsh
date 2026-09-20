@@ -6,7 +6,8 @@
 set -e
 
 # Configuration
-GITHUB_BASE="https://raw.githubusercontent.com/lebitai/lebitsh/main"
+GITHUB_REVISION="109bde98a235ddbd55c84733cdc941a8ff9c37ce"
+GITHUB_BASE="https://raw.githubusercontent.com/lebitai/lebitsh/${GITHUB_REVISION}"
 CACHE_DIR="${HOME}/.cache/lebitsh"
 CACHE_EXPIRE=86400  # 24 hours in seconds
 
