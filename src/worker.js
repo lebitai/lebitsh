@@ -1,11 +1,19 @@
+import launcherScript from "./launcher.sh";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname;
     const userAgent = request.headers.get("User-Agent") || "";
     
-    console.log("Path:", path);
-    console.log("User-Agent:", userAgent);
+    console.log(JSON.stringify({
+      event: "request",
+      method: request.method,
+      path,
+      client: userAgent.toLowerCase().includes("curl") || userAgent.toLowerCase().includes("wget")
+        ? "cli"
+        : "browser"
+    }));
     
     // Check if it's a command line request
     const isCommandLineRequest = userAgent.toLowerCase().includes("curl") || 
@@ -42,9 +50,9 @@ fi
 
 # Download launcher
 info "Downloading Lebit.sh launcher..."
-LAUNCHER_URL="https://raw.githubusercontent.com/lebitai/lebitsh/main/src/launcher.sh"
+LAUNCHER_URL="https://lebit.sh/launcher.sh"
 
-if curl -fsSL "$LAUNCHER_URL" -o "$BIN_DIR/lebitsh"; then
+if curl --proto '=https' --tlsv1.2 -fsSL "$LAUNCHER_URL" -o "$BIN_DIR/lebitsh"; then
     chmod +x "$BIN_DIR/lebitsh"
     success "Lebit.sh installed successfully!"
     echo ""
@@ -95,6 +103,17 @@ else
     exit 1
 fi`;
     };
+
+    if (path === "/launcher.sh") {
+      return new Response(launcherScript, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Content-Disposition": 'attachment; filename="lebitsh"',
+          "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff"
+        }
+      });
+    }
     
     // Handle command line requests
     if (isCommandLineRequest) {
@@ -139,7 +158,6 @@ fi`;
     }
     
     // Serve static assets
-    console.log("Serving static assets for path:", path);
     return env.ASSETS.fetch(request);
   }
 };
