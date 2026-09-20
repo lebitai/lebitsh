@@ -5,6 +5,21 @@ Lebit.sh provides a suite of tools to help you quickly and efficiently set up an
 [English](#english) | [中文](#中文)
 
 <a name="english"></a>
+## 部署状态
+
+`main` 与 `lebit.sh` 上运行的 Worker 一致。2026-09-20 核对：线上 `/launcher.sh` 与 `src/launcher.sh` 的 sha256 相同，`/install` 内嵌的安装脚本与 `src/worker.js` 中的一致，两处的 `GITHUB_REVISION` 都是 `109bde98a235ddbd55c84733cdc941a8ff9c37ce`。
+
+这批加固（固定远程脚本版本、自托管 `launcher.sh`、`[site]` 迁移到 `[assets]`）当初部署了但没有提交，仓库落后生产十四个月。PR #7 把仓库补齐到生产的实际状态，因此合并后**不需要再部署**。
+
+改动 Worker 或 `web/` 后用 `npm run deploy`；改完请提交，不要只部署。核对线上与仓库是否一致：
+
+```sh
+curl -s https://lebit.sh/launcher.sh | shasum -a 256
+shasum -a 256 src/launcher.sh
+```
+
+**固定版本需要手动推进。** `install.sh`、`web/install.sh` 与 `src/launcher.sh` 都从 `GITHUB_REVISION` 取脚本，只把新内容推到 `main` 不会到达用户；发布时要同时更新这三处的 SHA。
+
 ## Available Modules
 
 ### System Management
