@@ -116,7 +116,7 @@ install_lebitsh() {
     cd "$TEMP_DIR"
     
     # Download the main script
-    if ! curl -fsSL "https://raw.githubusercontent.com/lebitai/lebitsh/main/main.sh" -o main.sh; then
+    if ! curl -fsSL "https://raw.githubusercontent.com/lebitai/lebitsh/109bde98a235ddbd55c84733cdc941a8ff9c37ce/main.sh" -o main.sh; then
         error "Failed to download main installer"
         cleanup
         exit 1

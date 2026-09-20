@@ -26,9 +26,9 @@ fi
 
 # Download launcher
 info "Downloading Lebit.sh launcher..."
-LAUNCHER_URL="https://raw.githubusercontent.com/lebitai/lebitsh/main/src/launcher.sh"
+LAUNCHER_URL="https://lebit.sh/launcher.sh"
 
-if curl -fsSL "$LAUNCHER_URL" -o "$BIN_DIR/lebitsh"; then
+if curl --proto '=https' --tlsv1.2 -fsSL "$LAUNCHER_URL" -o "$BIN_DIR/lebitsh"; then
     chmod +x "$BIN_DIR/lebitsh"
     success "Lebit.sh installed successfully!"
     echo ""
